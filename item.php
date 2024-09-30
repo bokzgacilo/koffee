@@ -65,8 +65,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="item-info">
                 <input type="text" value="<?php echo htmlspecialchars($product['name']); ?>" id="productName" hidden />
                 <div class="item-name"><?php echo htmlspecialchars($product['name']); ?></div>
-                <div class="item-price">₱<span
-                        id="productPrice"><?php echo number_format($product['price'], 2); ?></span></div>
+                <div class="item-price">₱<span id="productPrice"><?php echo number_format($product['price'], 2); ?></span></div>
 
                 <!-- Quantity Selector -->
                 <div class="quantity">
@@ -136,6 +135,37 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     <script>
       $(document).ready(function(){
+        $("input[name='addon']").on("change", function(){
+          var size = $("input[name='size']:checked").attr('data-price');
+          var add_on = $("input[name='addon']:checked").attr('data-price');
+
+          var totalPrice = parseFloat(add_on) + parseFloat($("#quantity").val()) * parseFloat(size);
+
+          $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
+        })
+
+        $("input[name='size']").on("change", function(){
+          var size = $("input[name='size']:checked").attr('data-price');
+          var add_on = $("input[name='addon']:checked").attr('data-price');
+
+          var totalPrice = parseFloat(add_on) + parseFloat($("#quantity").val()) * parseFloat(size);
+
+          $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
+        })
+
+        $("#quantity").on("change", function(){
+          var size = $("input[name='size']:checked").attr('data-price');
+          var add_on = $("input[name='addon']:checked").attr('data-price');
+
+          if(add_on === undefined){
+            add_on = 0;
+          }
+
+          var totalPrice = parseFloat(add_on) + parseFloat($("#quantity").val()) * parseFloat(size);
+
+          $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
+        })
+
         $("#addToCartBtn").on("click", function(){
           var quantity = $("#quantity").val();
           var instructions = $("#instructions").val();
