@@ -1,0 +1,443 @@
+body {
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.item-container {
+  background-color: white;
+  padding: 2rem;
+  margin: 2rem auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.item-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+
+.item-info {
+  text-align: center;
+}
+
+.item-name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.item-price {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.quantity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.quantity input {
+  width: 50px;
+  text-align: center;
+  margin: 0 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.add-to-cart-btn {
+  background-color: #d68c1e;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #c76c1b;
+}
+
+.other-info {
+  padding: 2rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.variation,
+.sweetness-level,
+.add-ons,
+.special-instructions {
+  margin-bottom: 1rem;
+}
+
+.variation label,
+.sweetness-level label,
+.add-ons label {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.variation input[type="radio"],
+.sweetness-level input[type="radio"],
+.add-ons input[type="radio"] {
+  display: none;
+}
+
+.radio-circle {
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+  border: 1px solid #d68c1e;
+  display: inline-block;
+  margin-right: 0.5rem;
+  position: relative;
+  top: 10px;
+  transition: background 0.3s;
+}
+
+.variation input[type="radio"]:checked+.radio-circle,
+.sweetness-level input[type="radio"]:checked+.radio-circle,
+.add-ons input[type="radio"]:checked+.radio-circle {
+  background: #d68c1e;
+}
+
+.special-instructions textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.footer {
+  background-color: #6c757d;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox Scrollbar Styles */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.navbar-custom {
+  background: rgba(213, 140, 30, 0.81);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-custom .navbar-brand {
+  color: white;
+  font-size: 20px;
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-custom .navbar-brand i {
+  margin-right: 10px;
+}
+
+.bg-d68c1e {
+  background-color: #d68c1e;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: black;
+}
+
+.nav-link {
+  padding: 2px 5px 2px 5px !important;
+
+}
+
+.nav-item.join-now {
+  border: solid 1px #D68C1E;
+  border-radius: 50px;
+}
+
+.nav-item.join-now .nav-link {
+  color: #D68C1E !important;
+}
+
+.navcontainer {
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+}
+
+.item {
+  width: 245px;
+  /* Ensure each item container has the same width */
+  height: 320px;
+  /* Ensure each item container has the same height */
+  text-align: center;
+  /* Center align text */
+}
+
+.item img {
+  width: 100%;
+  /* Ensure each image fills its container */
+  height: 100%;
+  /* Ensure each image fills its container */
+  max-width: 245px;
+  /* Limit maximum width to 245px */
+  max-height: 320px;
+  /* Limit maximum height to 320px */
+  display: block;
+  /* Prevent any extra space around the image */
+  margin: 0 auto;
+  /* Center the image within its container */
+}
+
+.item h5 {
+  margin-top: 10px;
+  /* Adjust spacing between image and text */
+  font-size: 16px;
+  /* Example font size */
+}
+
+.image-container {
+  position: relative;
+}
+
+.navbar-nav .nav-item {
+  margin-right: 20px;
+  /* Adjust the right margin between nav items */
+}
+
+.navbar-nav .nav-link {
+  padding: 10px 15px;
+  /* Adjust the padding inside each nav link */
+}
+
+
+.image-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 54px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  width: 100%;
+  /* Ensure text is centered even if it wraps */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  /* Optional: Add shadow for better contrast */
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox Scrollbar Styles */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.form-control:focus {
+  border: solid gray;
+  outline: none !important;
+  box-shadow: none !important;
+  /* Remove box-shadow on focus */
+}
+
+.input-group-text {
+  border: none !important;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  /* Apply Montserrat font to entire body */
+}
+
+.bg-image {
+  background-image: url("assets/bg-main.png");
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  /* Adjust as needed */
+}
+
+.carousel-item img {
+  max-height: 200px;
+  /* Adjust image height as needed */
+}
+
+footer {
+  background-color: #6c757d;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.text-white {
+  color: white;
+}
+
+.D68C1E {
+  color: #D68C1E;
+}
+
+.bg-D68C1E {
+  border: none;
+  background-color: #D68C1E;
+  border-radius: 50px;
+}
+
+.bg-D68C1E:hover {
+  border: none;
+  background-color: #D68C1E;
+  border-radius: 50px;
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=number],
+/* Include any other input types you might have */
+textarea {
+  border: 2px solid #000;
+  /* Black border */
+  border-radius: 50px;
+  /* Rounded corners */
+  padding: 10px;
+  /* Padding for better spacing */
+  width: 100%;
+  /* Full width by default */
+  box-sizing: border-box;
+  /* Include padding and border in element's total width and height */
+}
+
+/* Cart Icon */
+.cart-icon {
+  cursor: pointer;
+}
+
+/* Drawer */
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.drawer-header {
+  padding: 1rem;
+  background-color: #d68c1e;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drawer-body {
+  padding: 1rem;
+}
+
+.drawer-footer {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.close-drawer {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Overlay */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 999;
+}
+
+.cart-item {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.cart-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 1rem;
+}
+
+.cart-item-info {
+  display: flex;
+  flex-direction: column;
+}
