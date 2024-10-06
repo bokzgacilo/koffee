@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Review Payment And Address - KOFFEE MANILA</title>
+    <title>Review Payment And Address - KOFEE MANILA</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap CSS -->
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -18,7 +19,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-    <!-- Bootstrap JS, Popper.js, and jQuery (Optional) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.com/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -36,19 +36,19 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #555;
       }
-      /* Firefox Scrollbar Styles */
+
       html {
         scrollbar-width: thin;
         scrollbar-color: #888 #f1f1f1;
       }
       body {
-        font-family: "Montserrat", sans-serif; /* Apply Montserrat font to entire body */
+        font-family: "Montserrat", sans-serif;
       }
       .bg-image {
         background-image: url("assets/bg-contact.png");
         background-size: cover;
         background-position: center;
-        height: 500px; /* Adjust as needed */
+        height: 500px; 
       }
       .contact-info {
         padding: 2rem 0;
@@ -126,7 +126,7 @@
                     $product_res = $product -> get_result();
                     $product_row = $product_res -> fetch_assoc();
                     $total_price += $item['totalPrice'];
-                    // print_r($product_row);
+
                     echo "
                       <tr>
                         <th>".$item['productName']."</th>
@@ -156,11 +156,11 @@
               <h3>Upload your receipt here</h3>
               <div class="input-group mb-3">
                 <label class="input-group-text" for="inputGroupFile01">Upload</label>
-                <input type="file" class="form-control" id="inputGroupFile01">
+                <input type="file" class="form-control" id="receipt_image">
               </div>
               <div class="mt-3">
                 <label for="exampleInputEmail1" class="form-label">Reference Number</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" class="form-control" id="reference_number" aria-describedby="emailHelp">
               </div>
             </div>
           </div>
@@ -171,27 +171,27 @@
             <div class="col-4">
               <div class="mt-3">
                 <label for="exampleInputEmail1" class="form-label">Contact Number 1</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" class="form-control" id="contact_number1" aria-describedby="emailHelp">
               </div>
               <div class="mt-3">
                 <label for="exampleInputEmail1" class="form-label">Contact Number 2</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" class="form-control" id="contact_number2" aria-describedby="emailHelp">
               </div>
               <div class="mt-3">
                 <label for="exampleInputEmail1" class="form-label">Street Name</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" class="form-control" id="street_name" aria-describedby="emailHelp">
               </div>
               <div class="mt-3">
                 <label for="exampleInputEmail1" class="form-label">Barangay</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" class="form-control" id="barangay" aria-describedby="emailHelp">
               </div>
               <div class="mt-3">
                 <label for="exampleInputEmail1" class="form-label">City</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" class="form-control" id="city" aria-describedby="emailHelp">
               </div>
               <div class="mt-3">
                 <label for="exampleInputEmail1" class="form-label">Nearest LandMark</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" class="form-control" id="nearest_landmark" aria-describedby="emailHelp">
               </div>
             <button class="mt-4 btn btn-primary btn-lg" id="proceedOrderButton">Proceed Order</button>
 
@@ -200,19 +200,69 @@
               <div style="width: 100%"><iframe width="720" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.gps.ie/">gps tracker sport</a></iframe></div>
             </div>
             </div>
-            
-          
           </div>
-            
-
         </div>
       </div>
     </section>
     
     <script>
       $(document).ready(function(){
+        var fileBase64;
+
+        $("#receipt_image").on("change", function(){
+          let file = this.files[0];
+
+          if(file){
+            var reader = new FileReader();
+
+            reader.onload = function(event){
+              var based64String = event.target.result;
+              fileBase64 = based64String;
+            }
+
+            reader.readAsDataURL(file)
+          }
+        })
+
         $("#proceedOrderButton").on("click", function(){
-          alert("Order Submitted.");
+          let cart = <?php echo $cart; ?>;
+          let reference_number = $("#reference_number").val();
+          // let gcash = $("#gcash").val();
+          let contact_number1 = $("#contact_number1").val();
+          let contact_number2 = $("#contact_number2").val();
+          let street_name = $("#street_name").val();
+          let barangay = $("#barangay").val();
+          let city = $("#city").val();
+          let nearest_landmark = $("#nearest_landmark").val();
+
+          let address = `${street_name}, ${barangay}, ${city}`;
+
+          console.log(fileBase64)
+
+          $.ajax({
+            type: "post",
+            url: "api/make_order.php",
+            data: {
+              cart : cart,
+              reference_number : reference_number,
+              gcash : fileBase64,
+              contact_number1 : contact_number1,
+              contact_number2 : contact_number2,
+              address : address,
+              nearest_landmark : nearest_landmark,
+              map : "test",
+              price : <?php echo number_format($delivery_fee + $total_price, 2); ?>,
+              client_id : <?php echo $_SESSION['userid']; ?>
+            },
+            success: (response) => {
+              Swal.fire({
+                title: "Order Submitted",
+                text: "Thank you for ordering with us.",
+                icon: "success"
+              });
+            }
+          })
+          console.log(address)
         })
       })
     </script>

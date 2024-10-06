@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KOFFEE MANILA</title>
+  <title>KOFEE MANILA</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
   <!-- Bootstrap CSS -->
@@ -41,7 +41,7 @@
     <div class="container text-center py-5">
       <div class="p-4 text-white">
         <!-- Content here -->
-        <h1>Welcome to Koffee Manila</h1>
+        <h1>Welcome to Kofee Manila</h1>
         <p>A cozy place to enjoy the finest coffee.</p>
       </div>
     </div>

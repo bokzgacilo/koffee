@@ -1,13 +1,12 @@
 <?php
 require_once('config.php');
-session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // Get the form data
   $firstname = $_POST['firstname'];
   $lastname = $_POST['lastname'];
   $email = $_POST['email'];
-  $password = md5($_POST['password']); // Hash the entered password with MD5
+  $password = $_POST['password']; // Hash the entered password with MD5
 
   // Create a new database connection
   $db = new DBConnection();
@@ -22,10 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo '<script>alert("This email is already registered. Please use a different email.");</script>';
   } else {
     $type = 2; // Set user type
-
+    $avatar = "uploads/avatars/9.png";
     // Prepare and execute the query to insert the new user
-    $query = $db->conn->prepare("INSERT INTO users (firstname, lastname, username, password, type) VALUES (?, ?, ?, ?, ?)");
-    $query->bind_param("sssss", $firstname, $lastname, $email, $password, $type);
+    $query = $db->conn->prepare("INSERT INTO users (firstname, lastname, username, password, type, avatar) VALUES (?, ?, ?, ?, ?)");
+    $query->bind_param("ssssss", $firstname, $lastname, $email, $password, $type, $avatar);
 
     if ($query->execute()) {
       // Automatically log in the user
@@ -58,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create an Account - KOFFEE MANILA</title>
+  <title>Create an Account - KOFEE MANILA</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
@@ -85,13 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     .main-content {
       flex: 1;
-    }
-
-    footer {
-      background-color: #6c757d;
-      color: white;
-      text-align: center;
-      padding: 1rem;
     }
 
     /* Webkit Scrollbar Styles */
@@ -169,13 +161,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                   </div>
                 </div>
-                <button type="submit" class="btn bg-D68C1E btn-primary btn-block">
+                <button type="submit" class="btn btn-lg bg-D68C1E btn-primary btn-block">
                   Create Account
                 </button>
               </form>
 
               <p class="text-center mt-3">
-                Already have an account? <a href="#">Sign in here</a>
+                Already have an account? <a href="login.php">Sign in here</a>
               </p>
             </div>
           </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Us - KOFFEE MANILA</title>
+    <title>About Us - KOFEE MANILA</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
@@ -54,12 +54,6 @@
         background-position: center;
         height: 500px; /* Adjust as needed */
       }
-      footer {
-        background-color: #6c757d;
-        color: white;
-        text-align: center;
-        padding: 1rem;
-      }
     </style>
   </head>
   <body>
@@ -70,7 +64,7 @@
     <section class="bg-image">
       <div class="container text-center py-5">
         <div class="text-white p-4">
-          <h1>About Koffee Manila</h1>
+          <h1>About Kofee Manila</h1>
           <p>Learn more about our story and what drives us.</p>
         </div>
       </div>
@@ -83,7 +77,7 @@
           <div class="col-md-6 align-self-center">
             <h2>Our Story</h2>
             <p>
-              Koffee Manila was founded with a passion for great coffee and a
+              Kofee Manila was founded with a passion for great coffee and a
               desire to create a cozy space where people can come together and
               enjoy the finest brews. From our humble beginnings to becoming a
               beloved spot in the community, our journey has been fueled by a

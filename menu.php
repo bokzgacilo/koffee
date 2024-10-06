@@ -20,7 +20,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu - KOFFEE MANILA</title>
+    <title>Menu - KOFEE MANILA</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -81,17 +81,13 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             width: 100%;
             max-width: 100%;
             height: auto;
-            border-radius: 15px;
-            border: 2px solid black;
             margin-bottom: 1rem;
         }
 
-        footer {
-            background-color: #6c757d;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            margin-top: auto;
+        .menu-item > a {
+          background-color: #d68c1e !important;
+          border: none;
+          outline: none;
         }
 
         /* Scrollbar Styles */
@@ -154,10 +150,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Selected Category and Menu Items -->
     <div class="container">
-        <div class="selected-category-container">
-            <div id="selected-category" class="selected-category">All Menu</div>
-            <div class="selected-category-line"></div>
-        </div>
+        <h1 class="mt-4 mb-4">All Menu</h1>
         <div class="row menu-items" id="menu-items">
             <?php foreach ($products as $product): ?>
                 <div class="col-lg-4 col-md-6">
@@ -171,9 +164,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     
                         ?>
 
-                        <img src="uploads/products/2022-04-22_10-18-15.png"
-                            alt="<?php echo $product['name']; ?>" />
-                        <?php
+                        <img src="uploads/products/2022-04-22_10-18-15.png" alt="<?php echo $product['name']; ?>" /> <?php
                         $productName = $product['name'];
 
                         $cleanedProductName = preg_replace('/\bsmall\b/i', '', $productName);
@@ -186,15 +177,13 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         <p><strong><?php echo number_format($product['price'], 2); ?></strong></p>
                         <a href="item.php?id=<?php echo $product['id']; ?>"
-                            class="col col-12 bg-D68C1E btn text-white">BUY</a>
+                            class="col col-12 btn btn-primary btn-lg ">BUY</a>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
-
-    <!-- Footer Section -->
-
+    <?php include('includes/footer.php'); ?>
 </body>
 
 </html>

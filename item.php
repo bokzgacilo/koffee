@@ -33,7 +33,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Item Details - KOFFEE MANILA</title>
+    <title>Item Details - KOFEE MANILA</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
@@ -43,7 +43,6 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.com/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </head>
 
 <body>
@@ -53,12 +52,113 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
     <nav class="navbar navbar-expand-lg navbar-custom">
       <a class="navbar-brand" href="menu.php"><i class="fas fa-chevron-left"></i> BACK TO MENU</a>
     </nav>
-    <br>
-    <!-- Item Details Section -->
-    <div class="item-container">
+
+    <style>
+      .item-container {
+        padding: 1rem;
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        justify-content: center;
+      }
+
+      .item-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .quantity {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .quantity > button, .quantity > input {
+        padding: 1rem;
+      }
+
+      .quantity > h2 {
+        margin: 0;
+      }
+
+      .quantity > span {
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border: none;
+        outline: none;
+        background-color: #000;
+        color: #fff;
+      }
+
+      .addons {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+      }
+    </style>
+
+    <main class="item-container">
+      <div>
+        <img style="width: 400px; height: 400px; object-fit: cover;" src="uploads/products/2022-04-22_10-18-15.png" />
+      </div>
+      <div>
+        <div>
+          <input type="text" value="<?php echo htmlspecialchars($product['name']); ?>" id="productName" hidden />
+          <h2><?php echo htmlspecialchars($product['name']); ?></h2>
+          <h1 class="item-price">₱ <span id="productPrice"><?php echo number_format($product['price'], 2); ?></span></h1>
+          <p class="mt-4">Quantity</p>
+          <div class="quantity">
+            <span id="decButton">-</span>
+            <h2 id="newQuantity">1</h2>
+            <input type="number" id="quantity" value="1" min="1" max="100" step="1" hidden/>
+            <span id="incButton">+</span>
+          </div>
+          <p class="mt-4">Size</p>
+          <div>
+            <label>
+                <input type="radio" name="size" value="small" checked data-price="<?php echo $product['price']; ?>" />
+                <span class="radio-circle"></span>
+                Small (₱<?php echo number_format($product['price'], 2); ?>)
+            </label>
+
+            <?php if ($large_product): ?>
+                <label>
+                    <input type="radio" name="size" value="large" data-price="<?php echo $large_product['price']; ?>" />
+                    <span class="radio-circle"></span>Large (₱<?php echo number_format($large_product['price'], 2); ?>)
+                </label>
+            <?php endif; ?>
+          </div>
+            <p class="mt-4">Add-ons</p>
+            <div class="addons">
+              <?php foreach ($addons as $addon): ?>
+                <div class="form-check">
+                  <input class="form-check-input" id="addon" type="radio" name="addon" value="<?php echo htmlspecialchars($addon['name']); ?>" data-price="<?php echo $addon['price']; ?>" />
+                  <label class="form-check-label"><?php echo htmlspecialchars($addon['name']); ?> (₱ <?php echo number_format($addon['price'], 2); ?>)</label>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+          <p class="mt-4">Special Instructions</p>
+          <div class="form-floating mb-4">
+            <textarea class="form-control" placeholder="Leave instruction here" id="instructions" style="height: 100px"></textarea>
+          </div>
+          <?php
+            if(isset($_SESSION['userid']) && !empty($_SESSION['userid'])){
+              echo "<button class='btn btn-lg btn-primary' id='addToCartBtn'>Add to Cart</button>";
+            }else {
+              echo "<a href='login.php' class='btn btn-lg btn-primary'>Sign In to Add Cart</a>";
+            }
+          ?>
+      </div>
+    </main>
+    <!-- <div class="item-container">
         <div class="item-details">
             <div class="item-image">
-                <!-- Display product image -->
                 <img class="img-fluid" src="uploads/products/2022-04-22_10-18-15.png"
                     alt="<?php echo $product['name']; ?>" />
             </div>
@@ -67,7 +167,6 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="item-name"><?php echo htmlspecialchars($product['name']); ?></div>
                 <div class="item-price">₱<span id="productPrice"><?php echo number_format($product['price'], 2); ?></span></div>
 
-                <!-- Quantity Selector -->
                 <div class="quantity">
                     <span>Quantity:</span>
                     <input type="number" id="quantity" value="1" min="1" />
@@ -75,11 +174,8 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
 
-        <!-- Other Information -->
         <div class="other-info">
             <h4>Item Details</h4>
-
-            <!-- Variation (Size) Selector -->
             <div class="variation">
                 <span>Size:</span>
                 <div>
@@ -99,8 +195,6 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endif; ?>
                 </div>
             </div>
-
-            <!-- Add-ons Section -->
             <div class="add-ons">
                 <span>Add-ons:</span>
                 <div>
@@ -116,14 +210,12 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
 
-            <!-- Special Instructions -->
             <div class="special-instructions">
                 <label for="instructions">Special Instructions:</label>
                 <textarea id="instructions" rows="3" placeholder="Enter any special instructions here"></textarea>
             </div>
         </div>
 
-        <!-- Add to Cart Button -->
          <?php
           if(isset($_SESSION['userid']) && !empty($_SESSION['userid'])){
             echo "<button class='add-to-cart-btn' id='addToCartBtn'>Add to Cart</button>";
@@ -132,9 +224,53 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
           }
          ?>
         
-    </div>
+    </div> -->
     <script>
       $(document).ready(function(){
+        $("#decButton").on("click", function(){
+          var size = $("input[name='size']:checked").attr('data-price');
+          var add_on = $("input[name='addon']:checked").attr('data-price');
+
+          let minValue = parseInt($('#quantity').attr('min'));
+          var quantity = parseInt($('#quantity').val());
+          let step = parseInt($('#quantity').attr('step')) || 1;
+          
+          if(add_on === undefined){
+            add_on = 0;
+          }
+
+
+          if (quantity > minValue) {
+            $('#newQuantity').text(quantity - step);
+            $('#quantity').val(quantity - step);
+
+
+            var totalPrice = parseFloat(add_on) + parseFloat(quantity + step) * parseFloat(size);
+            $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
+          }
+        })
+
+        $("#incButton").on("click", function(){
+          var size = $("input[name='size']:checked").attr('data-price');
+          var add_on = $("input[name='addon']:checked").attr('data-price');
+          let maxValue = parseInt($('#quantity').attr('max'));
+          var quantity = parseInt($('#quantity').val());
+          let step = parseInt($('#quantity').attr('step')) || 1;
+          
+          if(add_on === undefined){
+            add_on = 0;
+          }
+
+
+          if (quantity < maxValue) {
+            $('#newQuantity').text(quantity + step);
+            $('#quantity').val(quantity + step);
+
+            var totalPrice = parseFloat(add_on) + parseFloat(quantity + step) * parseFloat(size);
+            $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
+          }
+        })
+
         $("input[name='addon']").on("change", function(){
           var size = $("input[name='size']:checked").attr('data-price');
           var add_on = $("input[name='addon']:checked").attr('data-price');

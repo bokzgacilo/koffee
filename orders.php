@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KOFFEE MANILA</title>
+  <title>KOFEE MANILA</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
@@ -30,7 +30,7 @@
   <section class="bg-image">
     <div class="container text-center py-5">
       <div class="p-4 text-white">
-        <h1>Welcome to Koffee Manila</h1>
+        <h1>Welcome to Kofee Manila</h1>
         <p>A cozy place to enjoy the finest coffee.</p>
       </div>
     </div>
@@ -42,47 +42,36 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Transaction ID</th>
+          <th>ID</th>
           <th>Status</th>
-          <th>Date</th>
-          <th>Total</th>
-          <th>Change</th>
-          <th>Payment</th>
+          <th>Order</th>
+          <th>Price</th>
+          <th>Order Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>TXN001234</td>
-          <td>Completed</td>
-          <td>2024-08-01</td>
-          <td>₱500.00</td>
-          <td>₱50.00</td>
-          <td>Cash</td>
-        </tr>
-        <tr>
-          <td>TXN001235</td>
-          <td>Pending</td>
-          <td>2024-08-02</td>
-          <td>₱750.00</td>
-          <td>₱0.00</td>
-          <td>Credit Card</td>
-        </tr>
-        <tr>
-          <td>TXN001236</td>
-          <td>Cancelled</td>
-          <td>2024-08-03</td>
-          <td>₱300.00</td>
-          <td>₱0.00</td>
-          <td>Cash</td>
-        </tr>
-        <tr>
-          <td>TXN001237</td>
-          <td>Completed</td>
-          <td>2024-08-04</td>
-          <td>₱1,200.00</td>
-          <td>₱200.00</td>
-          <td>Bank Transfer</td>
-        </tr>
+        <?php
+          include("api/connection.php");
+
+          $result = $conn -> query("SELECT * FROM orders WHERE client_id='".$_SESSION['userid']."'");
+          if($result -> num_rows > 0){
+            while($row = $result -> fetch_assoc()){
+              $cart = json_decode($row['cart'], true);
+
+              echo "
+                <tr>
+                  <td>".$row['id']."</td>
+                  <td>".$row['status']."</td>
+                  <td>".count($cart)." Items</td>
+                  <td>".$row['price']."</td>
+                  <td>".$row['order_date']."</td>
+                </tr>
+              ";
+            }
+          }
+
+          $conn -> close();
+        ?>
       </tbody>
     </table>
   </section>

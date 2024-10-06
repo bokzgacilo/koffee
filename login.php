@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - KOFFEE MANILA</title>
+  <title>Login - KOFEE MANILA</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
   <!-- Bootstrap CSS -->
@@ -30,14 +30,6 @@
     .main-content {
       flex: 1;
     }
-
-    footer {
-      background-color: #6c757d;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-    }
-
     /* Webkit Scrollbar Styles */
     ::-webkit-scrollbar {
       width: 8px;
@@ -92,7 +84,7 @@
                     </div>
                   </div>
                 </div>
-                <button type="submit" class="bg-D68C1E btn btn-primary btn-block">Login In</button>
+                <button type="submit" class="bg-D68C1E btn btn-lg btn-primary btn-block">Sign In</button>
               </form>
               <p class="text-center mt-3">
                 No account yet? <a href="register.php">Join us here</a>

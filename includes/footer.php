@@ -1,8 +1,22 @@
-<!-- Footer Section -->
-<footer class="bg-secondary text-light text-center py-3">
-  <div class="container">
-    <p style="font-weight: bold; font-size: 24px; text-align: center">
-      KOFFEE MANILA
-    </p>
-  </div>
+<style>
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    background-color: #000;
+  }
+
+  footer > p {
+    margin: 0;
+    color: #fff;
+    font-weight: 500;
+  }
+</style>
+
+<footer>
+  <p style="font-size: 16px;">
+    KOFEE MANILA
+  </p>
 </footer>

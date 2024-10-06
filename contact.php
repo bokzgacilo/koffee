@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact Us - KOFFEE MANILA</title>
+    <title>Contact Us - KOFEE MANILA</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
@@ -94,7 +94,7 @@
       <div class="container">
         <h3>Get in Touch</h3>
         <p><i class="fas fa-phone-alt"></i> +63 912 345 6789</p>
-        <p><i class="fas fa-envelope"></i> info@koffeemanila.com</p>
+        <p><i class="fas fa-envelope"></i> info@kofeemanila.com</p>
         <p>
           <i class="fas fa-map-marker-alt"></i> 123 Coffee St, Manila,
           Philippines

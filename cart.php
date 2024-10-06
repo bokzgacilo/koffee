@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Cart - KOFFEE MANILA</title>
+    <title>My Cart - KOFEE MANILA</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
@@ -20,60 +20,7 @@
     />
     <!-- Bootstrap JS, Popper.js, and jQuery (Optional) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.com/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <style>
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #555;
-      }
-      /* Firefox Scrollbar Styles */
-      html {
-        scrollbar-width: thin;
-        scrollbar-color: #888 #f1f1f1;
-      }
-      body {
-        font-family: "Montserrat", sans-serif; /* Apply Montserrat font to entire body */
-      }
-      .bg-image {
-        background-image: url("assets/bg-contact.png");
-        background-size: cover;
-        background-position: center;
-        height: 500px; /* Adjust as needed */
-      }
-      .contact-info {
-        padding: 2rem 0;
-        background-color: #f8f9fa;
-      }
-      .contact-info h3 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-      }
-      .contact-info p {
-        margin-bottom: 0.5rem;
-      }
-      .contact-info .social-icons a {
-        font-size: 1.5rem;
-        color: #333;
-        margin-right: 1rem;
-        transition: color 0.3s ease;
-      }
-      .contact-info .social-icons a:hover {
-        color: #6c757d;
-      }
-      .map-container {
-        height: 800px; /* Increased height */
-      }
-    </style>
   </head>
   <body>
     <!-- Navbar Section -->
@@ -132,7 +79,8 @@
                     $product_res = $product -> get_result();
                     $product_row = $product_res -> fetch_assoc();
                     $total_price += $item['totalPrice'];
-                    // print_r($product_row);
+                    $product_name = $item['productName'];
+
                     echo "
                       <tr>
                         <th>".$item['productName']."</th>
@@ -142,9 +90,7 @@
                         <th>".$product_row['price']."</th>
                         <th>".$item['totalPrice']."</th>
                         <th>".$item['instructions']."</th>
-                        <th>
-                          <button class='btn btn-sm'>Remove</button>
-                          <button class='btn btn-sm'>Edit</button>
+                        <th><button data-target='".$product_name."' class='removeButton btn btn-sm btn-danger'>Remove</button>
                         </th>
                       </tr>
                     ";
@@ -163,21 +109,44 @@
             <p style="font-size: 18px;">Delivery Fee: PHP <?php echo number_format($delivery_fee, 2); ?></p>
             <p style="font-size: 18px; font-weight: bold;" class="mt-4">Total Price: PHP <?php echo number_format($delivery_fee + $total_price, 2); ?></p>
           </div>
-          <?php
-            if(!$cart){
-              echo "<button class='btn btn-primary' disabled  >Review Payment and Address</button>";
 
-            }else {
-              echo "<a href='review-payment-address.php' class='add-to-cart-btn'  >Review Payment and Address</a>";
+          <div>
+            <?php
+              if(!$cart){
+                echo "<button class='btn btn-lg btn-primary' disabled>Review Payment and Address</button>";
 
-            }
-          ?>
+              }else {
+                echo "<a style='background-color: rgba(213, 140, 30); color: #fff;' href='review-payment-address.php' class='btn btn-lg'>Review Payment and Address</a>";
+
+              }
+            ?>
+          </div>
+        
         </div>
       </div>
     </section>
+    <script>
+      $(document).ready(function(){
+        $(".removeButton").click(function(){
+          var button = $(this);
 
+          $.ajax({
+            type: 'post',
+            url: 'api/remove_item_from_cart.php',
+            data: {
+              item : button.attr('data-target')
+            },
+            success : response => {
+              console.log(response)
+              // location.reload();
+            }
+          })
+        })
+      })
+    </script>
+
+    <?php include "includes/footer.php"; ?>
 
     <!-- Footer Section -->
-      <?php include "includes/footer.php"; ?>
   </body>
 </html>

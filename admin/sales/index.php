@@ -1,74 +1,127 @@
-<?php if($_settings->chk_flashdata('success')): ?>
-<script>
-	alert_toast("<?php echo $_settings->flashdata('success') ?>",'success')
-</script>
-<?php endif;?>
-<div class="card card-outline rounded-0 card-navy">
-	<div class="card-header">
-		<h3 class="card-title">List of Sales</h3>
-		<div class="card-tools">
-			<a href="./?page=sales/manage_sale" id="create_new" class="btn btn-flat btn-primary"><span class="fas fa-plus"></span>  Create New</a>
-		</div>
-	</div>
-	<div class="card-body">
-		<div class="container-fluid">
-        <div class="container-fluid">
-			<table class="table table-hover table-striped table-bordered">
-				<colgroup>
-					<col width="5%">
-					<col width="20%">
-					<col width="20%">
-					<col width="25%">
-					<col width="15%">
-					<col width="15%">
-				</colgroup>
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Date Updated</th>
-						<th>Code</th>
-						<th>Customer</th>
-						<th>Amount</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php 
-					$i = 1;
-						if($_settings->userdata('type') == 3):
-						$qry = $conn->query("SELECT * FROM `sale_list` where user_id = '{$_settings->userdata('id')}' order by unix_timestamp(date_updated) desc ");
-						else:
-						$qry = $conn->query("SELECT * FROM `sale_list` order by unix_timestamp(date_updated) desc ");
-						endif;
-						while($row = $qry->fetch_assoc()):
-					?>
-						<tr>
-							<td class="text-center"><?php echo $i++; ?></td>
-							<td><p class="m-0 truncate-1"><?= date("M d, Y H:i", strtotime($row['date_updated'])) ?></p></td>
-							<td><p class="m-0 truncate-1"><?= $row['code'] ?></p></td>
-							<td><p class="m-0 truncate-1"><?= $row['client_name'] ?></p></td>
-							<td class='text-right'><?= format_num($row['amount']) ?></td>
-							<td align="center">
-								<a class="btn btn-default bg-gradient-light btn-flat btn-sm" href="?page=sales/view_details&id=<?php echo $row['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
-							</td>
-						</tr>
-					<?php endwhile; ?>
-				</tbody>
-			</table>
-		</div>
-		</div>
-	</div>
+<style>
+  .container-fluid {
+    background-color: #fff;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  #detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  #detail > div {
+    display: flex;
+    flex-direction: row;
+  }
+
+  #detail > div > p {
+    margin: 0;
+  }
+
+  #detail > .receipt {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .receipt > img {
+    width: 120px;
+    height: auto;
+    object-fit: cover;
+  }
+
+  #detail > div > p:first-of-type {
+    font-weight: 500;
+  }
+</style>
+
+<div class="container-fluid">
+  <h1>List of Orders</h1>
+  <div class="d-flex flex-row">
+    <div class="col-7">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Client ID</th>
+          <th>Order Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+          include("../api/connection.php");
+
+          $result = $conn -> query("SELECT * FROM orders");
+
+          if($result -> num_rows > 0){
+            while($row = $result -> fetch_assoc()){
+              echo "
+                <tr>
+                  <td>".$row['id']."</td>
+                  <td>".$row['client_id']."</td>
+                  <td>".$row['order_date']."</td>
+                  <td>".$row['status']."</td>
+                  <td>
+                    <button onclick='viewOrder(".$row['id'].")' class='btn btn-sm btn-secondary'>View Order</button>
+                    <button onclick='completeOrder(".$row['id'].")' class='btn btn-sm btn-primary'>Complete Order</button>
+                  </td>
+                </tr>
+              ";
+            }
+          }
+        ?>
+      </tbody>
+    </table>
+    </div>
+    <div class="col-5" id="detail">
+
+    </div>
+  </div>
+  
 </div>
+
 <script>
+  function completeOrder(id){
+    Swal.fire({
+      title: "Do you want complete this order?",
+      showCancelButton: true,
+      confirmButtonText: "Complete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          type: 'post',
+          url: "../api/complete_order.php",
+          data : {
+            id: id
+          },
+          success : response => {
+            Swal.fire("Saved!", response, "info");
+          }
+        })
+      }
+    });
+  }
+ 
+
+  function viewOrder(id){
+    $.ajax({
+      type: 'get',
+      url: '../api/get_order_details.php',
+      data: {
+        id:id
+      },
+      success: response => {
+        $("#detail").html(response)
+      }
+    })
+  }
+
 	$(document).ready(function(){
 		
-		$('.table').dataTable({
-			columnDefs: [
-					{ orderable: false, targets: [5] }
-			],
-			order:[0,'asc']
-		});
-		$('.dataTable td,.dataTable th').addClass('py-1 px-2 align-middle')
 	})
-	
 </script>
