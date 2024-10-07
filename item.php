@@ -109,7 +109,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
       <div>
         <div>
           <input type="text" value="<?php echo htmlspecialchars($product['name']); ?>" id="productName" hidden />
-          <h2><?php echo htmlspecialchars($product['name']); ?></h2>
+          <h2><?php echo $product['name']; ?></h2>
           <h1 class="item-price">₱ <span id="productPrice"><?php echo number_format($product['price'], 2); ?></span></h1>
           <p class="mt-4">Quantity</p>
           <div class="quantity">
@@ -120,25 +120,28 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
           </div>
           <p class="mt-4">Size</p>
           <div>
-            <label>
-                <input type="radio" name="size" value="small" checked data-price="<?php echo $product['price']; ?>" />
-                <span class="radio-circle"></span>
+            <div class="form-check">
+              <input class="form-check-input" value="Small" type="radio" name="size" data-price="<?php echo number_format($product['price'], 2); ?>" checked>
+              <label class="form-check-label" for="flexRadioDefault1">
                 Small (₱<?php echo number_format($product['price'], 2); ?>)
-            </label>
+              </label>
+            </div>
 
             <?php if ($large_product): ?>
-                <label>
-                    <input type="radio" name="size" value="large" data-price="<?php echo $large_product['price']; ?>" />
-                    <span class="radio-circle"></span>Large (₱<?php echo number_format($large_product['price'], 2); ?>)
+              <div class="form-check">
+                <input class="form-check-input" value="Large" type="radio" name="size" data-price="<?php echo number_format($large_product['price'], 2); ?>">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Large (₱<?php echo number_format($large_product['price'], 2); ?>)
                 </label>
+              </div>
             <?php endif; ?>
           </div>
             <p class="mt-4">Add-ons</p>
             <div class="addons">
               <?php foreach ($addons as $addon): ?>
                 <div class="form-check">
-                  <input class="form-check-input" id="addon" type="radio" name="addon" value="<?php echo htmlspecialchars($addon['name']); ?>" data-price="<?php echo $addon['price']; ?>" />
-                  <label class="form-check-label"><?php echo htmlspecialchars($addon['name']); ?> (₱ <?php echo number_format($addon['price'], 2); ?>)</label>
+                  <input class="form-check-input" name="addon" type="checkbox" data-price="<?php echo number_format($addon['price'], 2); ?>" data-name="<?php echo $addon['name']; ?>" />
+                  <label class="form-check-label"><?php echo $addon['name']; ?> (₱ <?php echo number_format($addon['price'], 2); ?>)</label>
                 </div>
               <?php endforeach; ?>
             </div>
@@ -156,148 +159,74 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
           ?>
       </div>
     </main>
-    <!-- <div class="item-container">
-        <div class="item-details">
-            <div class="item-image">
-                <img class="img-fluid" src="uploads/products/2022-04-22_10-18-15.png"
-                    alt="<?php echo $product['name']; ?>" />
-            </div>
-            <div class="item-info">
-                <input type="text" value="<?php echo htmlspecialchars($product['name']); ?>" id="productName" hidden />
-                <div class="item-name"><?php echo htmlspecialchars($product['name']); ?></div>
-                <div class="item-price">₱<span id="productPrice"><?php echo number_format($product['price'], 2); ?></span></div>
-
-                <div class="quantity">
-                    <span>Quantity:</span>
-                    <input type="number" id="quantity" value="1" min="1" />
-                </div>
-            </div>
-        </div>
-
-        <div class="other-info">
-            <h4>Item Details</h4>
-            <div class="variation">
-                <span>Size:</span>
-                <div>
-                    <label>
-                        <input type="radio" name="size" value="small" checked data-price="<?php echo $product['price']; ?>" />
-                        <span class="radio-circle"></span>
-                        Small (₱<?php echo number_format($product['price'], 2); ?>)
-                    </label>
-
-                    <?php if ($large_product): ?>
-                        <label>
-                            <input type="radio" name="size" value="large"
-                                data-price="<?php echo $large_product['price']; ?>" />
-                            <span class="radio-circle"></span>
-                            Large (₱<?php echo number_format($large_product['price'], 2); ?>)
-                        </label>
-                    <?php endif; ?>
-                </div>
-            </div>
-            <div class="add-ons">
-                <span>Add-ons:</span>
-                <div>
-                    <?php foreach ($addons as $addon): ?>
-                        <label>
-                            <input id="addon" type="radio" name="addon" value="<?php echo htmlspecialchars($addon['name']); ?>"
-                                data-price="<?php echo $addon['price']; ?>" />
-                            <span class="radio-circle"></span>
-                            <?php echo htmlspecialchars($addon['name']); ?>
-                            (₱<?php echo number_format($addon['price'], 2); ?>)
-                        </label>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-
-            <div class="special-instructions">
-                <label for="instructions">Special Instructions:</label>
-                <textarea id="instructions" rows="3" placeholder="Enter any special instructions here"></textarea>
-            </div>
-        </div>
-
-         <?php
-          if(isset($_SESSION['userid']) && !empty($_SESSION['userid'])){
-            echo "<button class='add-to-cart-btn' id='addToCartBtn'>Add to Cart</button>";
-          }else {
-            echo "<a href='login.php' class='add-to-cart-btn'>Sign In to Add Cart</a>";
-          }
-         ?>
-        
-    </div> -->
+    </div>
     <script>
+      var addTotal = 0;
+      var addNames = "";
+      var total_quantity = 1;
+      var minValue = parseInt($('#quantity').attr('min'));
+      var maxValue = parseInt($('#quantity').attr('max'));
+
+
       $(document).ready(function(){
+        var size_total = $("input[name='size']:checked").attr('data-price');
+        var size_name = $("input[name='size']:checked").attr('data-name');
+
         $("#decButton").on("click", function(){
-          var size = $("input[name='size']:checked").attr('data-price');
-          var add_on = $("input[name='addon']:checked").attr('data-price');
-
-          let minValue = parseInt($('#quantity').attr('min'));
-          var quantity = parseInt($('#quantity').val());
-          let step = parseInt($('#quantity').attr('step')) || 1;
-          
-          if(add_on === undefined){
-            add_on = 0;
-          }
-
+          let quantity = parseInt($('#quantity').val());
 
           if (quantity > minValue) {
-            $('#newQuantity').text(quantity - step);
-            $('#quantity').val(quantity - step);
+            $('#newQuantity').text(quantity - 1);
+            $('#quantity').val(quantity - 1);
 
-
-            var totalPrice = parseFloat(add_on) + parseFloat(quantity + step) * parseFloat(size);
+            var totalPrice = parseFloat(addTotal) + (parseFloat(quantity - 1) * parseFloat(size_total));
             $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
           }
         })
 
         $("#incButton").on("click", function(){
-          var size = $("input[name='size']:checked").attr('data-price');
-          var add_on = $("input[name='addon']:checked").attr('data-price');
-          let maxValue = parseInt($('#quantity').attr('max'));
           var quantity = parseInt($('#quantity').val());
-          let step = parseInt($('#quantity').attr('step')) || 1;
-          
-          if(add_on === undefined){
-            add_on = 0;
-          }
-
 
           if (quantity < maxValue) {
-            $('#newQuantity').text(quantity + step);
-            $('#quantity').val(quantity + step);
+            $('#newQuantity').text(quantity + 1);
+            $('#quantity').val(quantity + 1);
 
-            var totalPrice = parseFloat(add_on) + parseFloat(quantity + step) * parseFloat(size);
+            var totalPrice = parseFloat(addTotal) + (parseFloat(quantity + 1) * parseFloat(size_total));
             $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
           }
         })
 
         $("input[name='addon']").on("change", function(){
-          var size = $("input[name='size']:checked").attr('data-price');
-          var add_on = $("input[name='addon']:checked").attr('data-price');
+          let selectedAddons = [];
+          let total = 0;
+          let quantity = $('#quantity').val();
 
-          var totalPrice = parseFloat(add_on) + parseFloat($("#quantity").val()) * parseFloat(size);
+          $("input[name='addon']:checked").each(function(){
+            let addonName = $(this).attr('data-name');
+            let addonPrice = parseInt($(this).attr('data-price'));
 
+            selectedAddons.push(addonName);
+            total += addonPrice
+          })
+
+          addNames = selectedAddons.join(', ');
+          addTotal = total;
+          var totalPrice = (parseFloat(total) * quantity) + (parseFloat(quantity) * parseFloat(size_total));
           $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
         })
 
         $("input[name='size']").on("change", function(){
           var size = $("input[name='size']:checked").attr('data-price');
-          var add_on = $("input[name='addon']:checked").attr('data-price');
 
-          var totalPrice = parseFloat(add_on) + parseFloat($("#quantity").val()) * parseFloat(size);
-
+          size_total = size;
+          var totalPrice = addTotal + (parseInt($("#quantity").val()) * parseInt(size));
           $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
         })
 
         $("#quantity").on("change", function(){
           var size = $("input[name='size']:checked").attr('data-price');
-          var add_on = $("input[name='addon']:checked").attr('data-price');
 
-          if(add_on === undefined){
-            add_on = 0;
-          }
-
-          var totalPrice = parseFloat(add_on) + parseFloat($("#quantity").val()) * parseFloat(size);
+          var totalPrice = parseFloat(addTotal) + parseFloat($("#quantity").val()) * parseFloat(size_total);
 
           $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
         })
@@ -307,7 +236,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
           var instructions = $("#instructions").val();
           var productName = $("#productName").val();
 
-          var size = $("input[name='size']:checked")
+          var size = $("input[name='size']:checked");
           var addon = $("input[name='addon']:checked")
           var add_price = 0;
 
@@ -324,13 +253,13 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
             add_price = $("input[name='addon']:checked").attr('data-price')
           }
 
-          var totalPrice = (parseFloat(size.attr('data-price')) + parseFloat(add_price)) * quantity;
+          var totalPrice = parseFloat(addTotal) + parseFloat($("#quantity").val()) * parseFloat(size_total);
           
           var cart_item = {
             productName: productName,
             quantity: quantity,
             size: size.val(),
-            addon : addon,
+            addon : addNames,
             instructions: instructions,
             totalPrice : totalPrice
           }

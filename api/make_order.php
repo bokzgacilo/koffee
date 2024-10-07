@@ -1,4 +1,5 @@
 <?php
+  session_start();
   include('connection.php');
 
   $contact1 = $_POST['contact_number1'];
@@ -11,16 +12,6 @@
   $nearest_landmark = $_POST['nearest_landmark'];
   $map = $_POST['map'];
   $price = $_POST['price'];
-
-  echo $contact1;
-  echo $contact2;
-  echo $client_id;
-  echo $reference_number;
-  echo $cart;
-  echo $address;
-  echo $nearest_landmark;
-  echo $map;
-  echo $price;
 
   $sql = "INSERT INTO orders(
     cart, 
@@ -52,6 +43,9 @@
 
   if($conn -> query($sql)){
     echo "Success";
+
+    $id = $_SESSION['userid'];
+    $conn -> query("UPDATE users SET cart='' WHERE id=$id");
   }else {
     echo "Failed";
   }

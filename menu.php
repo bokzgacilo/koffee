@@ -116,25 +116,21 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
     <script>
         function displayCategory(categoryId) {
-            var selectedCategoryText = categoryId === 'all' ? 'All Menu' : document.getElementById('category-' + categoryId).textContent;
-            document.getElementById('selected-category').textContent = selectedCategoryText;
-
-            var items = document.querySelectorAll('.col-lg-4.col-md-6'); // Target the parent container (the columns)
-
-            items.forEach(function (item) {
-                var menuItem = item.querySelector('.menu-item'); // Find the menu-item inside the column
-                if (categoryId === 'all' || menuItem.getAttribute('data-category-id') === String(categoryId)) {
-                    item.style.display = 'block'; // Show the entire column
-                } else {
-                    item.style.display = 'none'; // Hide the entire column
-                }
-            });
+          $.ajax({
+            type: "get",
+            url: "api/get_category_items.php",
+            data: {
+              category_id : categoryId
+            },
+            success: response => {
+              $("#menu-items").html(response)
+            }
+          })
         }
     </script>
-
 </head>
 
-<body onload="displayCategory('all')">
+<body>
     <!-- Navbar Section -->
     <?php include "includes/navbar.php"; ?>
 
