@@ -1,12 +1,13 @@
 <?php
 require_once('config.php');
+include("mailer.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  // Get the form data
   $firstname = $_POST['firstname'];
   $lastname = $_POST['lastname'];
   $email = $_POST['email'];
-  $password = $_POST['password']; // Hash the entered password with MD5
+  $password = $_POST['password'];
+  $veri_code = substr(bin2hex(random_bytes(8)), 0, 8);
 
   // Create a new database connection
   $db = new DBConnection();
@@ -23,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $type = 2; // Set user type
     $avatar = "uploads/avatars/9.png";
     // Prepare and execute the query to insert the new user
-    $query = $db->conn->prepare("INSERT INTO users (firstname, lastname, username, password, type, avatar) VALUES (?, ?, ?, ?, ?)");
-    $query->bind_param("ssssss", $firstname, $lastname, $email, $password, $type, $avatar);
+    $query = $db->conn->prepare("INSERT INTO users (firstname, lastname, username, password, type, avatar, verification_code) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $query->bind_param("sssssss", $firstname, $lastname, $email, $password, $type, $avatar, $veri_code);
 
     if ($query->execute()) {
       // Automatically log in the user
@@ -34,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $_SESSION['password'] = $_POST['password'];
       $_SESSION['username'] = $email;
 
+      sendEmail($email, $veri_code, $query->insert_id);
       // Redirect to home page
       echo '<script>window.location.href="index.php"</script>';
       exit;

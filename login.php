@@ -122,9 +122,9 @@
           processData: false,
           contentType: false,
           success: function(response) {
-            console.log(response)
+            alert(response)
 
-            if(response == 1){
+            if(response == "Logged In Successfully"){
               location.href = "menu.php";
             }
           }
