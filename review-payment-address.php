@@ -86,8 +86,10 @@
     <section >
       <div class="container">
         <div class="p-4">
-          <h1>Review Payment And Address</h1>
-          <p>Here's your order</p>
+          <h2>Review Payment And Address</h2>
+          <div class="card mt-4">
+            <div class="card-body">
+            <h5 class="mb-4">Here's your order</h5>
           <table class="table">
             <thead>
               <tr>
@@ -143,64 +145,81 @@
               ?>
             </tbody>
           </table>
-          <div class="mt-4 mb-4 text-align-right">
-            <p style="font-size: 18px; font-weight: bold;" class="mt-4">Total Price: PHP <?php echo number_format($delivery_fee + $total_price, 2); ?> (Delivery fee included.)</p>
+          <div class="text-align-right">
+            <p style="font-size: 18px; font-weight: bold;">Total Price: PHP <?php echo number_format($delivery_fee + $total_price, 2); ?> (Delivery fee included.)</p>
           </div>
-          <div style="margin-top: 5rem;" class="d-flex flex-row">
-            <div class="col-6 d-flex flex-column">
-              <h3>Scan the QR to Pay</h3>
-              <img style="width: 200px; height: 200px;" src="frame.png" />
-              <p>This is a sample QR only.</p>
-            </div>
-            <div class="col-6">
-              <h3>Upload your receipt here</h3>
-              <div class="input-group mb-3">
-                <label class="input-group-text" for="inputGroupFile01">Upload</label>
-                <input type="file" class="form-control" id="receipt_image">
-              </div>
-              <div class="mt-3">
-                <label for="exampleInputEmail1" class="form-label">Reference Number</label>
-                <input type="email" class="form-control" id="reference_number" aria-describedby="emailHelp">
+          </div>
+          </div>
+                
+          <div class="card mt-4">
+            <div class="card-body">
+              <h4 style="font-weight: bold;">STEP 1 : Scan the QR to Pay</h4>
+              <div class="d-flex flex-row">
+                <div class="col-6 d-flex flex-column">
+                  <img style="width: 200px; height: 200px;" src="frame.png" />
+                  <p>This is a sample QR only.</p>
+                </div>
               </div>
             </div>
           </div>
+          <div class="card mt-4">
+            <div class="card-body">
+              <h4 style="font-weight: bold;">STEP 2 : Upload Receipt Here</h4>
+              <div class="d-flex flex-row">
+                <div class="col-6 mt-4">
+                  <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                    <input type="file" class="form-control" id="receipt_image">
+                  </div>
+                  <div class="mt-3">
+                    <label for="exampleInputEmail1" class="form-label">Reference Number</label>
+                    <input type="email" class="form-control" id="reference_number" aria-describedby="emailHelp">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card mt-4">
+            <div class="card-body">
+            <h4 style="font-weight: bold;">STEP 3 : Delivery Address</h4>
+            <div class="d-flex flex-column">
+                <div class="d-flex flex-row">
+                <div class="col-4">
+                  <div class="mt-3">
+                    <label for="exampleInputEmail1" class="form-label">Contact Number 1</label>
+                    <input type="email" class="form-control" id="contact_number1" aria-describedby="emailHelp">
+                  </div>
+                  <div class="mt-3">
+                    <label for="exampleInputEmail1" class="form-label">Contact Number 2</label>
+                    <input type="email" class="form-control" id="contact_number2" aria-describedby="emailHelp">
+                  </div>
+                  <div class="mt-3">
+                    <label for="exampleInputEmail1" class="form-label">Street Name</label>
+                    <input type="email" class="form-control" id="street_name" aria-describedby="emailHelp">
+                  </div>
+                  <div class="mt-3">
+                    <label for="exampleInputEmail1" class="form-label">Barangay</label>
+                    <input type="email" class="form-control" id="barangay" aria-describedby="emailHelp">
+                  </div>
+                  <div class="mt-3">
+                    <label for="exampleInputEmail1" class="form-label">City</label>
+                    <input type="email" class="form-control" id="city" aria-describedby="emailHelp">
+                  </div>
+                  <div class="mt-3">
+                    <label for="exampleInputEmail1" class="form-label">Nearest LandMark</label>
+                    <input type="email" class="form-control" id="nearest_landmark" aria-describedby="emailHelp">
+                  </div>
+                <button class="mt-4 btn btn-primary btn-lg" id="proceedOrderButton">Proceed Order</button>
 
-          <div style="margin-top: 5rem;" class="d-flex flex-column">
-            <h3>Delivery Address</h3>
-            <div class="d-flex flex-row">
-            <div class="col-4">
-              <div class="mt-3">
-                <label for="exampleInputEmail1" class="form-label">Contact Number 1</label>
-                <input type="email" class="form-control" id="contact_number1" aria-describedby="emailHelp">
+                </div>
+                <div class="col-8">
+                  <div style="width: 100%"><iframe width="720" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.gps.ie/">gps tracker sport</a></iframe></div>
+                </div>
+                </div>
               </div>
-              <div class="mt-3">
-                <label for="exampleInputEmail1" class="form-label">Contact Number 2</label>
-                <input type="email" class="form-control" id="contact_number2" aria-describedby="emailHelp">
-              </div>
-              <div class="mt-3">
-                <label for="exampleInputEmail1" class="form-label">Street Name</label>
-                <input type="email" class="form-control" id="street_name" aria-describedby="emailHelp">
-              </div>
-              <div class="mt-3">
-                <label for="exampleInputEmail1" class="form-label">Barangay</label>
-                <input type="email" class="form-control" id="barangay" aria-describedby="emailHelp">
-              </div>
-              <div class="mt-3">
-                <label for="exampleInputEmail1" class="form-label">City</label>
-                <input type="email" class="form-control" id="city" aria-describedby="emailHelp">
-              </div>
-              <div class="mt-3">
-                <label for="exampleInputEmail1" class="form-label">Nearest LandMark</label>
-                <input type="email" class="form-control" id="nearest_landmark" aria-describedby="emailHelp">
-              </div>
-            <button class="mt-4 btn btn-primary btn-lg" id="proceedOrderButton">Proceed Order</button>
-
-            </div>
-            <div class="col-8">
-              <div style="width: 100%"><iframe width="720" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.gps.ie/">gps tracker sport</a></iframe></div>
-            </div>
             </div>
           </div>
+          
         </div>
       </div>
     </section>
@@ -258,7 +277,15 @@
               Swal.fire({
                 title: "Order Submitted",
                 text: "Thank you for ordering with us.",
-                icon: "success"
+                icon: "success",
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: "Go To Orders",
+                denyButtonText: `Don't save`
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  location.href="orders.php"
+                }
               });
             }
           })

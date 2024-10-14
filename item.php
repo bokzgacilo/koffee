@@ -20,7 +20,8 @@ $large_stmt->execute();
 $large_product = $large_stmt->fetch(PDO::FETCH_ASSOC); // Large variation if it exists
 
 // Fetch all addons with their prices
-$addons_query = "SELECT * FROM addons";
+$productID = $product['category_id'];
+$addons_query = "SELECT * FROM addons WHERE category_id=$productID";
 $addons_stmt = $pdo->prepare($addons_query);
 $addons_stmt->execute();
 $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);

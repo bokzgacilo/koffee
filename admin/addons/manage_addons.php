@@ -22,6 +22,17 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 			<input type="number" name="price" id="price" class="form-control form-control-sm rounded-0 text-right" value="<?php echo isset($price) ? $price : ''; ?>"  required/>
 		</div>
 		<div class="form-group">
+			<label for="category_id" class="control-label">Category</label>
+			<select name="category_id" id="category_id" class="form-control form-control-sm rounded-0" required>
+        <?php
+          $cat = $conn -> query("SELECT id, name FROM category_list");
+          while($catt = $cat -> fetch_assoc()){
+            echo "<option value='".$catt['id']."'>".$catt['name']."</option>";
+          }
+        ?>
+			</select>
+		</div>
+		<div class="form-group">
 			<label for="status" class="control-label">Status</label>
 			<select name="status" id="status" class="form-control form-control-sm rounded-0" required>
 				<option value="1" <?php echo isset($status) && $status == 1 ? 'selected' : '' ?>>Active</option>

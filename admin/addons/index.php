@@ -26,6 +26,7 @@
 						<th>#</th>
 						<th>Name</th>
 						<th>Price</th>
+						<th>Category</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
@@ -40,6 +41,15 @@
 							<td class="text-center"><?php echo $i++; ?></td>
 							<td><?php echo $row['name'] ?></td>
 							<td><?php echo $row['price'] ?></td>
+							<td>
+                <?php
+                  $id = $row['category_id'];
+                  $getCategoryName = $conn -> query("SELECT name FROM category_list WHERE id=$id");
+                  while($cat = $getCategoryName -> fetch_assoc()){
+                    echo $cat['name'];
+                  }
+                ?>
+              </td>
 							<td> <?php if ($row['status'] == 1): ?>
 									<span class="badge badge-success px-3 rounded-pill">Active</span>
 								<?php else: ?>
