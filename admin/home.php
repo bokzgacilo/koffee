@@ -45,9 +45,9 @@
         <span class="info-box-number text-right">
           <?php
           if ($_settings->userdata('type') == 3):
-            $total = $conn->query("SELECT sum(amount) as total FROM sale_list where user_id = '{$_settings->userdata('id')}' ");
+            $total = $conn->query("SELECT sum(price) as total FROM orders where client_id = '{$_settings->userdata('id')}' ");
           else:
-            $total = $conn->query("SELECT sum(amount) as total FROM sale_list");
+            $total = $conn->query("SELECT sum(price) as total FROM orders");
           endif;
           $total = $total->num_rows > 0 ? $total->fetch_array()['total'] : 0;
           $total = $total > 0 ? $total : 0;
@@ -102,24 +102,30 @@
             <?php
             $i = 1;
             if ($_settings->userdata('type') == 3):
-              $qry = $conn->query("SELECT * FROM `sale_list` where user_id = '{$_settings->userdata('id')}' order by unix_timestamp(date_updated) desc ");
+              $qry = $conn->query("SELECT * FROM `orders` where client_id = '{$_settings->userdata('id')}' order by unix_timestamp(date_updated) desc ");
             else:
-              $qry = $conn->query("SELECT * FROM `sale_list` order by unix_timestamp(date_updated) desc ");
+              $qry = $conn->query("SELECT * FROM `orders` order by unix_timestamp(order_date) desc ");
             endif;
             while ($row = $qry->fetch_assoc()):
               ?>
               <tr>
                 <td class="text-center"><?php echo $i++; ?></td>
                 <td>
-                  <p class="m-0 truncate-1"><?= date("M d, Y H:i", strtotime($row['date_updated'])) ?></p>
+                  <p class="m-0 truncate-1"><?= date("M d, Y H:i", strtotime($row['order_date'])) ?></p>
                 </td>
                 <td>
-                  <p class="m-0 truncate-1"><?= $row['code'] ?></p>
+                  <p class="m-0 truncate-1"><?= $row['reference_number'] ?></p>
                 </td>
                 <td>
-                  <p class="m-0 truncate-1"><?= $row['client_name'] ?></p>
+                  <p class="m-0 truncate-1"><?=
+                    $clientid = $row['client_id'];
+                    $getName = $conn -> query("SELECT * FROM users WHERE id=$clientid");
+                    while($get = $getName -> fetch_assoc()){
+                      echo $get['lastname'] . ", " . $get['firstname'];
+                    }
+                  ?></p>
                 </td>
-                <td class='text-right'><?= format_num($row['amount']) ?></td>
+                <td class='text-right'><?= format_num($row['price']) ?></td>
                 <td align="center">
                   <a class="btn btn-default bg-gradient-light btn-flat btn-sm"
                     href="?page=sales/view_details&id=<?php echo $row['id'] ?>"><span class="fa fa-eye text-dark"></span>

@@ -198,12 +198,12 @@ class Master extends DBConnection
 		$check = $this->conn->query("SELECT * FROM `addons` where `name` = '{$name}' " . (!empty($id) ? " and id != {$id} " : "") . " ")->num_rows;
 		if ($this->capture_err())
 			return $this->capture_err();
-		if ($check > 0) {
-			$resp['status'] = 'failed';
-			$resp['msg'] = "Addons Name already exists.";
-			echo json_encode($resp);
-			exit;
-		}
+		// if ($check > 0) {
+		// 	$resp['status'] = 'failed';
+		// 	$resp['msg'] = "Addons Name already exists.";
+		// 	echo json_encode($resp);
+		// 	exit;
+		// }
 		if (empty($id)) {
 			$sql = "INSERT INTO `addons` set {$data} ";
 		} else {
