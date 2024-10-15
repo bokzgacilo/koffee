@@ -7,7 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lastname = $_POST['lastname'];
     $email = $_POST['email'];
     $password = $_POST['password']; // Handle password change (not hashing for simplicity, adjust as needed)
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['userid'];
+    $block_number = $_POST['block_number'];
+    $street = $_POST['street'];
+    $barangay = $_POST['barangay'];
+    $city = $_POST['city'];
 
     // Handle avatar upload
     $target_dir = "uploads/avatars/";  // Define the full directory path here
@@ -31,9 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $db = new DBConnection();
 
     // Prepare and execute the query to update the user's data
-    $query = $db->conn->prepare("UPDATE users SET firstname = ?, lastname = ?, username = ?, password = ?, avatar = ? WHERE id = ?");
-    $hashed_password = md5($password);  // Optionally hash the password
-    $query->bind_param("sssssi", $firstname, $lastname, $email, $hashed_password, $avatar_path, $user_id);
+    $query = $db->conn->prepare("UPDATE users SET firstname = ?, lastname = ?, username = ?, password = ?, avatar = ?, block_number = ?, street = ?, barangay = ?, city = ? WHERE id = ?");
+    $query->bind_param("sssssssssi", $firstname, $lastname, $email, $password, $avatar_path, $block_number, $street, $barangay, $city, $user_id);
 
     if ($query->execute()) {
         // Update session data
@@ -43,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['password'] = $password;
         $_SESSION['avatar'] = $avatar_path;  // Store full path in the session as well
 
-        // echo '<script>window.location.href="index.php";</script>';
     } else {
         echo '<script>alert("Error updating profile.");</script>';
     }

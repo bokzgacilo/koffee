@@ -138,9 +138,6 @@
                     ";
     
                   }
-    
-                  $conn -> close();
-    
                 }
               ?>
             </tbody>
@@ -183,38 +180,87 @@
             <div class="card-body">
             <h4 style="font-weight: bold;">STEP 3 : Delivery Address</h4>
             <div class="d-flex flex-column">
-                <div class="d-flex flex-row">
+              <div class="row mt-4">
                 <div class="col-4">
-                  <div class="mt-3">
+                  <div>
                     <label for="exampleInputEmail1" class="form-label">Contact Number 1</label>
                     <input type="email" class="form-control" id="contact_number1" aria-describedby="emailHelp">
                   </div>
-                  <div class="mt-3">
+                </div>
+                <div class="col-4">
+                  <div>
                     <label for="exampleInputEmail1" class="form-label">Contact Number 2</label>
                     <input type="email" class="form-control" id="contact_number2" aria-describedby="emailHelp">
                   </div>
-                  <div class="mt-3">
-                    <label for="exampleInputEmail1" class="form-label">Street Name</label>
-                    <input type="email" class="form-control" id="street_name" aria-describedby="emailHelp">
-                  </div>
-                  <div class="mt-3">
-                    <label for="exampleInputEmail1" class="form-label">Barangay</label>
-                    <input type="email" class="form-control" id="barangay" aria-describedby="emailHelp">
-                  </div>
-                  <div class="mt-3">
-                    <label for="exampleInputEmail1" class="form-label">City</label>
-                    <input type="email" class="form-control" id="city" aria-describedby="emailHelp">
-                  </div>
-                  <div class="mt-3">
-                    <label for="exampleInputEmail1" class="form-label">Nearest LandMark</label>
-                    <input type="email" class="form-control" id="nearest_landmark" aria-describedby="emailHelp">
-                  </div>
-                <button class="mt-4 btn btn-primary btn-lg" id="proceedOrderButton">Proceed Order</button>
+                </div>
+              </div>
 
+              <!-- Get Address Details -->
+              <?php 
+                $getAddress = $conn -> query("SELECT * FROM users WHERE id=".$_SESSION['userid']."");
+                $address = $getAddress -> fetch_assoc();
+              ?>
+
+              <div class="row mt-4">
+                <div class="col-4">
+                  <div>
+                    <label class="form-label">Block/House/Unit Number</label>
+                    <input type="text" value='<?php echo $address['block_number']?>' class="form-control" id="block_number">
+                  </div>
                 </div>
+                <div class="col-4">
+                  <div>
+                    <label class="form-label">Street Name</label>
+                    <input type="text" value='<?php echo $address['street']?>' class="form-control" id="street_name">
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div>
+                    <label class="form-label">Barangay</label>
+                    <input type="text" value='<?php echo $address['barangay']?>' class="form-control" id="barangay">
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-4">
+                  <div>
+                    <label class="form-label">City</label>
+                    <input type="text" value='<?php echo $address['city']?>' class="form-control" id="city" >
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div>
+                    <label class="form-label">Nearest LandMark</label>
+                    <input type="text" class="form-control" id="nearest_landmark">
+                  </div>
+                </div>
+                <div class="col-4 d-flex align-items-end">
+                  <div>
+                  <button class="btn btn-primary" id="searchPin">Locate Address</button>
+
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
                 <div class="col-8">
-                  <div style="width: 100%"><iframe width="720" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.gps.ie/">gps tracker sport</a></iframe></div>
+                  <iframe
+                    id="googleMap"
+                    width="100%"
+                    height="450"
+                    style="border:0"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAitbCyHS9bbWyT3BoPoFlPKa-fwwEpG7c&q=STI Dasmarinas">
+                  </iframe>
                 </div>
+                
+              </div>
+              <div class="row mt-4">
+                <div class="col-4">
+                  <button class="btn btn-success" id="proceedOrderButton">Proceed Order</button>
+                </div>
+              </div>
                 </div>
               </div>
             </div>
@@ -225,6 +271,17 @@
     </section>
     
     <script>
+      $("#searchPin").on('click', function(){
+        let nearest_landmark = $("#nearest_landmark").val();
+
+        // let address = `${block_number}, ${street_name}, ${barangay}, ${city}`;
+        
+        // console.log(address)
+
+        var googleMapsUrl = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAitbCyHS9bbWyT3BoPoFlPKa-fwwEpG7c&q=" + encodeURIComponent(nearest_landmark);
+        $('#googleMap').attr('src', googleMapsUrl);
+      })
+
       $(document).ready(function(){
         var fileBase64;
 
@@ -249,14 +306,13 @@
           // let gcash = $("#gcash").val();
           let contact_number1 = $("#contact_number1").val();
           let contact_number2 = $("#contact_number2").val();
+          let block_number = $("#block_number").val();
           let street_name = $("#street_name").val();
           let barangay = $("#barangay").val();
           let city = $("#city").val();
           let nearest_landmark = $("#nearest_landmark").val();
 
-          let address = `${street_name}, ${barangay}, ${city}`;
-
-          console.log(fileBase64)
+          let address = `${block_number}, ${street_name}, ${barangay}, ${city}`;
 
           $.ajax({
             type: "post",

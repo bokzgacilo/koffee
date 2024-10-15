@@ -202,6 +202,7 @@
         </div>
         <div class="modal-body">
           <form id="editProfileForm" enctype="multipart/form-data">
+            <h6 class="mt-4 mb-2" style="font-weight: bold;">Account Details</h6>
             <div class="mb-3">
               <label for="firstname" class="form-label">First Name</label>
               <input type="text" class="form-control" id="firstname" name="firstname"
@@ -222,8 +223,29 @@
               <input type="password" class="form-control" id="password" name="password"
                 value="<?php echo isset($row['password']) ? $row['password'] : ''; ?>">
             </div>
+            <h6 class="mt-4 mb-2" style="font-weight: bold;">Address Details</h6>
             <div class="mb-3">
-              <label for="avatar" class="form-label">Avatar</label>
+              <label for="block_number" class="form-label">Block/House/Unit Number</label>
+              <input type="text" class="form-control" id="block_number" name="block_number"
+                value="<?php echo $row['block_number']; ?>">
+            </div>
+            <div class="mb-3">
+              <label for="street" class="form-label">Street</label>
+              <input type="text" class="form-control" id="street" name="street"
+                value="<?php echo $row['street']; ?>">
+            </div>
+            <div class="mb-3">
+              <label for="barangay" class="form-label">Barangay</label>
+              <input type="text" class="form-control" id="barangay" name="barangay"
+                value="<?php echo $row['barangay']; ?>">
+            </div>
+            <div class="mb-3">
+              <label for="city" class="form-label">City</label>
+              <input type="text" class="form-control" id="city" name="city"
+                value="<?php echo $row['city']; ?>">
+            </div>
+            <h6 class="mt-4 mb-2" style="font-weight: bold;">Avatar</h6>
+            <div class="mb-3">
               <!-- Display current avatar if exists -->
               <?php if (isset($row['avatar'])): ?>
                 <div>
@@ -263,6 +285,7 @@
           success: function (response) {
             // Handle success - reload page or update UI accordingly
             alert("Profile updated successfully!");
+            // console.log(response)
             // console.log(response)
             location.reload();
           },
