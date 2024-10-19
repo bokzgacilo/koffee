@@ -5,6 +5,7 @@
   $item_name = $_POST['item'];
   
   $select_user = $conn -> query("SELECT * FROM users WHERE id='".$_SESSION['userid']."'");
+  
   if($select_user -> num_rows > 0){
     $row = $select_user -> fetch_assoc();
 

@@ -8,19 +8,17 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome -->
+
+    <script src="libs/jquery.js"></script>
+    <script src="libs/bootstrap.min.js"></script>
+    <link href="libs/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-    <!-- Bootstrap JS, Popper.js, and jQuery (Optional) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   </head>
   <body>
     <!-- Navbar Section -->
@@ -129,18 +127,33 @@
       $(document).ready(function(){
         $(".removeButton").click(function(){
           var button = $(this);
-
-          $.ajax({
-            type: 'post',
-            url: 'api/remove_item_from_cart.php',
-            data: {
-              item : button.attr('data-target')
-            },
-            success : response => {
-              console.log(response)
-              // location.reload();
+          Swal.fire({
+            title: "Remove this item from cart?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            confirmButtonText: "Yes, remove it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $.ajax({
+                type: 'post',
+                url: 'api/remove_item_from_cart.php',
+                data: {
+                  item : button.attr('data-target')
+                },
+                success : response => {
+                  Swal.fire({
+                    title: "Removed!",
+                    text: "Item removed from cart.",
+                    icon: "success"
+                  });
+                  
+                  location.reload();
+                }
+              })
             }
-          })
+          });
+
+          
         })
       })
     </script>
