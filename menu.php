@@ -22,6 +22,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu - KOFEE MANILA</title>
     <script src="libs/jquery.js"></script>
+    <script src="libs/popper.js"></script>
+
     <script src="libs/bootstrap.min.js"></script>
     <link href="libs/bootstrap.min.css" rel="stylesheet" />
     

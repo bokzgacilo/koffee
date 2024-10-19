@@ -44,19 +44,61 @@ if ($id > 0) {
 			<div class="row">
         <div class='col-6'>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="hasSizeRadio" id="sizeYes" check>
-            <label class="form-check-label" for="sizeYes">
+            <input class="form-check-input" type="radio" name="sizeRadio" value="1" check>
+            <label class="form-check-label">
               Yes
             </label>
           </div>
         </div>
         <div class='col-6'>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="hasSizeRadio" id="sizeNo">
-            <label class="form-check-label" for="sizeNo">
+            <input class="form-check-input" type="radio" name="sizeRadio" value="0">
+            <label class="form-check-label">
               No
             </label>
           </div>
+        </div>
+      </div>
+		</div>
+		<div id="sizeSetter" style="display: none;" class="flex-column form-group">
+			<label for="price" class="control-label">Size List</label>
+			<div class="row mb-2">
+        <div class="col-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="size[]" value="small">
+            <label class="form-check-label" for="flexCheckDefault">
+              Small
+            </label>
+          </div>
+        </div>
+        <div class="col-9">
+          <input type="number" name="small_price" class="form-control-sm form-control" disabled />
+        </div>
+      </div>
+			<div class="row mb-2">
+        <div class="col-3">
+          <div class="form-check">
+            <input class="form-check-input" name="size[]" type="checkbox" value="regular">
+            <label class="form-check-label" for="flexCheckDefault">
+              Regular
+            </label>
+          </div>
+        </div>
+        <div class="col-9">
+          <input type="number" name="regular_price" class="form-control-sm form-control" disabled />
+        </div>
+      </div>
+			<div class="row mb-2">
+        <div class="col-3">
+          <div class="form-check">
+            <input class="form-check-input" name="size[]" type="checkbox" value="large">
+            <label class="form-check-label" for="flexCheckDefault">
+              Large
+            </label>
+          </div>
+        </div>
+        <div class="col-9">
+          <input type="number" name="large_price" class="form-control form-control-sm" disabled />
         </div>
       </div>
 		</div>
@@ -88,11 +130,38 @@ if ($id > 0) {
 	});
 
 	$(document).ready(function () {
-    $('input[name="hasSizeRadio"]').change(function(){
-      var selectedvalue = $('input[name="hasSizeRadio"]:checked').next('label').text();
+    $('input[type="checkbox"]').change(function(){
+      var checkedValues = [];
 
-      console.log("Selected: " + selectedValue);
+      $('input[type="checkbox"]').each(function() {
+        checkedValues.push($(this).val());
+        var sizeValue = $(this).val();
+
+        var priceInput = $('input[name="'+sizeValue + '_price"]');
+
+        if ($(this).is(':checked')) {
+          priceInput.removeAttr('disabled');
+        } else {
+          priceInput.attr('disabled', true); 
+          priceInput.val('');
+        }
+      });
+
+      console.log("Checked sizes: " + checkedValues.join(", "));
     })
+
+    $('input[name="sizeRadio"]').change(function(){
+      var selectedValue = $('input[name="sizeRadio"]:checked').val();
+
+      if(selectedValue === "1"){
+        $("#sizeSetter").css({'display' : 'flex'})
+      }
+      
+      if(selectedValue === "0") {
+        $("#sizeSetter").css({'display' : 'none'})
+      }
+    })
+    
 
 		// $('#uni_modal').on('shown.bs.modal', function () {
 		// 	$('#category_id').select2({
@@ -106,7 +175,7 @@ if ($id > 0) {
     $('#product-form').on("submit", function(e){
       e.preventDefault();
 
-      var formData = new FormData($('#product-form')[0]); // Get the form data including file upload
+      var formData = new FormData($('#product-form')[0]);
 
       $.ajax({
         url: '../api/post_add_product.php', // The PHP script that handles the form submission

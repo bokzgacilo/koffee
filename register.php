@@ -5,13 +5,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create an Account - KOFEE MANILA</title>
+  <script src="libs/jquery.js"></script>
+  <script src="libs/popper.js"></script>
+
+  <script src="libs/bootstrap.min.js"></script>
+  <link href="libs/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-  <link href="assets/css/style.css" rel="stylesheet" />
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     /* Style for form inputs */
@@ -71,19 +71,20 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <h2 class="text-center mb-4 D68C1E">CREATE AN ACCOUNT</h2>
             <div class="container-shadow">
+              <h1 class="text-center mb-4">CREATE AN ACCOUNT</h1>
+
               <form id="registerForm">
-                <div class="form-group">
+                <div class="form-group mb-2">
                   <input type="text" class="form-control" id="rfirstname" placeholder="Enter your first name" required />
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-2">
                   <input type="text" class="form-control" id="rlastname" placeholder="Enter your last name" required />
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-2">
                   <input type="email" class="form-control" id="remail" placeholder="Enter your email" required />
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-2">
                   <div class="input-group">
                     <input type="password" class="form-control" id="rpassword"
                       placeholder="Enter your password" required />
@@ -95,7 +96,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-2">
                   <div class="input-group">
                     <input type="password" class="form-control" id="confirm_password"
                       placeholder="Confirm your password" required />
@@ -113,7 +114,7 @@
                     I agree to the <a href="#" id="showTermsLink">Terms and Conditions</a>
                   </label>
                 </div>
-                <button id="registerButton" disabled type="submit" class="btn btn-lg bg-D68C1E btn-primary btn-block">
+                <button id="registerButton" disabled type="submit" class="btn btn-lg w-100 btn-primary">
                   Register
                 </button>
               </form>

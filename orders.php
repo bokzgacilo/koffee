@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KOFEE MANILA</title>
   <script src="libs/jquery.js"></script>
+  <script src="libs/popper.js"></script>
+
   <script src="libs/bootstrap.min.js"></script>
   <link href="libs/bootstrap.min.css" rel="stylesheet" />
 

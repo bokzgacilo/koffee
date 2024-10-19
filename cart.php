@@ -4,14 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Cart - KOFEE MANILA</title>
+    <script src="libs/jquery.js"></script>
+    <script src="libs/popper.js"></script>
+
+    <script src="libs/bootstrap.min.js"></script>
+    <link href="libs/bootstrap.min.css" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
     />
-
-    <script src="libs/jquery.js"></script>
-    <script src="libs/bootstrap.min.js"></script>
-    <link href="libs/bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link
@@ -157,9 +158,27 @@
         })
       })
     </script>
+    <style>
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      background-color: #000;
+    }
 
-    <?php include "includes/footer.php"; ?>
+    footer > p {
+      margin: 0;
+      color: #fff;
+      font-weight: 500;
+    }
+  </style>
 
-    <!-- Footer Section -->
+  <footer>
+    <p style="font-size: 16px;">
+      KOFEE MANILA
+    </p>
+  </footer>
   </body>
 </html>
