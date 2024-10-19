@@ -8,8 +8,8 @@ $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Fetch products
-$query = "SELECT * FROM product_list WHERE status = 1 AND delete_flag = 0 AND name NOT LIKE '%large%'";
-$stmt = $pdo->prepare($query);
+$query = "SELECT * FROM product_list";
+$stmt = $pdo -> prepare($query);
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -153,16 +153,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($products as $product): ?>
                 <div class="col-lg-4 col-md-6">
                     <div class="menu-item" data-category-id="<?php echo $product['category_id']; ?>">
-                        <?php
-                        $dateCreated = $product['date_created']; // Original format
-                        $formattedDate = str_replace(':', '-', $dateCreated); // Replace colons with dashes
-                    
-                        $formattedDate = str_replace(' ', '_', $formattedDate); // Replace space with underscore
-                        $formattedDate = str_replace('.png', '', $formattedDate); // Remove .png if necessary
-                    
-                        ?>
 
-                        <img src="uploads/products/2022-04-22_10-18-15.png" alt="<?php echo $product['name']; ?>" /> <?php
+                        <img src="./<?php echo $product['image_url']; ?>" alt="<?php echo $product['name']; ?>" /> <?php
                         $productName = $product['name'];
 
                         $cleanedProductName = preg_replace('/\bsmall\b/i', '', $productName);

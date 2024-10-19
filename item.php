@@ -36,6 +36,8 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Item Details - KOFEE MANILA</title>
     <script src="libs/jquery.js"></script>
+    <script src="libs/popper.js"></script>
+
     <script src="libs/bootstrap.min.js"></script>
     <link href="libs/bootstrap.min.css" rel="stylesheet" />
 
@@ -102,7 +104,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <main class="item-container">
       <div>
-        <img style="width: 400px; height: 400px; object-fit: cover;" src="uploads/products/2022-04-22_10-18-15.png" />
+        <img style="width: 400px; height: 400px; object-fit: cover;" src="./<?php echo $product['image_url']; ?>" />
       </div>
       <div>
         <div>
@@ -116,24 +118,26 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
             <input type="number" id="quantity" value="1" min="1" max="100" step="1" hidden/>
             <span id="incButton">+</span>
           </div>
-          <p class="mt-4">Size</p>
-          <div>
-            <div class="form-check">
-              <input class="form-check-input" value="Small" type="radio" name="size" data-price="<?php echo number_format($product['price'], 2); ?>" checked>
-              <label class="form-check-label" for="flexRadioDefault1">
-                Small (₱<?php echo number_format($product['price'], 2); ?>)
-              </label>
-            </div>
+          <?php
+            if($product['size_price'] !== ""){
+              $sizes = json_decode($product['size_price'], true);
+              echo "<p class='mt-4'>Size</p><div>";
+              
+              foreach ($sizes as $size) {
+                echo "
+                  <div class='form-check'>
+                    <input class='form-check-input' value='".$size['size']."' type='radio' name='size' data-price='".number_format($size['price'], 2)."' checked>
+                    <label class='form-check-label'>
+                      ".$size['size']." (₱".$size['price'].")
+                    </label>
+                  </div>
+                ";
+              }
 
-            <?php if ($large_product): ?>
-              <div class="form-check">
-                <input class="form-check-input" value="Large" type="radio" name="size" data-price="<?php echo number_format($large_product['price'], 2); ?>">
-                <label class="form-check-label" for="flexRadioDefault1">
-                  Large (₱<?php echo number_format($large_product['price'], 2); ?>)
-                </label>
-              </div>
-            <?php endif; ?>
-          </div>
+              echo "</div>";
+            }
+          ?>
+          
             <p class="mt-4">Add-ons</p>
             <div class="addons">
               <?php foreach ($addons as $addon): ?>
@@ -210,6 +214,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
           addNames = selectedAddons.join(', ');
           addTotal = total;
           var totalPrice = (parseFloat(total) * quantity) + (parseFloat(quantity) * parseFloat(size_total));
+          
           $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
         })
 

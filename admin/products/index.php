@@ -55,18 +55,7 @@
 								<?php endif; ?>
 							</td>
 							<td>
-								<?php
-								$dateCreated = $row['date_created']; // Original format
-								$formattedDate = str_replace(':', '-', $dateCreated); // Replace colons with dashes
-							
-								// If the filename includes a .png extension
-								$formattedDate = str_replace(' ', '_', $formattedDate); // Replace space with underscore
-								$formattedDate = str_replace('.png', '', $formattedDate); // Remove .png if necessary
-							
-								?>
-
-								<img class="img-fluid" src="../uploads/products/<?php echo $formattedDate; ?>.png"
-									alt="<?php echo $row['name']; ?>" />
+								<img class="img-fluid" src="../<?php echo $row['image_url']; ?>" alt="<?php echo $row['name']; ?>" />
 							</td>
 							<td align="center">
 								<button type="button"

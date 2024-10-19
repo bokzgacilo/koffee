@@ -23,27 +23,61 @@
     $image_url = "/uploads/products/" . $newFileName;
   }
 
-  $sizes = [];
+  $sizes_json = [];
+  $s = "";
 
   if(isset($_POST['sizeRadio'])){
-    $sizes = $_POST['size[]'];
+    $sizes = $_POST['size'];
+    $length = count($sizes);
+
+    for ($i=0; $i < $length; $i++) { 
+      $size_json = [];
+      switch($sizes[$i]){
+        case 'small' :
+          $size_json = [
+            'size' => 'small',
+            'price' => $_POST['small_price']
+          ];
+          break;
+        case 'regular' :
+          $size_json = [
+            'size' => 'regular',
+            'price' => $_POST['regular_price']
+          ];
+          break;
+        case 'large' :
+          $size_json = [
+            'size' => 'large',
+            'price' => $_POST['large_price']
+          ];
+          break;
+      }
+
+      $sizes_json[] = $size_json;
+      $s = json_encode($sizes_json);
+    }
+  }else {
+    $s = NULL;
   }
 
-  echo $image_url;
+  echo $s;
 
   $insert = $conn -> query("INSERT INTO product_list(
     category_id,
     name,
     description,
     price,
-    image_url
+    image_url,
+    size_price
   ) VALUES (
     $category_id,
     '$product_name',
     '$product_description',
     $product_price,
     '$image_url',
+    '$s'
   )");
+
 
   if($insert){
     echo 'ok';

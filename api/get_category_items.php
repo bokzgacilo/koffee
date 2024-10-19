@@ -19,7 +19,7 @@
       echo  "
       <div class='col-4'>
         <div class='menu-item'>
-          <img src='uploads/products/2022-04-22_10-18-15.png' />
+          <img src='./".$row['image_url']."' />
           <h3>".$trimmed_value."</h3>
           <p><strong>".number_format($row['price'], 2)."</strong></p>
           <a href='item.php?id=".$row['id']."' class='col col-12 btn btn-primary btn-lg'>BUY</a>

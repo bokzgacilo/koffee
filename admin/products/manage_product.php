@@ -161,16 +161,6 @@ if ($id > 0) {
         $("#sizeSetter").css({'display' : 'none'})
       }
     })
-    
-
-		// $('#uni_modal').on('shown.bs.modal', function () {
-		// 	$('#category_id').select2({
-		// 		placeholder: "Please select here",
-		// 		width: '100%',
-		// 		dropdownParent: $('#uni_modal'),
-		// 		containerCssClass: 'form-control form-control-sm rounded-0'
-		// 	});
-		// });
 
     $('#product-form').on("submit", function(e){
       e.preventDefault();
