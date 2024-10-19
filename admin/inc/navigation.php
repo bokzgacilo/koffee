@@ -37,6 +37,7 @@
                   </p>
                 </a>
               </li>
+             
               <?php if ($_SESSION['type'] = 1): ?>
                 <li class="nav-item dropdown">
                   <a href="<?php echo base_url ?>admin/?page=products" class="nav-link nav-products">
@@ -81,6 +82,14 @@
                 </a>
               </li>
               <li class="nav-header">Maintenance</li>
+              <li class="nav-item dropdown">
+                <a href="<?php echo base_url ?>admin/?page=feedbacks" class="nav-link nav-feedbacks">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>
+                    Feedbacks
+                  </p>
+                </a>
+              </li>
               <li class="nav-item dropdown">
                 <a href="<?php echo base_url ?>admin/?page=categories" class="nav-link nav-categories">
                   <i class="nav-icon fas fa-th-list"></i>

@@ -12,23 +12,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $street = $_POST['street'];
     $barangay = $_POST['barangay'];
     $city = $_POST['city'];
-
+    $avatar_path = "";
     // Handle avatar upload
     $target_dir = "uploads/avatars/";  // Define the full directory path here
 
     if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == UPLOAD_ERR_OK) {
-        $avatar_name = $user_id . ".png";  // Save as user ID
-        $target_file = $target_dir . $avatar_name;  // Full path including directory
+        $fileTmpPath = $_FILES['avatar']['tmp_name'];
+        $originalFileName = $_FILES['avatar']['name'];
+        $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
+        $newFileName = "avatar_$user_id" . '.' . $fileExtension;
 
-        // Save the avatar in the correct location
+        $target_file = $target_dir . $newFileName;
+
         if (move_uploaded_file($_FILES['avatar']['tmp_name'], $target_file)) {
-            $avatar_path = $target_file;  // Store full path with versioning
+          $avatar_path = $target_file;  // Store full path
         } else {
-            echo '<script>alert("Failed to upload avatar.");</script>';
-            $avatar_path = $_SESSION['avatar'];  // Keep the existing avatar
+          $avatar_path = $_SESSION['avatar'];
         }
     } else {
-        $avatar_path = $_SESSION['avatar'];  // Keep the existing avatar if no new upload
+      $avatar_path = $_SESSION['avatar'];
     }
 
     // Create a new database connection
@@ -39,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $query->bind_param("sssssssssi", $firstname, $lastname, $email, $password, $avatar_path, $block_number, $street, $barangay, $city, $user_id);
 
     if ($query->execute()) {
-        // Update session data
+        // Update session da
         $_SESSION['firstname'] = $firstname;
         $_SESSION['lastname'] = $lastname;
         $_SESSION['email'] = $email;

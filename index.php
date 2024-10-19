@@ -5,49 +5,84 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KOFEE MANILA</title>
-  
+  <script src="libs/jquery.js"></script>
+  <script src="libs/popper.js"></script>
+  <script src="libs/bootstrap.min.js"></script>
+  <link href="libs/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
-  <!-- Bootstrap CSS -->
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-  <!-- Owl Carousel CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
-  <!-- Bootstrap JS, Popper.js, and jQuery (Optional) -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <!-- Owl Carousel JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
-  <style>
-
-
-  </style>
 </head>
 
 <body>
   <!-- Navbar Section -->
   <?php include "includes/navbar.php"; ?>
 
+  <style>
 
-  <!-- Image Background Cover Section -->
-  <section class="bg-image">
-    <div class="container text-center py-5">
-      <div class="p-4 text-white">
-        <!-- Content here -->
-        <h1>Welcome to Kofee Manila</h1>
-        <p>A cozy place to enjoy the finest coffee.</p>
+    .carousel-item > img {
+      width: 100%;
+      height: 900px;
+      object-fit: cover;
+    }
+
+    .carousel-caption {
+      background: #000;
+    }
+
+    .carousel-caption > p, h1 {
+      margin: 0;
+    }
+  </style>
+
+  <section>
+    <div id="banner-carousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators" style="margin-bottom: 0;">
+        <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
       </div>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+        <!-- First Slide -->
+        <div class="carousel-item active">
+          <img src="uploads/stock/stock (1).jpg" class="d-block w-100" alt="First Slide">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Welcome to Kofee Manila</h1>
+            <p>A cozy place to enjoy the finest coffee.</p>
+          </div>
+        </div>
+        
+        <!-- Second Slide -->
+        <div class="carousel-item">
+          <img src="uploads/stock/stock (2).jpg" class="d-block w-100" alt="Second Slide">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Second Slide</h1>
+            <p>Description for the second slide.</p>
+          </div>
+        </div>
+        
+        <!-- Third Slide -->
+        <div class="carousel-item">
+          <img src="uploads/stock/stock (3).jpg" class="d-block w-100" alt="Third Slide">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Third Slide</h1>
+            <p>Description for the third slide.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Left and right controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#banner-carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#banner-carousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
   </section>
-
-  <!-- Overview Section -->
   <section class="py-5">
     <div class="container">
       <div class="row">
@@ -69,6 +104,7 @@
   <section class="bg-light text-center py-5">
     <div class="container">
       <h2>Our Best Sellers</h2>
+      <!-- Carousel -->
       <hr class="w-50" />
       <div class="owl-carousel owl-theme">
         <div class="item">
@@ -91,6 +127,22 @@
     </div>
   </section>
 
+  <style>
+    #feedbacks {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+  </style>
+
+  <section class="bg-light text-center py-5">
+    <h2>Customers Feedback</h2>
+    <div id="feedbacks">
+      
+    </div>
+  </section>
+
   <!-- White Background Section with Centered Image -->
   <section class="text-center py-5">
     <div class="container">
@@ -105,29 +157,17 @@
 
   <?php include "includes/footer.php"; ?>
 
-
-
-  <!-- Owl Carousel Initialization Script -->
   <script>
-    $(document).ready(function () {
-      $(".owl-carousel").owlCarousel({
-        loop: true,
-        margin: 20,
-        nav: true,
-        responsive: {
-          0: {
-            items: 1,
-          },
-          600: {
-            items: 2,
-          },
-          1000: {
-            items: 4,
-          },
-        },
-      });
-    });
+    $(document).ready(function(){
 
+      $.ajax({
+        type: 'get',
+        url: "api/get_all_feedbacks.php",
+        success: response => {
+          $('#feedbacks').html(response)
+        }
+      })
+    })
   </script>
 </body>
 

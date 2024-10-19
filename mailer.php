@@ -28,8 +28,8 @@ function sendEmail($client_email, $verification_code, $userid){
     $mail->isHTML(true);
     $mail->Subject = 'Verification Required';
     $mail->Body = "
-        <p>Please click the link to verify your registration.</p>
-        <a href='localhost/koffee/verify.php?code=$verification_code&userid=$userid'>Verify Registration</a>
+      <p>Please click the link to verify your registration.</p>
+      <a href='localhost/koffee/verify.php?code=$verification_code&userid=$userid'>Verify Registration</a>
     ";
 
     // Send the email

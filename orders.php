@@ -5,26 +5,63 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KOFEE MANILA</title>
+  <script src="libs/jquery.js"></script>
+  <script src="libs/bootstrap.min.js"></script>
+  <link href="libs/bootstrap.min.css" rel="stylesheet" />
+
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-  <!-- Owl Carousel CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
-  <!-- Bootstrap JS, Popper.js, and jQuery (Optional) -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <!-- Owl Carousel JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 </head>
 
 <body>
   <!-- Navbar Section -->
   <?php include "includes/navbar.php"; ?>
+
+  <!-- View Order modal -->
+  <div class="modal fade" id="viewOrderModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" id="viewOrderModalBody">
+
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Leave a Review Modal -->
+  <div class="modal fade" id="leaveReviewModal" tabindex="-1" aria-labelledby="leaveReviewLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="leaveReviewLabel">Leave a Review</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Review form -->
+          <form id="reviewForm">
+            <input type="hidden" id="userid" value="0" />
+            <input type="hidden" id="useremail" value="0" />
+
+            <div class="mb-3">
+              <label for="reviewText" class="form-label">Review</label>
+              <textarea class="form-control" id="review" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="rating" class="form-label">Rating</label>
+              <select class="form-select" id="rating" required>
+                <option value="" selected disabled>Choose...</option>
+                <option value="5">5 - Excellent</option>
+                <option value="4">4 - Very Good</option>
+                <option value="3">3 - Average</option>
+                <option value="2">2 - Poor</option>
+                <option value="1">1 - Terrible</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Image Background Cover Section -->
   <section class="bg-image">
@@ -58,10 +95,30 @@
             while($row = $result -> fetch_assoc()){
               $cart = json_decode($row['cart'], true);
 
+              $status_message = "";
+
+              switch($row['status']){
+                case 'Pending' :
+                  $status_message = "Your order is pending.";
+                  break;
+                case 'Preparing' :
+                  $status_message = "Your order is being prepared.";
+                  break;
+                case 'In-Delivery' :
+                  $status_message = "Your order is on its way!";
+                  break;
+                case 'Completed' :
+                  $status_message = "Your order has been delivered!";
+                  break;
+                  default:
+                $status_message = "Unknown status.";
+                break;
+              }
+
               echo "
-                <tr>
+                <tr class='view-order-cell' data-target='".$row['id']."'>
                   <td>".$row['id']."</td>
-                  <td>".$row['status']."</td>
+                  <td>$status_message</td>
                   <td>".count($cart)." Items</td>
                   <td>".$row['price']."</td>
                   <td>".$row['order_date']."</td>
@@ -76,8 +133,65 @@
     </table>
   </section>
 
-  <?php include "includes/footer.php"; ?>
+  <style>
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      background-color: #000;
+    }
 
+    footer > p {
+      margin: 0;
+      color: #fff;
+      font-weight: 500;
+    }
+  </style>
+
+  <footer>
+    <p style="font-size: 16px;">
+      KOFEE MANILA
+    </p>
+  </footer>
+
+  <script>
+    
+
+    $("#reviewForm").on("submit", function(event){
+      event.preventDefault();
+
+      let userid = $("#userid").val();
+      let useremail = $("#useremail").val();
+      let review = $("#review").val();
+      let rating = $("#rating").val();
+
+      $.ajax({
+        type: 'post',
+        url: 'api/post_feedback.php',
+        data: {
+          feedback : review,
+          rating: rating,
+        },
+        success: response => {
+          $('#reviewForm').modal("toggle")
+        }
+      })
+    })
+
+    $(".view-order-cell").on("click", function(){
+      $.ajax({
+        type: 'get',
+        url: 'api/get_specific_order_details.php',
+        data: {orderid: $(this).attr('data-target')},
+        success: response => {
+          $('#viewOrderModal').modal("show")
+          $('#viewOrderModalBody').html(response)
+        }
+      })
+    })
+  </script>
 </body>
 
 </html>

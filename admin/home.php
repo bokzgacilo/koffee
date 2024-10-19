@@ -1,154 +1,146 @@
-<h1>Welcome to <?php echo $_settings->info('name') ?></h1>
-<hr>
+<h1 class="mt-4 mb-4">Kofee Manila - Overview</h1>
+
+<style>
+  .custom-card {
+    background-color: #fff;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 4px;
+  }
+
+  .custom-card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+</style>
+
 <div class="row">
-  <div class="col-12 col-sm-4 col-md-4">
-    <div class="info-box">
-      <span class="info-box-icon bg-gradient-light elevation-1"><i class="fas fa-th-list"></i></span>
-      <div class="info-box-content">
-        <span class="info-box-text">Users List</span>
-        <span class="info-box-number text-right">
+  <div class="col-3">
+    <div class="custom-card">
+      <div class="custom-card-header">
+        <h4>Registered Users</h4>
+        <h4>
           <?php
-          $category = $conn->query("SELECT * FROM users where type = 2")->num_rows;
-          echo format_num($category);
+          $users = $conn -> query("SELECT * FROM users where type = 2") -> num_rows;
+          echo format_num($users);
           ?>
-          <?php ?>
-        </span>
+        </h4>
       </div>
-      <!-- /.info-box-content -->
+      <div class="custom-card-body">
+        <a href="?page=user/list" class="w-100 btn btn-primary">Manage Users</a>
+      </div>
     </div>
-    <!-- /.info-box -->
   </div>
-  <div class="col-12 col-sm-4 col-md-4">
-    <div class="info-box">
-      <span class="info-box-icon bg-gradient-navy elevation-1"><i class="fas fa-mug-hot"></i></span>
-      <div class="info-box-content">
-        <span class="info-box-text">Products List</span>
-        <span class="info-box-number text-right">
+  <div class="col-3">
+    <div class="custom-card">
+      <div class="custom-card-header">
+        <h4>Products</h4>
+        <h4>
           <?php
-          $product = $conn->query("SELECT * FROM product_list where delete_flag = 0 and `status` = 1")->num_rows;
-          echo format_num($product);
+          $products = $conn -> query("SELECT * FROM product_list ") -> num_rows;
+          echo format_num($products);
           ?>
-          <?php ?>
-        </span>
+        </h4>
       </div>
-      <!-- /.info-box-content -->
+      <div class="custom-card-body">
+        <a href="?page=products" class="w-100 btn btn-primary">Manage Products</a>
+      </div>
     </div>
-    <!-- /.info-box -->
   </div>
-  <!-- /.col -->
-  <div class="col-12 col-sm-4 col-md-4">
-    <div class="info-box">
-      <span class="info-box-icon bg-gradient-primary elevation-1"><i class="fas fa-calendar-day"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">Today's Sales</span>
-        <span class="info-box-number text-right">
+  <div class="col-3">
+    <div class="custom-card">
+      <div class="custom-card-header">
+        <h4>Categories</h4>
+        <h4>
           <?php
-          if ($_settings->userdata('type') == 3):
-            $total = $conn->query("SELECT sum(price) as total FROM orders where client_id = '{$_settings->userdata('id')}' ");
-          else:
-            $total = $conn->query("SELECT sum(price) as total FROM orders");
-          endif;
-          $total = $total->num_rows > 0 ? $total->fetch_array()['total'] : 0;
-          $total = $total > 0 ? $total : 0;
-          echo format_num($total);
+          $products = $conn -> query("SELECT * FROM category_list ") -> num_rows;
+          echo format_num($products);
           ?>
-          <?php ?>
-        </span>
+        </h4>
       </div>
-      <!-- /.info-box-content -->
+      <div class="custom-card-body">
+        <a href="?page=categories" class="w-100 btn btn-primary">Manage Categories</a>
+      </div>
     </div>
-    <!-- /.info-box -->
   </div>
-  <!-- /.col -->
+  <div class="col-3">
+    <div class="custom-card">
+      <div class="custom-card-header">
+        <h4>Addons</h4>
+        <h4>
+          <?php
+            $addons = $conn -> query("SELECT * FROM addons") -> num_rows;
+            echo format_num($addons);
+            ?>
+        </h4>
+      </div>
+      <div class="custom-card-body">
+        <a href="?page=addons" class="w-100 btn btn-primary">Manage Addons</a>
+      </div>
+    </div>
+  </div>
 </div>
 
-<?php if ($_settings->chk_flashdata('success')): ?>
-  <script>
-    alert_toast("<?php echo $_settings->flashdata('success') ?>", 'success')
-  </script>
-<?php endif; ?>
-<div class="card card-outline rounded-0 card-navy">
-  <div class="card-header">
-    <h3 class="card-title">List of Sales</h3>
-    <div class="card-tools">
-      <a href="./?page=sales/manage_sale" id="create_new" class="btn btn-flat btn-primary"><span
-          class="fas fa-plus"></span> Create New</a>
+<div class="row mt-4">
+  <div class="col-3">
+    <div class="custom-card">
+      <div class="custom-card-header">
+        <h4>Submitted Feedbacks</h4>
+        <h4>
+          <?php
+          $feedbacks = $conn -> query("SELECT * FROM customer_feedback") -> num_rows;
+          echo format_num($feedbacks);
+          ?>
+        </h4>
+      </div>
+      <div class="custom-card-body">
+        <a href="?page=feedbacks" class="w-100 btn btn-primary">Manage Feedbacks</a>
+      </div>
     </div>
   </div>
-  <div class="card-body">
-    <div class="container-fluid">
-      <div class="container-fluid">
-        <table class="table table-hover table-striped table-bordered">
-          <colgroup>
-            <col width="5%">
-            <col width="20%">
-            <col width="20%">
-            <col width="25%">
-            <col width="15%">
-            <col width="15%">
-          </colgroup>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Date Updated</th>
-              <th>Code</th>
-              <th>Customer</th>
-              <th>Amount</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            $i = 1;
+  <div class="col-3">
+    
+  </div>
+  <div class="col-3">
+    <div class="custom-card">
+      <div class="custom-card-header">
+        <h4>Orders</h4>
+        <h4>
+          <?php
+          $orders = $conn -> query("SELECT * FROM orders ") -> num_rows;
+          echo format_num($orders);
+          ?>
+        </h4>
+      </div>
+      <div class="custom-card-body">
+        <a href="?page=sales" class="w-100 btn btn-primary">Manage Orders</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="custom-card">
+      <div class="custom-card-header">
+        <h4>Total Sales</h4>
+        <h4>
+          <?php
             if ($_settings->userdata('type') == 3):
-              $qry = $conn->query("SELECT * FROM `orders` where client_id = '{$_settings->userdata('id')}' order by unix_timestamp(date_updated) desc ");
+              $total = $conn->query("SELECT sum(price) as total FROM orders where client_id = '{$_settings->userdata('id')}' ");
             else:
-              $qry = $conn->query("SELECT * FROM `orders` order by unix_timestamp(order_date) desc ");
+              $total = $conn->query("SELECT sum(price) as total FROM orders");
             endif;
-            while ($row = $qry->fetch_assoc()):
-              ?>
-              <tr>
-                <td class="text-center"><?php echo $i++; ?></td>
-                <td>
-                  <p class="m-0 truncate-1"><?= date("M d, Y H:i", strtotime($row['order_date'])) ?></p>
-                </td>
-                <td>
-                  <p class="m-0 truncate-1"><?= $row['reference_number'] ?></p>
-                </td>
-                <td>
-                  <p class="m-0 truncate-1"><?=
-                    $clientid = $row['client_id'];
-                    $getName = $conn -> query("SELECT * FROM users WHERE id=$clientid");
-                    while($get = $getName -> fetch_assoc()){
-                      echo $get['lastname'] . ", " . $get['firstname'];
-                    }
-                  ?></p>
-                </td>
-                <td class='text-right'><?= format_num($row['price']) ?></td>
-                <td align="center">
-                  <a class="btn btn-default bg-gradient-light btn-flat btn-sm"
-                    href="?page=sales/view_details&id=<?php echo $row['id'] ?>"><span class="fa fa-eye text-dark"></span>
-                    View</a>
-                </td>
-              </tr>
-            <?php endwhile; ?>
-          </tbody>
-        </table>
+            $total = $total->num_rows > 0 ? $total->fetch_array()['total'] : 0;
+            $total = $total > 0 ? $total : 0;
+
+            echo format_num($total);
+          ?>
+        </h4>
+      </div>
+      <div class="custom-card-body">
+        <a href="?page=sales" class="w-100 btn btn-primary">Manage Sales</a>
       </div>
     </div>
   </div>
 </div>
-<script>
-  $(document).ready(function () {
-
-    $('.table').dataTable({
-      columnDefs: [
-        { orderable: false, targets: [5] }
-      ],
-      order: [0, 'asc']
-    });
-    $('.dataTable td,.dataTable th').addClass('py-1 px-2 align-middle')
-  })
-
-</script>

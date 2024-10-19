@@ -3,8 +3,8 @@
 
   include('connection.php');
 
-  $username = $_POST['username'];
-  $password = $_POST['password']; // Hash the entered password with MD5
+  $username = $_POST['email'];
+  $password = $_POST['password'];
   $is_verify = true;
 
   $sql = $conn -> prepare("SELECT * FROM users WHERE username = ? AND password = ?");
@@ -17,6 +17,9 @@
     while($row = $result -> fetch_assoc()){
       if($row['is_verify']){
         $_SESSION['userid'] = $row['id'];
+        $_SESSION['userfullname'] = $row['firstname'] . " " . $row['lastname'];
+        $_SESSION['useremail'] = $row['username'];
+        $_SESSION['avatar'] = $row['avatar'];
   
         echo "Logged In Successfully";
       }else {

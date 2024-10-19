@@ -186,11 +186,6 @@
     }
   </style>
 
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Bootstrap JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 
   <!-- Edit Profile Modal -->
   <div class="modal" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
@@ -249,7 +244,7 @@
               <!-- Display current avatar if exists -->
               <?php if (isset($row['avatar'])): ?>
                 <div>
-                  <img src="path/to/avatar/<?php echo $row['avatar']; ?>" alt="Avatar" width="100">
+                  <img src="<?php echo $row['avatar']; ?>" alt="Avatar" width="100">
                 </div>
               <?php endif; ?>
               <!-- Input for new avatar -->
@@ -266,9 +261,7 @@
   </div>
 
   <!-- Include jQuery (full version) -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <!-- Include Bootstrap JS -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script>
     $(document).ready(function () {
       $('#saveChanges').click(function (e) {
@@ -283,14 +276,10 @@
           contentType: false,  // Necessary for file upload
           processData: false,  // Necessary for file upload
           success: function (response) {
-            // Handle success - reload page or update UI accordingly
             alert("Profile updated successfully!");
-            // console.log(response)
-            // console.log(response)
             location.reload();
           },
           error: function (xhr, status, error) {
-            // Handle error
             alert("An error occurred: " + error);
           }
         });
@@ -321,7 +310,7 @@
                 aria-expanded="false">
                 <!-- Profile image -->
                 <img
-                  src="<?php echo !empty($_SESSION['avatar']) ? $_SESSION['avatar'] : 'dist/img/no-image-available.png'; ?>"
+                  src="<?php echo $_SESSION['avatar']; ?>"
                   alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px;">
 
               </a>
@@ -402,6 +391,5 @@
       cursor: pointer;
     }
   </style>
-  <script src="lc.js"></script>
 </body>
 </html>

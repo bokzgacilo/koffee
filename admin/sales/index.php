@@ -58,8 +58,32 @@
 
           $result = $conn -> query("SELECT * FROM orders");
 
+          $buttonRenderer = "";
+
+          
+
           if($result -> num_rows > 0){
             while($row = $result -> fetch_assoc()){
+              $status_message = "";
+
+              switch($row['status']){
+                case 'Pending' :
+                  $status_message = "<button onclick='prepareOrder(".$row['id'].")' class='btn btn-sm btn-primary'>Prepare Order</button>";
+                  break;
+                case 'Preparing' :
+                  $status_message = "<button onclick='deliverOrder(".$row['id'].")' class='btn btn-sm btn-primary'>Deliver Order</button>";
+                  break;
+                case 'In-Delivery' :
+                  $status_message = "<button onclick='completeOrder(".$row['id'].")' class='btn btn-sm btn-primary'>Complete Order</button>";
+                  break;
+                case 'Completed' :
+                  $status_message = "<button disabled class='btn btn-sm btn-success'>Completed</button>";
+                  break;
+                  default:
+                $status_message = "Unknown status.";
+                break;
+              }
+              
               echo "
                 <tr>
                   <td>".$row['id']."</td>
@@ -68,7 +92,7 @@
                   <td>".$row['status']."</td>
                   <td>
                     <button onclick='viewOrder(".$row['id'].")' class='btn btn-sm btn-secondary'>View Order</button>
-                    <button onclick='completeOrder(".$row['id'].")' class='btn btn-sm btn-primary'>Complete Order</button>
+                    $status_message
                   </td>
                 </tr>
               ";
@@ -86,9 +110,56 @@
 </div>
 
 <script>
+  function prepareOrder(id){
+    Swal.fire({
+      title: "Do you want prepare this order?",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "Prepare",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          type: 'post',
+          url: "../api/prepare_order.php",
+          data : {
+            id: id
+          },
+          success : response => {
+            alert('Order Updated');
+            location.reload();
+          }
+        })
+      }
+    });
+  }
+
+  function deliverOrder(id){
+    Swal.fire({
+      title: "Do you want deliver this order?",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "Deliver",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          type: 'post',
+          url: "../api/deliver_order.php",
+          data : {
+            id: id
+          },
+          success : response => {
+            alert('Order Updated');
+            location.reload();
+          }
+        })
+      }
+    });
+  }
+
   function completeOrder(id){
     Swal.fire({
       title: "Do you want complete this order?",
+      icon: "info",
       showCancelButton: true,
       confirmButtonText: "Complete",
     }).then((result) => {
@@ -100,7 +171,8 @@
             id: id
           },
           success : response => {
-            Swal.fire("Saved!", response, "info");
+            alert('Order Updated');
+            location.reload();
           }
         })
       }

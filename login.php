@@ -5,13 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - KOFEE MANILA</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="libs/jquery.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <link href="assets/css/style.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     body {
       font-family: "Montserrat", sans-serif;
@@ -70,12 +71,11 @@
             <div class="container-shadow">
               <form id="login-frm">
                 <div class="form-group">
-                  <input name="username" type="email" class="form-control" id="email" placeholder="Enter your email" />
+                  <input type="email" class="form-control" id="logemail" placeholder="Enter your email" />
                 </div>
                 <div class="form-group">
                   <div class="input-group">
-                    <input type="password" class="form-control" id="password" name="password"
-                      placeholder="Enter your password" />
+                    <input type="password" class="form-control" id="logpassword" placeholder="Enter your password" />
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary" type="button"
                         onclick="togglePasswordVisibility('password')">
@@ -109,27 +109,49 @@
     }
   </script>
   <script>
-    $(document).ready(function(){
-      $("#login-frm").on("submit", function(e){
-        e.preventDefault();
+    $("#login-frm").on("submit", function(event){
+      event.preventDefault();
 
-        var formData = new FormData(this);
+      var logemail = $("#logemail").val();
+      var logpassword = $("#logpassword").val();
 
-        $.ajax({
-          url: "api/login.php",
-          type: "POST",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function(response) {
-            alert(response)
-
-            if(response == "Logged In Successfully"){
-              location.href = "menu.php";
-            }
+      $.ajax({
+        url : "api/login.php",
+        type: "post",
+        data: {
+          email: logemail,
+          password: logpassword
+        },
+        success: response => {
+          if(response == "Need to verify account first"){
+            Swal.fire({
+              title: "Account Not Verified",
+              text: response,
+              icon: "info"
+            });
+          }else if(response == "Logged In Successfully"){
+            Swal.fire({
+              title: "Welcome!",
+              text: response,
+              icon: 'success',
+              showCancelButton: false,
+              confirmButtonText: "Ok"
+            }).then((result) => {
+              location.href = "menu.php"
+            });
+          }else {
+            Swal.fire({
+              title: "Account Login Failed",
+              text: "Invalid email and password",
+              icon: "error"
+            });
           }
-        })
+        }
       })
+    })
+
+    $(document).ready(function(){
+      
     })
   </script>
 

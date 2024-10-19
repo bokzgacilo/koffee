@@ -10,6 +10,7 @@ require_once('sess_auth.php');
     <?php echo $_settings->info('title') != false ? $_settings->info('title') . ' | ' : '' ?><?php echo $_settings->info('name') ?>
   </title>
   <script src="script.js" defer></script>
+
   <link rel="icon" href="<?php echo validate_image($_settings->info('logo')) ?>" />
   <!-- Google Font: Source Sans Pro -->
   <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback"> -->
@@ -43,6 +44,7 @@ require_once('sess_auth.php');
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="<?php echo base_url ?>plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style type="text/css">
     /* Chart.js */
     @keyframes chartjs-render-animation {
