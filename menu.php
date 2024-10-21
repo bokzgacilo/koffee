@@ -74,16 +74,19 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             margin-left: 1rem;
         }
 
-        .menu-items .menu-item {
-            margin-bottom: 2rem;
-            text-align: center;
+        .menu-item {
+          padding: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          text-align: center;
         }
 
         .menu-item img {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 1rem;
+          width: 100%;
+          max-width: 100%;
+          height: 275px;
+          object-fit: cover;
+          margin-bottom: 0.5rem;
         }
 
         .menu-item > a {

@@ -344,7 +344,7 @@
         <?php
           if(isset($_SESSION['userid']) && !empty($_SESSION['userid'])){
             echo "
-            <a class='cart-icon' href='cart.php'>
+            <a class='cart-icon' href='cart.php' style='color: #D68C1E; font-size: 24px;'>
               <i class='fas fa-shopping-cart'></i>
             </a>";
           }

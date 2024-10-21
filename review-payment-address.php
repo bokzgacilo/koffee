@@ -146,7 +146,8 @@
           </div>
           </div>
           </div>
-                
+          <form id="review-payment-form">
+
           <div class="card mt-4">
             <div class="card-body">
               <h4 style="font-weight: bold;">STEP 1 : Scan the QR to Pay</h4>
@@ -165,11 +166,11 @@
                 <div class="col-6 mt-4">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupFile01">Upload</label>
-                    <input type="file" class="form-control" id="receipt_image">
+                    <input type="file" class="form-control" id="receipt_image" required>
                   </div>
                   <div class="mt-3">
                     <label for="exampleInputEmail1" class="form-label">Reference Number</label>
-                    <input type="email" class="form-control" id="reference_number" aria-describedby="emailHelp">
+                    <input type="text" class="form-control" id="reference_number" required>
                   </div>
                 </div>
               </div>
@@ -183,13 +184,13 @@
                 <div class="col-4">
                   <div>
                     <label for="exampleInputEmail1" class="form-label">Contact Number 1</label>
-                    <input type="email" class="form-control" id="contact_number1" aria-describedby="emailHelp">
+                    <input type="text" class="form-control" id="contact_number1" required>
                   </div>
                 </div>
                 <div class="col-4">
                   <div>
                     <label for="exampleInputEmail1" class="form-label">Contact Number 2</label>
-                    <input type="email" class="form-control" id="contact_number2" aria-describedby="emailHelp">
+                    <input type="text" class="form-control" id="contact_number2" required>
                   </div>
                 </div>
               </div>
@@ -204,19 +205,31 @@
                 <div class="col-4">
                   <div>
                     <label class="form-label">Block/House/Unit Number</label>
-                    <input type="text" value='<?php echo $address['block_number']?>' class="form-control" id="block_number">
+                    <input type="text" value='<?php if($address['block_number'] === "None"){
+                      echo "";
+                    }else {
+                      echo $address['block_number'];
+                    } ?>' placeholder="House 33" class="form-control" id="a_block_number" required>
                   </div>
                 </div>
                 <div class="col-4">
                   <div>
                     <label class="form-label">Street Name</label>
-                    <input type="text" value='<?php echo $address['street']?>' class="form-control" id="street_name">
+                    <input type="text" value='<?php if($address['street'] === "None"){
+                      echo "";
+                    }else {
+                      echo $address['street'];
+                    } ?>' class="form-control" placeholder="Yellow Bell" id="street_name" required>
                   </div>
                 </div>
                 <div class="col-4">
                   <div>
                     <label class="form-label">Barangay</label>
-                    <input type="text" value='<?php echo $address['barangay']?>' class="form-control" id="barangay">
+                    <input type="text" value='<?php if($address['barangay'] === "None"){
+                      echo "";
+                    }else {
+                      echo $address['barangay'];
+                    } ?>' class="form-control" placeholder="Pembo" id="a_barangay" required>
                   </div>
                 </div>
               </div>
@@ -224,18 +237,22 @@
                 <div class="col-4">
                   <div>
                     <label class="form-label">City</label>
-                    <input type="text" value='<?php echo $address['city']?>' class="form-control" id="city" >
+                    <input type="text" value='<?php if($address['city'] === "None"){
+                      echo "";
+                    }else {
+                      echo $address['city'];
+                    } ?>' placeholder="Makati City" class="form-control" id="a_city" required>
                   </div>
                 </div>
                 <div class="col-4">
                   <div>
                     <label class="form-label">Nearest LandMark</label>
-                    <input type="text" class="form-control" id="nearest_landmark">
+                    <input type="text" class="form-control" id="nearest_landmark" placeholder="TGP Pembo Makati" required>
                   </div>
                 </div>
                 <div class="col-4 d-flex align-items-end">
                   <div>
-                  <button class="btn btn-primary" id="searchPin">Locate Address</button>
+                  <button class="btn btn-primary" type="button" id="searchPin">Locate Address</button>
 
                   </div>
                 </div>
@@ -257,12 +274,14 @@
               </div>
               <div class="row mt-4">
                 <div class="col-4">
-                  <button class="btn btn-success" id="proceedOrderButton">Proceed Order</button>
+                  <button class="btn btn-success" type="submit">Proceed Order</button>
                 </div>
               </div>
                 </div>
               </div>
             </div>
+          </form>
+
           </div>
           
         </div>
@@ -272,11 +291,6 @@
     <script>
       $("#searchPin").on('click', function(){
         let nearest_landmark = $("#nearest_landmark").val();
-
-        // let address = `${block_number}, ${street_name}, ${barangay}, ${city}`;
-        
-        // console.log(address)
-
         var googleMapsUrl = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAitbCyHS9bbWyT3BoPoFlPKa-fwwEpG7c&q=" + encodeURIComponent(nearest_landmark);
         $('#googleMap').attr('src', googleMapsUrl);
       })
@@ -299,16 +313,16 @@
           }
         })
 
-        $("#proceedOrderButton").on("click", function(){
+        $("#review-payment-form").on("submit", function(event){
+          event.preventDefault();
           let cart = <?php echo $cart; ?>;
           let reference_number = $("#reference_number").val();
-          // let gcash = $("#gcash").val();
           let contact_number1 = $("#contact_number1").val();
           let contact_number2 = $("#contact_number2").val();
-          let block_number = $("#block_number").val();
+          let block_number = $("#a_block_number").val();
           let street_name = $("#street_name").val();
-          let barangay = $("#barangay").val();
-          let city = $("#city").val();
+          let barangay = $("#a_barangay").val();
+          let city = $("#a_city").val();
           let nearest_landmark = $("#nearest_landmark").val();
 
           let address = `${block_number}, ${street_name}, ${barangay}, ${city}`;

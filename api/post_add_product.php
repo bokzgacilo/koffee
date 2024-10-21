@@ -26,7 +26,9 @@
   $sizes_json = [];
   $s = "";
 
-  if(isset($_POST['sizeRadio'])){
+  if(!$_POST['sizeRadio']){
+    $s = "";
+  }else {
     $sizes = $_POST['size'];
     $length = count($sizes);
 
@@ -56,11 +58,7 @@
       $sizes_json[] = $size_json;
       $s = json_encode($sizes_json);
     }
-  }else {
-    $s = NULL;
   }
-
-  echo $s;
 
   $insert = $conn -> query("INSERT INTO product_list(
     category_id,
@@ -83,8 +81,5 @@
     echo 'ok';
   }
   
-
-
-
   $conn -> close();
 ?>

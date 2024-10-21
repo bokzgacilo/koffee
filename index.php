@@ -1,3 +1,11 @@
+<?php
+  include("api/connection.php");
+
+  $c = $conn -> query("SELECT * FROM content_management WHERE id=1");
+  $content = $c -> fetch_assoc();
+
+  $conn -> close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,40 +45,42 @@
   <section>
     <div id="banner-carousel" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators" style="margin-bottom: 0;">
-        <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <?php
+          $sliders = $slides = json_decode($content['banner'], true);
+          foreach ($sliders as $index => $slider) {
+            echo "<button type='button' data-bs-target='#banner-carousel' data-bs-slide-to='".$index."' class='active' aria-current='true' aria-label='Slide ".($index+1)."'></button>";
+          }
+        ?>
       </div>
 
-      <!-- Wrapper for slides -->
       <div class="carousel-inner">
-        <!-- First Slide -->
-        <div class="carousel-item active">
-          <img src="uploads/stock/stock (1).jpg" class="d-block w-100" alt="First Slide">
-          <div class="carousel-caption d-none d-md-block">
-            <h1>Welcome to Kofee Manila</h1>
-            <p>A cozy place to enjoy the finest coffee.</p>
-          </div>
-        </div>
-        
-        <!-- Second Slide -->
-        <div class="carousel-item">
-          <img src="uploads/stock/stock (2).jpg" class="d-block w-100" alt="Second Slide">
-          <div class="carousel-caption d-none d-md-block">
-            <h1>Second Slide</h1>
-            <p>Description for the second slide.</p>
-          </div>
-        </div>
-        
-        <!-- Third Slide -->
-        <div class="carousel-item">
-          <img src="uploads/stock/stock (3).jpg" class="d-block w-100" alt="Third Slide">
-          <div class="carousel-caption d-none d-md-block">
-            <h1>Third Slide</h1>
-            <p>Description for the third slide.</p>
-          </div>
-        </div>
-      </div>
+        <?php
+          $slides = json_decode($content['banner'], true);
+
+          foreach ($slides as $slide) {
+            if($slide['id'] === 1){
+              echo "
+                <div class='carousel-item active'>
+                  <img src='".$slide['image']."' class='d-block w-100'>
+                  <div class='carousel-caption d-none d-md-block'>
+                    <h1>".$slide['title']."</h1>
+                    <p>".$slide['title']."</p>
+                  </div>
+                </div>
+                ";
+            }else {
+              echo "
+                <div class='carousel-item'>
+                  <img src='".$slide['image']."' class='d-block w-100'>
+                  <div class='carousel-caption d-none d-md-block'>
+                    <h1>".$slide['title']."</h1>
+                    <p>".$slide['title']."</p>
+                  </div>
+                </div>
+                ";
+            } 
+          }
+        ?>
 
       <!-- Left and right controls -->
       <button class="carousel-control-prev" type="button" data-bs-target="#banner-carousel" data-bs-slide="prev">
@@ -86,43 +96,21 @@
   <section class="py-5">
     <div class="container">
       <div class="row">
-        <div class="col-md-6 align-self-center">
-          <h2>Explore Our Coffee Selection</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-            quis lorem ut libero malesuada feugiat.
-          </p>
-        </div>
-        <div class="col-md-6">
-          <img src="assets/overview.png" class="img-fluid" alt="Coffee Cup" />
-        </div>
-      </div>
-    </div>
-  </section>
+        <?php
+          $descriptions = json_decode($content['description'], true);
 
-
-  <section class="bg-light text-center py-5">
-    <div class="container">
-      <h2>Our Best Sellers</h2>
-      <!-- Carousel -->
-      <hr class="w-50" />
-      <div class="owl-carousel owl-theme">
-        <div class="item">
-          <img src="assets/items/1.png" alt="Product 1" />
-          <h5>Latte</h5>
-        </div>
-        <div class="item">
-          <img src="assets/items/2.png" alt="Product 2" />
-          <h5>Cappuccino</h5>
-        </div>
-        <div class="item">
-          <img src="assets/items/3.png" alt="Product 3" />
-          <h5>Americano</h5>
-        </div>
-        <div class="item">
-          <img src="assets/items/4.png" alt="Product 4" />
-          <h5>Espresso</h5>
-        </div>
+          foreach ($descriptions as $desc) {
+            echo "
+              <div class='col-md-6 align-self-center'>
+                <h2>".$desc['title']."</h2>
+                <p>".$desc['description']."</p>
+              </div>
+              <div class='col-md-6'>
+                <img src='".$desc['image']."' class='img-fluid'/>
+              </div>
+            ";
+          }
+        ?>
       </div>
     </div>
   </section>

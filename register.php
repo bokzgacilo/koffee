@@ -114,7 +114,7 @@
                     I agree to the <a href="#" id="showTermsLink">Terms and Conditions</a>
                   </label>
                 </div>
-                <button id="registerButton" disabled type="submit" class="btn btn-lg w-100 btn-primary">
+                <button id="registerButton" disabled type="submit" style="background-color: #D68C1E; color: #fff;" class="btn btn-lg w-100">
                   Register
                 </button>
               </form>

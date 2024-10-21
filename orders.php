@@ -78,7 +78,7 @@
   <!-- Orders Table Section -->
   <section class="container my-5">
     <h2 class="mb-4">Orders</h2>
-    <table class="table table-striped">
+    <table>
       <thead>
         <tr>
           <th>ID</th>
@@ -136,6 +136,23 @@
   </section>
 
   <style>
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table .view-order-cell:hover {
+      background-color: #d68c1e;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    table, th, td {
+      border: 1px solid #c9c9c9;
+      text-align: left;
+      padding: 1rem;
+    }
+
     footer {
       position: fixed;
       bottom: 0;

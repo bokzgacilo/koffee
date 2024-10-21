@@ -171,14 +171,18 @@ if ($id > 0) {
         url: '../api/post_add_product.php', // The PHP script that handles the form submission
         type: 'POST',
         data: formData,
-        contentType: false,  // Necessary for file upload
-        processData: false,  // Necessary for file upload
+        contentType: false, 
+        processData: false, 
         success: function (response) {
-          console.log(response)
+          if(response === "ok"){
+            Swal.fire({
+              title: "Product Added",
+              text: "Product created successfully",
+              icon: "success"
+            });
+          }
         }
       });
-
-      // alert();
     })
 		// $('#product-form').submit(function (e) {
 		// 	e.preventDefault();

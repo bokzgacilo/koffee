@@ -84,7 +84,7 @@
                     </div>
                   </div>
                 </div>
-                <button type="submit" class="bg-D68C1E btn btn-lg btn-primary btn-block">Sign In</button>
+                <button type="submit" style="background-color: #D68C1E; color: #fff;" class="btn btn-lg btn-block">Sign In</button>
               </form>
               <p class="text-center mt-3">
                 No account yet? <a href="register.php">Join us here</a>

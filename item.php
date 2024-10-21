@@ -103,10 +103,10 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
 
     <main class="item-container">
-      <div>
-        <img style="width: 400px; height: 400px; object-fit: cover;" src="./<?php echo $product['image_url']; ?>" />
+      <div class="3">
+        <img class="img-fluid" style="height: 400px; object-fit: cover;" src="./<?php echo $product['image_url']; ?>" />
       </div>
-      <div>
+      <div class="col-3 p-2">
         <div>
           <input type="text" value="<?php echo htmlspecialchars($product['name']); ?>" id="productName" hidden />
           <h2><?php echo $product['name']; ?></h2>
@@ -121,11 +121,12 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
           <?php
             if($product['size_price'] !== ""){
               $sizes = json_decode($product['size_price'], true);
-              echo "<p class='mt-4'>Size</p><div>";
+              echo "<p class='mt-4'>Size</p><div class='row'>";
+
               
               foreach ($sizes as $size) {
                 echo "
-                  <div class='form-check'>
+                  <div class='form-check col-6'>
                     <input class='form-check-input' value='".$size['size']."' type='radio' name='size' data-price='".number_format($size['price'], 2)."' checked>
                     <label class='form-check-label'>
                       ".$size['size']." (₱".$size['price'].")
@@ -135,6 +136,8 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
               }
 
               echo "</div>";
+            }else {
+              echo "<input type='radio' name='size' data-price='".number_format($product['price'], 2)."' checked hidden>";
             }
           ?>
           
@@ -154,12 +157,37 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
           </div>
           <?php
             if(isset($_SESSION['userid']) && !empty($_SESSION['userid'])){
-              echo "<button class='btn btn-lg btn-primary' id='addToCartBtn'>Add to Cart</button>";
+              echo "<button class='btn btn-lg' style='background-color: #D68C1E; color: #fff;' id='addToCartBtn'>Add to Cart</button>";
             }else {
               echo "<a href='login.php' class='btn btn-lg btn-primary'>Sign In to Add Cart</a>";
             }
           ?>
       </div>
+      <div class="col-2">
+        <h5 class="mb-4 mt-4">You may also like</h5>
+        <?php
+          include("api/connection.php");
+          $catId = $product['category_id'];
+          $recommendations = $conn -> query("SELECT * FROM product_list WHERE category_id=$catId LIMIT 4");
+
+          if($recommendations -> num_rows > 0){
+            while($row = $recommendations -> fetch_assoc()){
+              if($product['name'] != $row['name']){
+                echo "
+                  <div class='d-flex flex-column align-items-center'>
+                    <img src='./".$row['image_url']."' class='img-fluid' style='height: 100px; object-fit: cover;' />
+                    <a href='item.php?id=".$row['id']."' class='mt-2' style='font-weight: bold; font-size: 20px'>".$row['name']."</a>
+                    <p class='mt-2'>".number_format($row['price'], 2)." PHP</p>
+                  </div>
+                ";
+              }
+            }
+          }
+
+          $conn -> close();
+        ?>
+      </div>
+      <div class="4"></div>
     </main>
     </div>
     <script>
@@ -214,7 +242,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
           addNames = selectedAddons.join(', ');
           addTotal = total;
           var totalPrice = (parseFloat(total) * quantity) + (parseFloat(quantity) * parseFloat(size_total));
-          
+
           $("#productPrice").text(parseFloat(totalPrice).toFixed(2))
         })
 
@@ -286,7 +314,6 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
 
   <style>
     footer {
-      position: fixed;
       bottom: 0;
       width: 100%;
       text-align: center;

@@ -73,7 +73,7 @@
 										data-id="<?php echo $row['id'] ?>"><span class="fa fa-edit text-primary"></span>
 										Edit</a>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item delete_data" href="javascript:void(0)"
+									<a class="dropdown-item delete_data"
 										data-id="<?php echo $row['id'] ?>"><span class="fa fa-trash text-danger"></span>
 										Delete</a>
 								</div>
@@ -88,8 +88,31 @@
 <script>
 	$(document).ready(function () {
 		$('.delete_data').click(function () {
-			_conf("Are you sure to delete this Product permanently?", "delete_product", [$(this).attr('data-id')])
+      Swal.fire({
+        icon: "info",
+        title: "Do you want to delete the product?",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete",
+      }).then((result) => {
+        var id = $(this).attr('data-id');
+
+        $.ajax({
+          type: "post",
+          url: "../api/post_delete_product.php",
+          data: {
+            id:id
+          },
+          success: response => {
+            if(response === "ok"){
+              alert("Product Deleted");
+
+              location.reload();
+            }
+          }
+        })
+      });
 		})
+
 		$('#create_new').click(function () {
 			uni_modal("<i class='fa fa-plus'></i> Add New Product", "products/manage_product.php")
 		})
