@@ -123,6 +123,7 @@
       $(document).on('click', '#leaveReviewButton',function(){
         $('#userid').val('".$select['id']."')
         $('#useremail').val('".$_SESSION['useremail']."')
+        $('#orderid').val('$orderid')
 
         $('#leaveReviewModal').modal('toggle')
         $('#viewOrderModal').modal('toggle')

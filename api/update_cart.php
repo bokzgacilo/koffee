@@ -23,7 +23,7 @@
     $item_exists = false;
 
     foreach($cart as &$item){
-      if($item['productName'] === $cart_item['productName']){
+      if($item['productName'] === $cart_item['productName'] && $item['size'] === $cart_item['size']){
         $item['quantity'] += $cart_item['quantity'];
         $item['totalPrice'] += $cart_item['totalPrice'];
         $item_exists = true;
