@@ -42,6 +42,7 @@
           <form id="reviewForm">
             <input type="hidden" id="userid" value="0" />
             <input type="hidden" id="useremail" value="0" />
+            <input type="hidden" id="orderid" value="0" />
 
             <div class="mb-3">
               <label for="reviewText" class="form-label">Review</label>
@@ -78,7 +79,8 @@
   <!-- Orders Table Section -->
   <section class="container my-5">
     <h2 class="mb-4">Orders</h2>
-    <table>
+    <div class="table-responsive mb-4">
+    <table class="mb-4">
       <thead>
         <tr>
           <th>ID</th>
@@ -96,6 +98,12 @@
           if($result -> num_rows > 0){
             while($row = $result -> fetch_assoc()){
               $cart = json_decode($row['cart'], true);
+
+              $review_message = "";
+
+              if($row['is_reviewed']){
+                $review_message = "<span class='badge text-bg-success'>Review Submitted</span>";
+              }
 
               $status_message = "";
 
@@ -120,7 +128,7 @@
               echo "
                 <tr class='view-order-cell' data-target='".$row['id']."'>
                   <td>".$row['id']."</td>
-                  <td>$status_message</td>
+                  <td>$status_message $review_message</td>
                   <td>".count($cart)." Items</td>
                   <td>".$row['price']."</td>
                   <td>".$row['order_date']."</td>
@@ -133,6 +141,8 @@
         ?>
       </tbody>
     </table>
+    </div>
+    
   </section>
 
   <style>
@@ -183,6 +193,7 @@
 
       let userid = $("#userid").val();
       let useremail = $("#useremail").val();
+      let orderid = $("#orderid").val();
       let review = $("#review").val();
       let rating = $("#rating").val();
 
@@ -192,9 +203,12 @@
         data: {
           feedback : review,
           rating: rating,
+          orderid: orderid
         },
         success: response => {
-          $('#reviewForm').modal("toggle")
+          alert(response);
+
+          location.reload()
         }
       })
     })

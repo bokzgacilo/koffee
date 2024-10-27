@@ -89,27 +89,33 @@
 	$(document).ready(function () {
 		$('.delete_data').click(function () {
       Swal.fire({
-        icon: "info",
+        icon: "warning",
         title: "Do you want to delete the product?",
+        text: "You won't be able to revert this!",
         showCancelButton: true,
-        confirmButtonText: "Yes, delete",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
       }).then((result) => {
         var id = $(this).attr('data-id');
 
-        $.ajax({
-          type: "post",
-          url: "../api/post_delete_product.php",
-          data: {
-            id:id
-          },
-          success: response => {
-            if(response === "ok"){
-              alert("Product Deleted");
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "post",
+            url: "../api/post_delete_product.php",
+            data: {
+              id:id
+            },
+            success: response => {
+              if(response === "ok"){
+                alert("Product Deleted");
 
-              location.reload();
+                location.reload();
+              }
             }
-          }
-        })
+          })
+        }
+
+        
       });
 		})
 
@@ -120,7 +126,7 @@
 			uni_modal("<i class='fa fa-bars'></i> Product Details", "products/view_product.php?id=" + $(this).attr('data-id'))
 		})
 		$('.edit_data').click(function () {
-			uni_modal("<i class='fa fa-edit'></i> Update Product Details", "products/manage_product.php?id=" + $(this).attr('data-id'))
+			uni_modal("<i class='fa fa-edit'></i> Update Product Details", "products/edit_product.php?id=" + $(this).attr('data-id'))
 		})
 		$('.table').dataTable({
 			columnDefs: [

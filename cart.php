@@ -31,77 +31,76 @@
     <!-- Image Background Cover Section -->
     <section >
       <div class="container">
-        <div class="p-4 d-flex flex-column ">
+        <div class="p-1 p-lg-4 d-flex flex-column ">
           <h1>My Cart</h1>
           <p>Here's your cart.</p>
 
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Product Name</th>
-                <th scope="col">Size</th>
-                <th scope="col">Addon</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Price</th>
-                <th scope="col">Total Price</th>
-                <th scope="col">Instruction</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-                $total_price = 0;
-                $delivery_fee = 0;
-                $cart = [];
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Product Name</th>
+                  <th scope="col">Size</th>
+                  <th scope="col">Addon</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Total Price</th>
+                  <th scope="col">Instruction</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                  $total_price = 0;
+                  $delivery_fee = 0;
+                  $cart = [];
 
-                if(empty($row['cart']) || $row['cart'] === " "){
-                  echo "<p class='mt-4' style='font-size: 24px; font-weight: bold;'>Your cart is empty!</p>";
-                }else {
-                  include("api/connection.php");
+                  if(empty($row['cart']) || $row['cart'] === " "){
+                    echo "<p class='mt-4' style='font-size: 24px; font-weight: bold;'>Your cart is empty!</p>";
+                  } else {
+                    include("api/connection.php");
 
-                  $delivery_fee += 50;
-    
-                  $sql = $conn -> prepare("SELECT cart FROM users WHERE id = ?");
-                  $sql -> bind_param("i", $_SESSION['userid']);
-                  $sql -> execute();
+                    $delivery_fee += 50;
 
-    
-                  $result = $sql -> get_result();
-                  $row = $result -> fetch_assoc();
+                    $sql = $conn->prepare("SELECT cart FROM users WHERE id = ?");
+                    $sql->bind_param("i", $_SESSION['userid']);
+                    $sql->execute();
 
-                  $cart = $row['cart'];
+                    $result = $sql->get_result();
+                    $row = $result->fetch_assoc();
 
-                  foreach(json_decode($row['cart'], true) as $item){
-                    $product = $conn -> prepare("SELECT * FROM product_list WHERE name = ?");
-                    $product -> bind_param("s", $item['productName']);
-                    $product -> execute();
-                    $product_res = $product -> get_result();
-                    $product_row = $product_res -> fetch_assoc();
-                    $total_price += $item['totalPrice'];
-                    $product_name = $item['productName'];
+                    $cart = $row['cart'];
 
-                    echo "
-                      <tr>
-                        <th>".$item['productName']."</th>
-                        <th>".$item['size']."</th>
-                        <th>".$item['addon']."</th>
-                        <th>".$item['quantity']."</th>
-                        <th>".$product_row['price']."</th>
-                        <th>".$item['totalPrice']."</th>
-                        <th>".$item['instructions']."</th>
-                        <th><button data-target='".$product_name."' class='removeButton btn btn-sm btn-danger'>Remove</button>
-                        </th>
-                      </tr>
-                    ";
-    
+                    foreach(json_decode($row['cart'], true) as $item){
+                      $product = $conn->prepare("SELECT * FROM product_list WHERE name = ?");
+                      $product->bind_param("s", $item['productName']);
+                      $product->execute();
+                      $product_res = $product->get_result();
+                      $product_row = $product_res->fetch_assoc();
+                      $total_price += $item['totalPrice'];
+                      $product_name = $item['productName'];
+
+                      echo "
+                        <tr>
+                          <th>".$item['productName']."</th>
+                          <th>".$item['size']."</th>
+                          <th>".$item['addon']."</th>
+                          <th>".$item['quantity']."</th>
+                          <th>".$product_row['price']."</th>
+                          <th>".$item['totalPrice']."</th>
+                          <th>".$item['instructions']."</th>
+                          <th><button data-target='".$product_name."' data-size='".$item['size']."' class='removeButton btn btn-sm btn-danger'>Remove</button>
+                          </th>
+                        </tr>
+                      ";
+                    }
+
+                    $conn->close();
                   }
-    
-                  $conn -> close();
-    
-                }
-              ?>
-            </tbody>
-          </table>
+                ?>
+              </tbody>
+            </table>
+          </div>
 
           <div class="mt-4 mb-4">
             <p style="font-size: 18px;">Cart Price: PHP <?php echo number_format($total_price, 2); ?></p>
@@ -139,14 +138,11 @@
                 type: 'post',
                 url: 'api/remove_item_from_cart.php',
                 data: {
-                  item : button.attr('data-target')
+                  item : button.attr('data-target'),
+                  size : button.attr('data-size')
                 },
                 success : response => {
-                  Swal.fire({
-                    title: "Removed!",
-                    text: "Item removed from cart.",
-                    icon: "success"
-                  });
+                  alert(response)
                   
                   location.reload();
                 }
@@ -158,27 +154,6 @@
         })
       })
     </script>
-    <style>
-    footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
-      padding: 1rem;
-      background-color: #000;
-    }
-
-    footer > p {
-      margin: 0;
-      color: #fff;
-      font-weight: 500;
-    }
-  </style>
-
-  <footer>
-    <p style="font-size: 16px;">
-      KOFEE MANILA
-    </p>
-  </footer>
+    <?php include("includes/footer.php"); ?>
   </body>
 </html>

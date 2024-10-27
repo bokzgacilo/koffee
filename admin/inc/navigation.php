@@ -1,4 +1,3 @@
-<?php session_start() ?>
 
 </style>
 <!-- Main Sidebar Container -->

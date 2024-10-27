@@ -5,6 +5,7 @@
   $product_name = $_POST['name'];
   $product_description = $_POST['description'];
   $product_price = $_POST['price'];
+  $product_status = $_POST['status'];
 
   $getimageurl = $conn -> query("SELECT image_url FROM product_list WHERE id=$productid");
   $image = $getimageurl -> fetch_assoc();
@@ -33,7 +34,7 @@
       $image_url = $image['image_url']; // Assume $current_image_url is fetched from the database or previous value
   }
 
-  $insert = $conn -> query("UPDATE product_list SET name='$product_name', description='$product_description', price=$product_price, image_url='$image_url' WHERE id=$productid");
+  $insert = $conn -> query("UPDATE product_list SET status='$product_status', name='$product_name', description='$product_description', price=$product_price, image_url='$image_url' WHERE id=$productid");
 
   if($insert){
     echo 'ok';

@@ -64,10 +64,9 @@ if($_settings->userdata('type') == 3){
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Date Updated</th>
-						<th>Sales Code</th>
-						<th>Customer</th>
-						<th>User</th>
+						<th>Order Date</th>
+						<th>GCash Ref Number</th>
+						<th>Client Name</th>
 						<th>Amount</th>
 					</tr>
 				</thead>
@@ -77,21 +76,20 @@ if($_settings->userdata('type') == 3){
 					    $i = 1;
                         $where = "";
                         if($user_id > 0){
-                            $where = " and user_id = '{$user_id}' ";
+                            $where = " and client_id = '{$user_id}' ";
                         }
-                        $users_qry = $conn->query("SELECT id, concat(firstname, ' ', lastname) as `name` FROM `users` where id in (SELECT user_id FROM `sale_list` where date(date_created) = '{$date}' {$where}) ");
+                        $users_qry = $conn->query("SELECT id, concat(firstname, ' ', lastname) as `name` FROM `users` where id in (SELECT client_id FROM `orders` where date(order_date) = '{$date}' {$where}) ");
                         $user_arr = array_column($users_qry->fetch_all(MYSQLI_ASSOC),'name', 'id');
-						$qry = $conn->query("SELECT * FROM `sale_list` where date(date_created) = '{$date}' {$where} order by unix_timestamp(date_updated) desc ");
+						$qry = $conn->query("SELECT * FROM `orders` where date(order_date) = '{$date}' {$where} order by unix_timestamp(order_date) desc ");
 						while($row = $qry->fetch_assoc()):
-                            $total += $row['amount'];
+                            $total += $row['price'];
 					?>
 						<tr>
 							<td class="text-center"><?php echo $i++; ?></td>
-							<td><p class="m-0"><?= date("M d, Y H:i", strtotime($row['date_updated'])) ?></p></td>
-							<td><p class="m-0"><?= $row['code'] ?></p></td>
-							<td><p class="m-0"><?= $row['client_name'] ?></p></td>
-							<td class=''><?= ucwords(isset($user_arr[$row['user_id']]) ? $user_arr[$row['user_id']] : "N/A") ?></td>
-							<td class='text-right'><?= format_num($row['amount']) ?></td>
+							<td><p class="m-0"><?= date("M d, Y H:i", strtotime($row['order_date'])) ?></p></td>
+							<td><p class="m-0"><?= $row['reference_number'] ?></p></td>
+							<td class=''><?= ucwords(isset($user_arr[$row['client_id']]) ? $user_arr[$row['client_id']] : "N/A") ?></td>
+							<td class='text-right'><?= format_num($row['price']) ?></td>
 						</tr>
 					<?php endwhile; ?>
 				</tbody>

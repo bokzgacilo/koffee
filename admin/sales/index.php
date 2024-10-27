@@ -60,8 +60,6 @@
 
           $buttonRenderer = "";
 
-          
-
           if($result -> num_rows > 0){
             while($row = $result -> fetch_assoc()){
               $status_message = "";
@@ -83,11 +81,15 @@
                 $status_message = "Unknown status.";
                 break;
               }
+
+              $clientid = $row['client_id'];
+              $getclientname = $conn -> query("SELECT * FROM users WHERE id=$clientid");
+              $client = $getclientname -> fetch_assoc();
               
               echo "
                 <tr>
                   <td>".$row['id']."</td>
-                  <td>".$row['client_id']."</td>
+                  <td>".$client['lastname'].", ".$client['firstname']."</td>
                   <td>".$row['order_date']."</td>
                   <td>".$row['status']."</td>
                   <td>
@@ -109,8 +111,10 @@
   
 </div>
 
-<script>
-  function prepareOrder(id){
+<script type="module">
+  import {updateDocument} from "./firebase.js"
+
+  window.prepareOrder = function(id){
     Swal.fire({
       title: "Do you want prepare this order?",
       icon: "info",
@@ -125,15 +129,21 @@
             id: id
           },
           success : response => {
-            alert('Order Updated');
-            location.reload();
+            console.log(id)
+            updateDocument(id, "Your order was being prepared.")
+
+            setTimeout(() => {
+              alert('Order Updated');
+
+              location.reload();
+            }, 3000)
           }
         })
       }
     });
   }
 
-  function deliverOrder(id){
+  window.deliverOrder = function(id){
     Swal.fire({
       title: "Do you want deliver this order?",
       icon: "info",
@@ -148,15 +158,20 @@
             id: id
           },
           success : response => {
-            alert('Order Updated');
-            location.reload();
+            console.log(id)
+            updateDocument(id, "Order is on the way to you!")
+            setTimeout(() => {
+              alert('Order Updated');
+
+              location.reload();
+            }, 3000)
           }
         })
       }
     });
   }
 
-  function completeOrder(id){
+  window.completeOrder = function(id){
     Swal.fire({
       title: "Do you want complete this order?",
       icon: "info",
@@ -171,8 +186,16 @@
             id: id
           },
           success : response => {
-            alert('Order Updated');
-            location.reload();
+            console.log(id)
+            updateDocument(id, "Order completed!")
+            
+
+            setTimeout(() => {
+              alert('Order Updated');
+
+              location.reload();
+            }, 3000)
+            
           }
         })
       }
@@ -180,7 +203,7 @@
   }
  
 
-  function viewOrder(id){
+  window.viewOrder = function(id){
     $.ajax({
       type: 'get',
       url: '../api/get_order_details.php',

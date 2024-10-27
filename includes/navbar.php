@@ -95,7 +95,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 54px;
+      /* font-size: 54px; */
       font-weight: bold;
       color: white;
       text-align: center;
@@ -287,22 +287,32 @@
     });
   </script>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container navcontainer">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" id="mobile-header">
+    <div class="container-fluid navcontainer">
+
       <a class="navbar-brand" href="index.php">KOFEE MANILA</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-         
+      <div class="collapse navbar-collapse justify-content-end" id="mobileMenu">
+      <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="menu.php">Menu</a></li>
           <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.php">Contact Us</a></li>
+          <?php
+          if(isset($_SESSION['userid']) && !empty($_SESSION['userid'])){
+            echo "
+            <li class='mav-item'>
+             <a class='cart-icon' href='cart.php' style='color: #000; font-size: 16px; text-decoration: none; text-align:center;'>
+              <i class='fas fa-shopping-cart'></i>
+              My Cart
+            </a>
+            </li>
+           ";
+          }
+        ?>
           <!-- Bootstrap CSS -->
-          
 
           <?php if (isset($_SESSION['userid'])): ?>
             <li class="nav-item dropdown">
@@ -341,18 +351,12 @@
             </li>
           <?php endif; ?>
         </ul>
-        <?php
-          if(isset($_SESSION['userid']) && !empty($_SESSION['userid'])){
-            echo "
-            <a class='cart-icon' href='cart.php' style='color: #D68C1E; font-size: 24px;'>
-              <i class='fas fa-shopping-cart'></i>
-            </a>";
-          }
-        ?>
         
       </div>
     </div>
   </nav>
+
+ 
   
   <style>
     .modal {
@@ -391,5 +395,44 @@
       cursor: pointer;
     }
   </style>
+
+  <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+      import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDjWfyGpv_ECHnkHABYEss7J0unCrLH0ok",
+        authDomain: "kofee-manila.firebaseapp.com",
+        databaseURL: "https://kofee-manila-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "kofee-manila",
+        storageBucket: "kofee-manila.appspot.com",
+        messagingSenderId: "296750304629",
+        appId: "1:296750304629:web:39d6e2d377dfff5984d73c"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const updates = collection(db, "user_updates");
+
+      let userid = <?php echo $_SESSION['userid']; ?>;
+
+      // Add a new document to the logs collection
+      onSnapshot(updates, (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          let realtimedata = change.doc.data();
+
+          if(realtimedata.userid == userid){
+            if(change.type === "modified"){
+              alert(realtimedata.message)
+
+              location.reload()
+            }
+          }
+        });
+      });
+
+      console.log()
+  </script>
 </body>
 </html>

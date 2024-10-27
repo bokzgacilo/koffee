@@ -8,7 +8,7 @@ $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Fetch products
-$query = "SELECT * FROM product_list";
+$query = "SELECT * FROM product_list WHERE status = 1";
 $stmt = $pdo -> prepare($query);
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -43,13 +43,20 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .category-menu {
             background-color: #d68c1e;
             color: white;
-            padding: 1rem;
             text-align: center;
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 1rem;
+            gap: 1rem;
         }
 
         .category-menu span {
             cursor: pointer;
             margin: 0 1rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            white-space: nowrap;
         }
 
         .category-menu span:hover {
@@ -85,11 +92,12 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
           width: 100%;
           max-width: 100%;
           height: 275px;
-          object-fit: cover;
+          object-fit: contain;
           margin-bottom: 0.5rem;
         }
 
         .menu-item > a {
+          margin-top: auto;
           background-color: #d68c1e !important;
           border: none;
           outline: none;
@@ -151,30 +159,24 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Selected Category and Menu Items -->
     <div class="container">
-        <h1 class="mt-4 mb-4">All Menu</h1>
-        <div class="row menu-items" id="menu-items">
-            <?php foreach ($products as $product): ?>
-                <div class="col-lg-4 col-md-6">
-                    <div class="menu-item" data-category-id="<?php echo $product['category_id']; ?>">
+      <h1 class="mt-4 mb-4">All Menu</h1>
+      <div class="row menu-items" id="menu-items">
+        <?php foreach ($products as $product): ?>
+            <div class="col-lg-3 col-6 menu-item">
+              <img src="./<?php echo $product['image_url']; ?>" alt="<?php echo $product['name']; ?>" />
 
-                        <img src="./<?php echo $product['image_url']; ?>" alt="<?php echo $product['name']; ?>" /> <?php
-                        $productName = $product['name'];
+              <?php
+              $productName = $product['name'];
+              $cleanedProductName = preg_replace('/\bsmall\b/i', '', $productName);
+              $cleanedProductName = trim($cleanedProductName);
+              ?>
 
-                        $cleanedProductName = preg_replace('/\bsmall\b/i', '', $productName);
-
-                        // Trim any extra spaces left after removal
-                        $cleanedProductName = trim($cleanedProductName);
-                        ?>
-
-                        <h3><?php echo htmlspecialchars($cleanedProductName, ENT_QUOTES, 'UTF-8'); ?></h3>
-
-                        <p><strong><?php echo number_format($product['price'], 2); ?></strong></p>
-                        <a href="item.php?id=<?php echo $product['id']; ?>"
-                            class="col col-12 btn btn-primary btn-lg ">BUY</a>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
+              <h3><?php echo htmlspecialchars($cleanedProductName, ENT_QUOTES, 'UTF-8'); ?></h3>
+              <p><strong><?php echo number_format($product['price'], 2); ?></strong></p>
+              <a href="item.php?id=<?php echo $product['id']; ?>" class="col col-12 btn btn-primary btn-lg mt-auto">BUY</a>
+            </div>
+        <?php endforeach; ?>
+      </div>
     </div>
     <?php include('includes/footer.php'); ?>
 </body>

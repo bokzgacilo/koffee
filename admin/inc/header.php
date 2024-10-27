@@ -45,7 +45,7 @@ require_once('sess_auth.php');
   <link rel="stylesheet" href="<?php echo base_url ?>plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <style type="text/css">
+  <!-- <style type="text/css">
     /* Chart.js */
     @keyframes chartjs-render-animation {
       from {
@@ -91,7 +91,7 @@ require_once('sess_auth.php');
       left: 0;
       top: 0
     }
-  </style>
+  </style> -->
 
   <!-- jQuery -->
   <script src="<?php echo base_url ?>plugins/jquery/jquery.min.js"></script>
@@ -106,4 +106,60 @@ require_once('sess_auth.php');
   </script>
   <script src="<?php echo base_url ?>dist/js/script.js"></script>
 
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDjWfyGpv_ECHnkHABYEss7J0unCrLH0ok",
+      authDomain: "kofee-manila.firebaseapp.com",
+      databaseURL: "https://kofee-manila-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "kofee-manila",
+      storageBucket: "kofee-manila.appspot.com",
+      messagingSenderId: "296750304629",
+      appId: "1:296750304629:web:39d6e2d377dfff5984d73c"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Add a new document to the logs collection
+    const logDocs = collection(db, "logs");
+
+    // Listen for real-time updates on the logs collection
+    onSnapshot(logDocs, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") { // Listen only for newly added documents
+          // Show the toast
+          $('.custom-toast').css('display', 'grid');
+
+          // Set a timeout to hide the toast after 5 seconds
+          setTimeout(function() {
+            $('.custom-toast').css('display', 'none');
+          }, 5000);
+        }
+      });
+    });
+
+    export function updateDocument(orderid, newmessage) {
+      const docRef = db.collection("user_updates").doc(orderid); // Reference to the document with ID "20"
+
+      // New data to update
+      const updatedData = {
+        message: newmessage, // Replace with actual field names and values
+      };
+
+      // Update the document
+      docRef.update(updatedData)
+        .then(() => {
+
+        })
+        .catch((error) => {
+          console.error("Error updating document: ", error);
+        });
+    }
+  </script>
 </head>

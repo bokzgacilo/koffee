@@ -46,6 +46,7 @@
 
       if($update){
         $_SESSION['userid'] = $userid;
+        $_SESSION['avatar'] = "uploads/avatars/9.png";
         
         echo "<h4 class='mb-4'>Email Verified!</h4>";
         echo "<a href='index.php' class='btn btn-primary'>Go To Kofee Manila</a>";

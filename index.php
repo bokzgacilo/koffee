@@ -118,9 +118,16 @@
   <style>
     #feedbacks {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 0.5rem;
       padding: 1rem;
+    }
+
+    /* Media query for larger screens (e.g., desktops) */
+    @media (min-width: 1024px) {
+      #feedbacks {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
     }
   </style>
 

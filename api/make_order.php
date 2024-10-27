@@ -42,7 +42,8 @@
   )";
 
   if($conn -> query($sql)){
-    echo "Success";
+    $newOrderId = $conn->insert_id;
+    echo $newOrderId;
 
     $id = $_SESSION['userid'];
     $conn -> query("UPDATE users SET cart='' WHERE id=$id");

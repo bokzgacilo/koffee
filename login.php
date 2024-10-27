@@ -78,7 +78,7 @@
                     <input type="password" class="form-control" id="logpassword" placeholder="Enter your password" />
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary" type="button"
-                        onclick="togglePasswordVisibility('password')">
+                        onclick="togglePasswordVisibility()">
                         <i class="fas fa-eye"></i>
                       </button>
                     </div>
@@ -99,8 +99,8 @@
   <!-- Footer Section -->
   <?php include "includes/footer.php"; ?>
   <script>
-    function togglePasswordVisibility(id) {
-      var input = document.getElementById(id);
+    function togglePasswordVisibility() {
+      var input = document.getElementById("logpassword");
       if (input.type === "password") {
         input.type = "text";
       } else {

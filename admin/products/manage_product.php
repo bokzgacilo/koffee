@@ -103,7 +103,7 @@ if ($id > 0) {
       </div>
 		</div>
 		<div class="form-group">
-			<select hidden name="status" id="status" class="form-control" required>
+			<select name="status" id="status" class="form-control" required>
 				<option value="1">Active</option>
 				<option value="0">Inactive</option>
 			</select>
@@ -141,8 +141,10 @@ if ($id > 0) {
 
         if ($(this).is(':checked')) {
           priceInput.removeAttr('disabled');
+          priceInput.attr('value', 10); 
         } else {
           priceInput.attr('disabled', true); 
+          priceInput.removeAttr('value');
           priceInput.val('');
         }
       });
@@ -179,6 +181,12 @@ if ($id > 0) {
               title: "Product Added",
               text: "Product created successfully",
               icon: "success"
+            });
+          }else {
+            Swal.fire({
+              title: "Product already exsiting",
+              text: "Product name already existing",
+              icon: "error"
             });
           }
         }

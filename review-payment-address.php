@@ -84,65 +84,68 @@
     <!-- Image Background Cover Section -->
     <section >
       <div class="container">
-        <div class="p-4">
-          <h2>Review Payment And Address</h2>
+        <div class="p-1 p-lg-4">
+          <h4 class="mt-4">Review Payment And Address</h4>
           <div class="card mt-4">
             <div class="card-body">
             <h5 class="mb-4">Here's your order</h5>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Product Name</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-                $total_price = 0;
-                $delivery_fee = 0;
-                $cart = [];
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                    $total_price = 0;
+                    $delivery_fee = 0;
+                    $cart = [];
 
-                if(empty($row['cart']) || $row['cart'] === " "){
-                  echo "<p class='mt-4' style='font-size: 24px; font-weight: bold;'>Your cart is empty!</p>";
-                }else {
-                  include("api/connection.php");
+                    if(empty($row['cart']) || $row['cart'] === " "){
+                      echo "<p class='mt-4' style='font-size: 24px; font-weight: bold;'>Your cart is empty!</p>";
+                    }else {
+                      include("api/connection.php");
 
-                  $delivery_fee += 50;
-    
-                  $sql = $conn -> prepare("SELECT cart FROM users WHERE id = ?");
-                  $sql -> bind_param("i", $_SESSION['userid']);
-                  $sql -> execute();
+                      $delivery_fee += 50;
+        
+                      $sql = $conn -> prepare("SELECT cart FROM users WHERE id = ?");
+                      $sql -> bind_param("i", $_SESSION['userid']);
+                      $sql -> execute();
 
-    
-                  $result = $sql -> get_result();
-                  $row = $result -> fetch_assoc();
+        
+                      $result = $sql -> get_result();
+                      $row = $result -> fetch_assoc();
 
-                  $cart = $row['cart'];
+                      $cart = $row['cart'];
 
-                  foreach(json_decode($row['cart'], true) as $item){
-                    $product = $conn -> prepare("SELECT * FROM product_list WHERE name = ?");
-                    $product -> bind_param("s", $item['productName']);
-                    $product -> execute();
-                    $product_res = $product -> get_result();
-                    $product_row = $product_res -> fetch_assoc();
-                    $total_price += $item['totalPrice'];
+                      foreach(json_decode($row['cart'], true) as $item){
+                        $product = $conn -> prepare("SELECT * FROM product_list WHERE name = ?");
+                        $product -> bind_param("s", $item['productName']);
+                        $product -> execute();
+                        $product_res = $product -> get_result();
+                        $product_row = $product_res -> fetch_assoc();
+                        $total_price += $item['totalPrice'];
 
-                    echo "
-                      <tr>
-                        <th>".$item['productName']."</th>
-                        <th>".$item['quantity']."</th>
-                        <th>".$item['totalPrice']."</th>
-                      </tr>
-                    ";
-    
-                  }
-                }
-              ?>
-            </tbody>
-          </table>
+                        echo "
+                          <tr>
+                            <th>".$item['productName']."</th>
+                            <th>".$item['quantity']."</th>
+                            <th>".$item['totalPrice']."</th>
+                          </tr>
+                        ";
+        
+                      }
+                    }
+                  ?>
+                </tbody>
+              </table>
+            </div>
+            
           <div class="text-align-right">
-            <p style="font-size: 18px; font-weight: bold;">Total Price: PHP <?php echo number_format($delivery_fee + $total_price, 2); ?> (Delivery fee included.)</p>
+            <p style="font-size: 16px; font-weight: bold;">Total Price: PHP <?php echo number_format($delivery_fee + $total_price, 2); ?> (Delivery fee included.)</p>
           </div>
           </div>
           </div>
@@ -150,7 +153,7 @@
 
           <div class="card mt-4">
             <div class="card-body">
-              <h4 style="font-weight: bold;">STEP 1 : Scan the QR to Pay</h4>
+              <h5 style="font-weight: bold;">STEP 1 : Scan the QR to Pay</h5>
               <div class="d-flex flex-row">
                 <div class="col-6 d-flex flex-column">
                   <img style="width: 200px; height: 200px;" src="frame.png" />
@@ -161,9 +164,9 @@
           </div>
           <div class="card mt-4">
             <div class="card-body">
-              <h4 style="font-weight: bold;">STEP 2 : Upload Receipt Here</h4>
+              <h5 style="font-weight: bold;">STEP 2 : Upload Receipt Here</h5>
               <div class="d-flex flex-row">
-                <div class="col-6 mt-4">
+                <div class="col-12 col-lg-6  mt-4">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupFile01">Upload</label>
                     <input type="file" class="form-control" id="receipt_image" required>
@@ -181,13 +184,13 @@
             <h4 style="font-weight: bold;">STEP 3 : Delivery Address</h4>
             <div class="d-flex flex-column">
               <div class="row mt-4">
-                <div class="col-4">
+                <div class="col-12 col-lg-4">
                   <div>
                     <label for="exampleInputEmail1" class="form-label">Contact Number 1</label>
                     <input type="text" class="form-control" id="contact_number1" required>
                   </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-lg-4">
                   <div>
                     <label for="exampleInputEmail1" class="form-label">Contact Number 2</label>
                     <input type="text" class="form-control" id="contact_number2" required>
@@ -202,7 +205,7 @@
               ?>
 
               <div class="row mt-4">
-                <div class="col-4">
+                <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">Block/House/Unit Number</label>
                     <input type="text" value='<?php if($address['block_number'] === "None"){
@@ -212,7 +215,7 @@
                     } ?>' placeholder="House 33" class="form-control" id="a_block_number" required>
                   </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">Street Name</label>
                     <input type="text" value='<?php if($address['street'] === "None"){
@@ -222,7 +225,7 @@
                     } ?>' class="form-control" placeholder="Yellow Bell" id="street_name" required>
                   </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">Barangay</label>
                     <input type="text" value='<?php if($address['barangay'] === "None"){
@@ -234,7 +237,7 @@
                 </div>
               </div>
               <div class="row mt-4">
-                <div class="col-4">
+                <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">City</label>
                     <input type="text" value='<?php if($address['city'] === "None"){
@@ -244,13 +247,13 @@
                     } ?>' placeholder="Makati City" class="form-control" id="a_city" required>
                   </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">Nearest LandMark</label>
                     <input type="text" class="form-control" id="nearest_landmark" placeholder="TGP Pembo Makati" required>
                   </div>
                 </div>
-                <div class="col-4 d-flex align-items-end">
+                <div class="col-12 col-lg-4 d-flex align-items-end">
                   <div>
                   <button class="btn btn-primary" type="button" id="searchPin">Locate Address</button>
 
@@ -258,7 +261,7 @@
                 </div>
               </div>
               <div class="row mt-4">
-                <div class="col-8">
+                <div class="col-12 col-lg-8">
                   <iframe
                     id="googleMap"
                     width="100%"
@@ -273,7 +276,7 @@
                 
               </div>
               <div class="row mt-4">
-                <div class="col-4">
+                <div class="col-12 col-lg-4">
                   <button class="btn btn-success" type="submit">Proceed Order</button>
                 </div>
               </div>
@@ -288,7 +291,39 @@
       </div>
     </section>
     
-    <script>
+    <script type="module" >
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+      import { getFirestore, collection, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDjWfyGpv_ECHnkHABYEss7J0unCrLH0ok",
+        authDomain: "kofee-manila.firebaseapp.com",
+        databaseURL: "https://kofee-manila-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "kofee-manila",
+        storageBucket: "kofee-manila.appspot.com",
+        messagingSenderId: "296750304629",
+        appId: "1:296750304629:web:39d6e2d377dfff5984d73c"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+
+      // Add a new document to the logs collection
+
+      async function firestoreSave(id) {
+        const db = getFirestore(app);
+
+        const user_updates_collection = "user_updates";
+
+        const data = {
+          message: "entry",
+          orderid: id,
+          userid: "<?php echo $_SESSION['userid']; ?>"
+        };
+
+        await setDoc(doc(db, user_updates_collection, id), data);
+      }
+
       $("#searchPin").on('click', function(){
         let nearest_landmark = $("#nearest_landmark").val();
         var googleMapsUrl = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAitbCyHS9bbWyT3BoPoFlPKa-fwwEpG7c&q=" + encodeURIComponent(nearest_landmark);
@@ -326,7 +361,6 @@
           let nearest_landmark = $("#nearest_landmark").val();
 
           let address = `${block_number}, ${street_name}, ${barangay}, ${city}`;
-
           $.ajax({
             type: "post",
             url: "api/make_order.php",
@@ -339,26 +373,31 @@
               address : address,
               nearest_landmark : nearest_landmark,
               map : "test",
-              price : <?php echo number_format($delivery_fee + $total_price, 2); ?>,
+              price : parseFloat(<?php echo $delivery_fee + $total_price; ?>).toFixed(2),
               client_id : <?php echo $_SESSION['userid']; ?>
             },
             success: (response) => {
-              Swal.fire({
-                title: "Order Submitted",
-                text: "Thank you for ordering with us.",
-                icon: "success",
-                showDenyButton: false,
-                showCancelButton: true,
-                confirmButtonText: "Go To Orders",
-                denyButtonText: `Don't save`
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  location.href="orders.php"
-                }
-              });
+              firestoreSave(response)
+              
+              setTimeout(() => {
+                Swal.fire({
+                  title: "Order Submitted",
+                  text: "Thank you for ordering with us.",
+                  icon: "success",
+                  showDenyButton: false,
+                  showCancelButton: true,
+                  confirmButtonText: "Go To Orders",
+                  denyButtonText: `Don't save`
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    location.href="orders.php"
+                  }
+                });
+              }, 5000);
+
+             
             }
           })
-          console.log(address)
         })
       })
     </script>
