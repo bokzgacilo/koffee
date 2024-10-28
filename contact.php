@@ -95,16 +95,16 @@
         <p><i class="fas fa-phone-alt"></i> +63 912 345 6789</p>
         <p><i class="fas fa-envelope"></i> info@kofeemanila.com</p>
         <p>
-          <i class="fas fa-map-marker-alt"></i> 123 Coffee St, Manila,
-          Philippines
+          <i class="fas fa-map-marker-alt"></i> 005 Don Placido Campos Avenue, Zone 1, Dasmariñas, 4114 Cavite
         </p>
         <div class="social-icons">
           <a href="https://facebook.com" target="_blank"
             ><i class="fab fa-facebook-f"></i
           ></a>
           <a href="https://twitter.com" target="_blank"
-            ><i class="fab fa-twitter"></i
+            ><i class="fab fa-twitter"></i 
           ></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
           <a href="https://instagram.com" target="_blank"
             ><i class="fab fa-instagram"></i
           ></a>
@@ -115,7 +115,7 @@
     <!-- Google Map Section -->
     <section class="map-container">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.6782012135464!2d120.98201731537069!3d14.556732789826333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9f84d5d0e6d%3A0x9a9ec9e7c2b1a6b2!2s123%20Coffee%20St%2C%20Manila%2C%20Philippines!5e0!3m2!1sen!2sus!4v1614384341734!5m2!1sen!2sus"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d710.1983347081095!2d120.93496048102882!3d14.327519625920248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d54bd9893d23%3A0xc66dd3f6e762b5ba!2sKofee%20Manila%20-%20Dasma%20Bayan!5e0!3m2!1sen!2sph!4v1730113623157!5m2!1sen!2sph" 
         width="100%"
         height="100%"
         frameborder="0"

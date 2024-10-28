@@ -45,7 +45,7 @@
         <!-- Column 3: Contact Information -->
         <div class="footer-column">
             <h4>Contact Us</h4>
-            <p><i class="fas fa-map-marker-alt"></i> 123 Coffee St, Manila, Philippines</p>
+            <p><i class="fas fa-map-marker-alt"></i> 005 Don Placido Campos Avenue, Zone 1, Dasmariñas, 4114 Cavite</p>
             <p><i class="fas fa-phone"></i> +63 912 345 6789</p>
             <p><i class="fas fa-envelope"></i> info@kofeemanila.com</p>
         </div>

@@ -184,7 +184,7 @@ if ($id > 0) {
             });
           }else {
             Swal.fire({
-              title: "Product already exsiting",
+              title: "Product already existing",
               text: "Product name already existing",
               icon: "error"
             });
