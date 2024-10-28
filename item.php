@@ -57,14 +57,22 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
       .item-container {
         padding: 1rem;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 0.5fr 1fr 0.5fr;
         gap: 2rem;
         justify-content: center;
+      }
+
+      .product-body {
+        padding: 2rem;
       }
 
       @media (max-width: 768px) {
         .item-container {
           grid-template-columns: 1fr;
+        }
+
+        .product-body {
+          padding: 2rem;
         }
       }
 
@@ -105,15 +113,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
     <main class="item-container p-4">
       <div class="col">
         <img class="img-fluid w-100" style="height: 400px; object-fit: contain;" src="./<?php echo $product['image_url']; ?>" />
-        <h5 style="font-weight: bold;">Price Breakdown</h5>
-          <div class="mt-2 row">
-            <div class="col-5">
-              <p>Base Price:</p>
-            </div>
-            <div class="col-7">
-              <p class="base-price"></p>
-            </div>
-          </div>
+        <!-- <h5 style="font-weight: bold;" class="mt-4">Price Breakdown</h5>
           <div class="row">
             <div class="col-5">
               <p>Size Price:</p>
@@ -138,14 +138,15 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
               <p class="peritem-price"></p>
             </div>
           </div>
-          <span style="font-size: 14px; font-weight: bold;">Formula: (base price + size price + addon price) * quantity</span>
+          <span style="font-size: 14px; font-weight: bold;">Formula: (size price + addon price) * quantity</span> -->
       </div>
-      <div class="col">
+      <div class="col card">
+        <div class="card-body product-body">
         <input type="text" value="<?php echo htmlspecialchars($product['name']); ?>" id="productName" hidden />
-        <h2><?php echo $product['name']; ?></h2>
-        <h1 class="item-price">₱ <span id="productPrice"><?php echo number_format($product['price'], 2); ?></span></h1>
+        <h1 style="font-weight: bold;"><?php echo $product['name']; ?></h1>
+        <h1 class="item-price mt-4">₱ <span id="productPrice"><?php echo number_format($product['price'], 2); ?></span></h1>
         
-        <p class="mt-4">Quantity</p>
+        <p class="mt-4" style="font-weight: bold;">QUANTITY</p>
         <div class="quantity">
           <span id="decButton">-</span>
           <h2 id="newQuantity">1</h2>
@@ -156,12 +157,12 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php
           if($product['size_price'] !== ""){
             $sizes = json_decode($product['size_price'], true);
-            echo "<p class='mt-4'>Size</p><div class='row'>";
+            echo "<p class='mt-4' style='font-weight: bold;'>SIZE</p><div class='row'>";
 
             
             foreach ($sizes as $size) {
               echo "
-                <div class='form-check col-12 col-lg-6 mb-lg-4'>
+                <div class='form-check col-12 col-lg-4 mb-lg-4'>
                   <input class='form-check-input' value='".$size['size']."' type='radio' name='size' data-price='".number_format($size['price'], 2)."' checked>
                   <label class='form-check-label'>
                     ".$size['size']." (₱".$size['price'].")
@@ -175,7 +176,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
           }
         ?>
 
-        <p class="mt-4">Add-ons</p>
+        <p style="font-weight: bold;">ADDONS</p>
         <div class="row">
           <?php foreach ($addons as $addon): ?>
             <div class="form-check col-12 col-lg-4 mb-4">
@@ -197,34 +198,38 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
             echo "<a href='login.php' class='btn btn-lg btn-primary'>Sign In to Add Cart</a>";
           }
         ?>
+        </div>
+        
       </div>
          
         
-        <div class="col">
-        <h5 class="mb-4 mt-4" style="text-align: center;">You may also like</h5>
-        <div class="row">
-        <?php
-          include("api/connection.php");
-          $catId = $product['category_id'];
-          $recommendations = $conn -> query("SELECT * FROM product_list WHERE category_id=$catId LIMIT 4");
+        <div class="col card">
+          <div class="card-body">
+          <h4 class="mb-4" style="text-align: center; font-weight: bold;">You may also like</h4>
+            <div class="row">
+            <?php
+              include("api/connection.php");
+              $catId = $product['category_id'];
+              $recommendations = $conn -> query("SELECT * FROM product_list WHERE category_id=$catId LIMIT 4");
 
-          if($recommendations -> num_rows > 0){
-            while($row = $recommendations -> fetch_assoc()){
-              if($product['name'] != $row['name']){
-                echo "
-                  <div class='d-flex flex-column align-items-center col-lg-12 col-6'>
-                    <img src='./".$row['image_url']."' class='img-fluid' style='height: 100px; object-fit: cover;' />
-                    <a href='item.php?id=".$row['id']."' class='mt-2' style='font-weight: bold; font-size: 16px; text-align-center'>".$row['name']."</a>
-                    <p class='mt-auto'>".number_format($row['price'], 2)." PHP</p>
-                  </div>
-                ";
+              if($recommendations -> num_rows > 0){
+                while($row = $recommendations -> fetch_assoc()){
+                  if($product['name'] != $row['name']){
+                    echo "
+                      <div class='d-flex flex-column align-items-center col-lg-12 col-6'>
+                        <img src='./".$row['image_url']."' class='img-fluid' style='height: 100px; object-fit: cover;' />
+                        <a href='item.php?id=".$row['id']."' class='mt-2' style='font-weight: bold; font-size: 16px; text-align-center'>".$row['name']."</a>
+                        <p class='mt-auto'>".number_format($row['price'], 2)." PHP</p>
+                      </div>
+                    ";
+                  }
+                }
               }
-            }
-          }
 
-          $conn -> close();
-        ?>
-        </div>
+              $conn -> close();
+            ?>
+            </div>
+          </div>
         </div>
     </main>
     </div>

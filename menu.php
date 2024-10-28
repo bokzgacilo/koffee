@@ -41,14 +41,21 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .category-menu {
-            background-color: #d68c1e;
-            color: white;
-            text-align: center;
-            display: flex;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 1rem;
-            gap: 1rem;
+          background-color: #d68c1e;
+          color: white;
+          text-align: center;
+          justify-content: center;
+          display: flex;
+          overflow-x: auto;
+          white-space: nowrap;
+          padding: 1rem;
+          gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+          .category-menu {
+            justify-content: flex-start;
+          }
         }
 
         .category-menu span {

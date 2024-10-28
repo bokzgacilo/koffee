@@ -127,21 +127,36 @@ require_once('sess_auth.php');
     const db = getFirestore(app);
 
     // Add a new document to the logs collection
-    const logDocs = collection(db, "logs");
+    const logDocs = collection(db, "user_updates");
 
     // Listen for real-time updates on the logs collection
     onSnapshot(logDocs, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") { // Listen only for newly added documents
-          // Show the toast
-          $('.custom-toast').css('display', 'grid');
+      let newEntryFound = false; // Flag to track if there is a new entry
 
-          // Set a timeout to hide the toast after 5 seconds
+      snapshot.docChanges().forEach((change) => {
+        if(change.doc.data().message === "entry"){
+          $('.custom-toast').css('display', 'grid').animate(
+            { right: '15%', opacity: 1 }, 
+            200
+          );
+
           setTimeout(function() {
-            $('.custom-toast').css('display', 'none');
+            $('.custom-toast').animate(
+              { right: '-100%', opacity: 0 }, 
+              500,
+              function() {
+                $(this).css('display', 'none'); // Hide element after the animation completes
+              }
+            );
           }, 5000);
         }
       });
+
+      // Check if no new entries were found
+      if (!newEntryFound) {
+        console.log("No new entries were added.");
+        // Perform any action if no new entry is detected, if needed.
+      }
     });
 
     export function updateDocument(orderid, newmessage) {

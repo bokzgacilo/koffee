@@ -184,6 +184,16 @@
       display: flex;
       align-items: center;
     }
+
+    #mobile-header {
+      padding: 0.5rem 12%;
+    }
+
+    @media (max-width: 768px) {
+      #mobile-header {
+        padding: 1rem;
+      }
+    }
   </style>
 
 

@@ -21,19 +21,29 @@
       place-items: center;
       border-radius: 4px;
       transform: translateX(100%); /* Start position (off the screen on the right) */
-      animation: slideInRight 0.5s forwards; /* Apply animation */
     }
 
     @keyframes slideInRight {
-    0% {
-      transform: translateX(100%); /* Start off-screen to the right */
-      opacity: 0; /* Optional: Start with hidden opacity */
+      0% {
+        transform: translateX(100%); /* Start off-screen to the right */
+        opacity: 0; /* Optional: Start with hidden opacity */
+      }
+      100% {
+        transform: translateX(0); /* End in normal position */
+        opacity: 1; /* Optional: Fade in */
+      }
     }
-    100% {
-      transform: translateX(0); /* End in normal position */
-      opacity: 1; /* Optional: Fade in */
+    
+    @keyframes slideToRight {
+      0% {
+        transform: translateX(0); /* Start off-screen to the right */
+        opacity: 0; /* Optional: Start with hidden opacity */
+      }
+      100% {
+        transform: translateX(10%0); /* End in normal position */
+        opacity: 1; /* Optional: Fade in */
+      }
     }
-  }
 
   </style>
 
@@ -53,7 +63,8 @@
 
     <div class="custom-toast">
       <div class="custom-toast-body">
-        <h6 class="mb-2">New Order!</h6>
+        <h6 class="mb-2">Order Received!</h6>
+        <p>Please prepare new orders.</p>
         <a href="?page=sales" class="btn btn-primary btn-sm">Go To Orders</a>
       </div>
     </div>

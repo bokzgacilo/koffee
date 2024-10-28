@@ -17,7 +17,7 @@
     $fileTmpPath = $_FILES['image']['tmp_name'];
     $originalFileName = $_FILES['image']['name'];
     $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
-    $newFileName = $product_name . '.' . $fileExtension;
+    $newFileName = $product_name . '.' . $productid . '.' . $fileExtension;
 
     $target_file = $target_dir . $newFileName;
 
