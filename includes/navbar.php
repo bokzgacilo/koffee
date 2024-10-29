@@ -53,11 +53,15 @@
     }
 
     .sign-in {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
       background-color: #000;
       color: #fff !important;
     }
 
     .join-now {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
       background-color: #D68C1E;
       color: #fff !important;
     }

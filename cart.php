@@ -25,7 +25,19 @@
     <!-- Navbar Section -->
     <?php include "includes/navbar.php"; ?>
 
-    <nav class="navbar navbar-expand-lg navbar-custom">
+    <style>
+      .backtomenunav {
+        padding: 0.5rem 12%;
+      }
+
+      @media (max-width: 768px) {
+        .backtomenunav {
+          padding: 0.5rem;
+        }
+      }
+    </style>
+
+    <nav class="navbar navbar-expand-lg navbar-custom backtomenunav">
         <a class="navbar-brand" href="menu.php"><i class="fas fa-chevron-left"></i> BACK TO MENU</a>
     </nav>
     <!-- Image Background Cover Section -->

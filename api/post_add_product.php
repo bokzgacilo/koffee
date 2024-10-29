@@ -12,16 +12,11 @@
 
   $checkname = $conn -> query("SELECT * FROM product_list WHERE name='$product_name'");
 
-  //if($checkname -> num_rows > 0){
-  //  echo "not ok";
-  //  exit();
-  //}
-
   if (isset($_FILES['image'])) {
     $fileTmpPath = $_FILES['image']['tmp_name'];
     $originalFileName = $_FILES['image']['name'];
     $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
-    $newFileName = $product_name . '.' . $productid . '.' . $fileExtension;
+    $newFileName = $product_name . '.' . $category_id . '.' . $fileExtension;
 
     $target_file = $target_dir . $newFileName;
 

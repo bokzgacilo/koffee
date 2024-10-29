@@ -48,8 +48,18 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <!-- Navbar Section -->
     <?php include "includes/navbar.php"; ?>
+    <style>
+      .backtomenunav {
+        padding: 0.5rem 12%;
+      }
 
-    <nav class="navbar navbar-expand-lg navbar-custom">
+      @media (max-width: 768px) {
+        .backtomenunav {
+          padding: 0.5rem;
+        }
+      }
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-custom backtomenunav">
       <a class="navbar-brand" href="menu.php"><i class="fas fa-chevron-left"></i> BACK TO MENU</a>
     </nav>
 
@@ -161,9 +171,19 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
 
             
             foreach ($sizes as $size) {
+              $ischecked = "";
+
+              if($size['size'] === "small"){
+                $ischecked = "checked";
+              }else {
+                if($size['size'] === "regular"){
+                  $ischecked = "checked";
+                }
+              }
+
               echo "
                 <div class='form-check col-12 col-lg-4 mb-lg-4'>
-                  <input class='form-check-input' value='".$size['size']."' type='radio' name='size' data-price='".number_format($size['price'], 2)."' checked>
+                  <input class='form-check-input' value='".$size['size']."' type='radio' name='size'  data-price='".number_format($size['price'], 2)."' $ischecked>
                   <label class='form-check-label'>
                     ".$size['size']." (₱".$size['price'].")
                   </label>
@@ -255,7 +275,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
         console.log("Total Addon Price: " + addon_total)
         console.log("Total Computed Price: " + (original_price + addon_total + size_total) * quantity)
 
-        return (original_price + addTotal + size_total) * quantity;
+        return (size_total + (addTotal * quantity));
       }
 
       $(document).ready(function(){

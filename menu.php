@@ -136,6 +136,12 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
     <script>
         function displayCategory(categoryId) {
+          let menutitle = $(`#category-${categoryId}`).attr('data-title')
+
+          if(menutitle === undefined){
+            menutitle = "ALL MENU"
+          }
+
           $.ajax({
             type: "get",
             url: "api/get_category_items.php",
@@ -143,6 +149,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
               category_id : categoryId
             },
             success: response => {
+              $("#menu-title").html(menutitle)
               $("#menu-items").html(response)
             }
           })
@@ -158,7 +165,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="category-menu">
         <span onclick="displayCategory('all')">ALL MENU</span>
         <?php foreach ($categories as $category): ?>
-            <span id="category-<?php echo $category['id']; ?>" onclick="displayCategory('<?php echo $category['id']; ?>')">
+            <span id="category-<?php echo $category['id']; ?>" onclick="displayCategory('<?php echo $category['id']; ?>')" data-title="<?php echo strtoupper($category['name']); ?>">
                 <?php echo strtoupper($category['name']); ?>
             </span>
         <?php endforeach; ?>
@@ -166,7 +173,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Selected Category and Menu Items -->
     <div class="container">
-      <h1 class="mt-4 mb-4">All Menu</h1>
+      <h1 class="mt-4 mb-4" id="menu-title">All Menu</h1>
       <div class="row menu-items" id="menu-items">
         <?php foreach ($products as $product): ?>
             <div class="col-lg-3 col-6 menu-item">
