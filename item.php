@@ -275,7 +275,7 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
         console.log("Total Addon Price: " + addon_total)
         console.log("Total Computed Price: " + (original_price + addon_total + size_total) * quantity)
 
-        return (size_total + (addTotal * quantity));
+        return ((size_total * quantity) + (addTotal * quantity));
       }
 
       $(document).ready(function(){

@@ -86,7 +86,7 @@ class Master extends DBConnection
 	function delete_category()
 	{
 		extract($_POST);
-		$del = $this->conn->query("UPDATE `category_list` set `delete_flag` = 1 where id = '{$id}'");
+		$del = $this->conn->query("DELETE FROM `category_list` WHERE id = '{$id}'");
 		if ($del) {
 			$resp['status'] = 'success';
 			$this->settings->set_flashdata('success', " Category successfully deleted.");
