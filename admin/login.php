@@ -1,12 +1,21 @@
+
+<?php
+  session_start();
+
+  if(!isset($_SESSION['adminauth'])){
+    
+    
+  }else {
+    header("location: index.php");
+  }
+?>
+
 <?php require_once('../config.php') ?>
 <!DOCTYPE html>
 <html lang="en" class="" style="height: auto;">
 <?php require_once('inc/header.php') ?>
 
 <body class="hold-transition login-page">
-  <script>
-    start_loader()
-  </script>
   <style>
     body {
       background-image: url("<?php echo validate_image($_settings->info('cover')) ?>");
@@ -28,9 +37,9 @@
     <div class="card card-navy my-2">
       <div class="card-body">
         <p class="login-box-msg">Please enter your credentials</p>
-        <form id="login-frm" action="" method="post">
+        <form id="adminloginform">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" name="username" autofocus placeholder="Username">
+            <input type="text" class="form-control" id="adminusername" name="username" autofocus placeholder="Username">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -38,7 +47,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" class="form-control" name="password" placeholder="Password">
+            <input type="password" class="form-control" id="adminpassword" name="password" placeholder="Password">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -69,7 +78,28 @@
 
   <script>
     $(document).ready(function () {
-      end_loader();
+      $("#adminloginform").on("submit", function(event){
+        event.preventDefault();
+
+        var logemail = $("#adminusername").val();
+        var logpassword = $("#adminpassword").val();
+
+        $.ajax({
+          type: 'post',
+          url: '../api/admin_login.php',
+          data: {
+            username : logemail,
+            password: logpassword
+          },
+          success: response => {
+            if(response === "ok"){
+              location.reload()
+            }else {
+              alert(response)
+            }
+          }
+        })
+      })
     })
   </script>
 </body>

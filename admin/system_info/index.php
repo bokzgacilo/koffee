@@ -48,7 +48,7 @@
 			<div class="form-group">
 				<label for="" class="control-label">System Logo</label>
 				<div class="custom-file">
-	              <input type="file" class="custom-file-input rounded-circle" id="customFile1" name="img" onchange="displayImg(this,$(this))">
+	              <input type="file" accept="image/jpeg, image/png" class="custom-file-input rounded-circle" id="customFile1" name="img" onchange="displayImg(this,$(this))">
 	              <label class="custom-file-label" for="customFile1">Choose file</label>
 	            </div>
 			</div>
@@ -58,7 +58,7 @@
 			<div class="form-group">
 				<label for="" class="control-label">Website Cover</label>
 				<div class="custom-file">
-	              <input type="file" class="custom-file-input rounded-circle" id="customFile2" name="cover" onchange="displayImg2(this,$(this))">
+	              <input type="file" accept="image/jpeg, image/png" class="custom-file-input rounded-circle" id="customFile2" name="cover" onchange="displayImg2(this,$(this))">
 	              <label class="custom-file-label" for="customFile2">Choose file</label>
 	            </div>
 			</div>
@@ -68,7 +68,7 @@
 			<div class="form-group">
 				<label for="" class="control-label">Banner Images</label>
 				<div class="custom-file">
-	              <input type="file" class="custom-file-input rounded-circle" id="customFile3" name="banners[]" multiple accept=".png,.jpg,.jpeg" onchange="displayImg3(this,$(this))">
+	              <input type="file" accept="image/jpeg, image/png" class="custom-file-input rounded-circle" id="customFile3" name="banners[]" multiple accept=".png,.jpg,.jpeg" onchange="displayImg3(this,$(this))">
 	              <label class="custom-file-label" for="customFile3">Choose file</label>
 	            </div>
 				<small><i>Choose to upload new banner immages</i></small>

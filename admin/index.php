@@ -1,8 +1,15 @@
+
+<?php
+  session_start();
+  if(!$_SESSION['adminauth']){
+    header("location: login.php");
+  }
+?>
+
 <?php require_once('../config.php'); ?>
 <!DOCTYPE html>
 <html lang="en" class="" style="height: auto;">
 <?php require_once('inc/header.php') ?>
-
 
 
 <body
@@ -40,15 +47,12 @@
         opacity: 0; /* Optional: Start with hidden opacity */
       }
       100% {
-        transform: translateX(10%0); /* End in normal position */
-        opacity: 1; /* Optional: Fade in */
+        transform: translateX(10%0);
+        opacity: 1; 
       }
     }
 
   </style>
-
- 
-
   <div class="wrapper">
     <?php require_once('inc/topBarNav.php') ?>
     <?php require_once('inc/navigation.php') ?>

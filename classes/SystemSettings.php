@@ -57,65 +57,30 @@ class SystemSettings extends DBConnection
 				file_put_contents("../$k.html", $v);
 			}
 		}
+
+    // Changing LOGO
 		if (!empty($_FILES['img']['tmp_name'])) {
-			$ext = pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
-			$fname = "uploads/logo.png";
-			$accept = array('image/jpeg', 'image/png');
-			if (!in_array($_FILES['img']['type'], $accept)) {
-				$err = "Image file type is invalid";
-			}
-			if ($_FILES['img']['type'] == 'image/jpeg')
-				$uploadfile = imagecreatefromjpeg($_FILES['img']['tmp_name']);
-			elseif ($_FILES['img']['type'] == 'image/png')
-				$uploadfile = imagecreatefrompng($_FILES['img']['tmp_name']);
-			if (!$uploadfile) {
-				$err = "Image is invalid";
-			}
-			$temp = imagescale($uploadfile, 200, 200);
-			if (is_file(base_app . $fname))
-				unlink(base_app . $fname);
-			$upload = imagepng($temp, base_app . $fname);
-			if ($upload) {
-				if (isset($_SESSION['system_info']['logo'])) {
-					$qry = $this->conn->query("UPDATE system_info set meta_value = CONCAT('{$fname}', '?v=',unix_timestamp(CURRENT_TIMESTAMP)) where meta_field = 'logo' ");
-					if (is_file(base_app . $_SESSION['system_info']['logo']))
-						unlink(base_app . $_SESSION['system_info']['logo']);
-				} else {
-					$qry = $this->conn->query("INSERT into system_info set meta_value = '{$fname}',meta_field = 'logo' ");
-				}
-			}
-			imagedestroy($temp);
-		}
+      $ext = pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
+      $targetDir = "uploads/";
+      $fname = $targetDir . "logo." . $ext;
+
+      $qry = $this->conn->query("UPDATE system_info SET meta_value = '{$fname}' WHERE meta_field = 'logo'");
+      
+      move_uploaded_file($_FILES['img']['tmp_name'], "../" . $targetDir . "logo." . $ext);
+    }
+    
+    // Changing COVER
 		if (!empty($_FILES['cover']['tmp_name'])) {
 			$ext = pathinfo($_FILES['cover']['name'], PATHINFO_EXTENSION);
-			$fname = "uploads/cover.png";
-			$accept = array('image/jpeg', 'image/png');
-			if (!in_array($_FILES['cover']['type'], $accept)) {
-				$err = "Image file type is invalid";
-			}
-			if ($_FILES['cover']['type'] == 'image/jpeg')
-				$uploadfile = imagecreatefromjpeg($_FILES['cover']['tmp_name']);
-			elseif ($_FILES['cover']['type'] == 'image/png')
-				$uploadfile = imagecreatefrompng($_FILES['cover']['tmp_name']);
-			if (!$uploadfile) {
-				$err = "Image is invalid";
-			}
-			list($width, $height) = getimagesize($_FILES['cover']['tmp_name']);
-			$temp = imagescale($uploadfile, $width, $height);
-			if (is_file(base_app . $fname))
-				unlink(base_app . $fname);
-			$upload = imagepng($temp, base_app . $fname);
-			if ($upload) {
-				if (isset($_SESSION['system_info']['cover'])) {
-					$qry = $this->conn->query("UPDATE system_info set meta_value = CONCAT('{$fname}', '?v=',unix_timestamp(CURRENT_TIMESTAMP)) where meta_field = 'cover' ");
-					if (is_file(base_app . $_SESSION['system_info']['cover']))
-						unlink(base_app . $_SESSION['system_info']['cover']);
-				} else {
-					$qry = $this->conn->query("INSERT into system_info set meta_value = '{$fname}',meta_field = 'cover' ");
-				}
-			}
-			imagedestroy($temp);
+      $targetDir = "uploads/";
+      $fname = $targetDir . "cover." . $ext;
+
+      $qry = $this->conn->query("UPDATE system_info SET meta_value = '{$fname}' WHERE meta_field = 'cover'");
+      
+      move_uploaded_file($_FILES['cover']['tmp_name'], "../" . $targetDir . "cover." . $ext);
 		}
+
+    // Changing Banner
 		if (isset($_FILES['banners']) && count($_FILES['banners']['tmp_name']) > 0) {
 			$err = '';
 			$banner_path = "uploads/banner/";
