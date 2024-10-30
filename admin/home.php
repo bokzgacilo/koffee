@@ -102,9 +102,6 @@
     </div>
   </div>
   <div class="col-3">
-    
-  </div>
-  <div class="col-3">
     <div class="custom-card">
       <div class="custom-card-header">
         <h4>Orders</h4>
