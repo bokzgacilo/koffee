@@ -6,7 +6,7 @@
   $username = $_POST['username'];
   $password = $_POST['password'];
 
-  $sql = $conn -> prepare("SELECT * FROM users WHERE username = ? AND password = ?");
+  $sql = $conn -> prepare("SELECT * FROM users WHERE username = ? AND password = ? AND type=1");
   $sql -> bind_param("ss", $username, $password);
   $sql -> execute();
 
