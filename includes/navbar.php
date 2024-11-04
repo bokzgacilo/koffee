@@ -435,19 +435,17 @@
       // Add a new document to the logs collection
       onSnapshot(updates, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
+          console.log(change.doc.data())
+
           let realtimedata = change.doc.data();
 
           if(realtimedata.userid == userid){
             if(change.type === "modified"){
               alert(realtimedata.message)
-
-              location.reload()
             }
           }
         });
       });
-
-      console.log()
   </script>
   
 </body>

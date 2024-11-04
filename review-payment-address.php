@@ -384,7 +384,7 @@
               contact_number2 : contact_number2,
               address : address,
               nearest_landmark : nearest_landmark,
-              map : "test",
+              map : nearest_landmark,
               price : parseFloat(<?php echo $delivery_fee + $total_price; ?>).toFixed(2),
               client_id : <?php echo $_SESSION['userid']; ?>
             },
@@ -406,8 +406,6 @@
                   }
                 });
               }, 5000);
-
-             
             }
           })
         })

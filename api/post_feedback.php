@@ -5,10 +5,12 @@
   $feedback = $_POST['feedback'];
   $rating = $_POST['rating'];
   $orderid = $_POST['orderid'];
+  $userfullname = $_SESSION['userfullname'];
+  $useremail = $_SESSION['useremail'];
 
   $insert = $conn -> query("INSERT INTO customer_feedback (customer_name, customer_email, feedback, rating) VALUES(
-    '". $_SESSION['userfullname']."',
-    '". $_SESSION['useremail']."',
+    '$userfullname',
+    '$useremail',
     '$feedback',
     $rating
   )");
