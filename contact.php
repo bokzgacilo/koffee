@@ -6,22 +6,19 @@
     <title>Contact Us - KOFEE MANILA</title>
     <script src="libs/jquery.js"></script>
     <script src="libs/popper.js"></script>
-
     <script src="libs/bootstrap.min.js"></script>
     <link href="libs/bootstrap.min.css" rel="stylesheet" />
-    
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Bootstrap CSS -->
-    <!-- Font Awesome -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
 
     <style>
+      /* Scrollbar Styles */
       ::-webkit-scrollbar {
         width: 8px;
       }
@@ -40,15 +37,22 @@
         scrollbar-width: thin;
         scrollbar-color: #888 #f1f1f1;
       }
+
+      /* Main Styles */
       body {
-        font-family: "Montserrat", sans-serif; /* Apply Montserrat font to entire body */
+        font-family: "Montserrat", sans-serif;
       }
+
+      /* Background Image Section */
       .bg-image {
-        background-image: url("assets/bg-contact.png");
+        background-image: url("./assets/Brown Modern Coffee Presentation.webp");
+        /* Backup background color in case image doesn't load */
+        background-color: #d3b8ae;
         background-size: cover;
         background-position: center;
-        height: 500px; /* Adjust as needed */
+        height: 500px;
       }
+
       .contact-info {
         padding: 2rem 0;
         background-color: #f8f9fa;
@@ -69,8 +73,9 @@
       .contact-info .social-icons a:hover {
         color: #6c757d;
       }
+
       .map-container {
-        height: 800px; /* Increased height */
+        height: 800px;
       }
     </style>
   </head>
@@ -98,16 +103,10 @@
           <i class="fas fa-map-marker-alt"></i> 005 Don Placido Campos Avenue, Zone 1, Dasmariñas, 4114 Cavite
         </p>
         <div class="social-icons">
-          <a href="https://facebook.com" target="_blank"
-            ><i class="fab fa-facebook-f"></i
-          ></a>
-          <a href="https://twitter.com" target="_blank"
-            ><i class="fab fa-twitter"></i 
-          ></a>
+          <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
           <a href="#"><i class="fab fa-tiktok"></i></a>
-          <a href="https://instagram.com" target="_blank"
-            ><i class="fab fa-instagram"></i
-          ></a>
+          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
     </section>
@@ -115,7 +114,7 @@
     <!-- Google Map Section -->
     <section class="map-container">
       <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d710.1983347081095!2d120.93496048102882!3d14.327519625920248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d54bd9893d23%3A0xc66dd3f6e762b5ba!2sKofee%20Manila%20-%20Dasma%20Bayan!5e0!3m2!1sen!2sph!4v1730113623157!5m2!1sen!2sph" 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d710.1983347081095!2d120.93496048102882!3d14.327519625920248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d54bd9893d23%3A0xc66dd3f6e762b5ba!2sKofee%20Manila%20-%20Dasma%20Bayan!5e0!3m2!1sen!2sph!4v1730113623157!5m2!1sen!2sph"
         width="100%"
         height="100%"
         frameborder="0"
@@ -123,11 +122,10 @@
         allowfullscreen=""
         aria-hidden="false"
         tabindex="0"
-      >
-      </iframe>
+      ></iframe>
     </section>
 
     <!-- Footer Section -->
-      <?php include "includes/footer.php"; ?>
+    <?php include "includes/footer.php"; ?>
   </body>
 </html>
