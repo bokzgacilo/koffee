@@ -1,4 +1,16 @@
-  <!DOCTYPE html>
+
+<?php
+  include("api/connection.php");
+
+  $getcontact = $conn -> query("SELECT * FROM content_management WHERE id=1");
+  $contact = $getcontact -> fetch_assoc();
+  
+  $abouts = json_decode($contact['about'], true);
+
+  $conn -> close();
+?>
+
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -69,20 +81,16 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 align-self-center">
-            <h2>Our Story</h2>
+            <h2><?php echo $abouts[0]['title']; ?></h2>
             <p>
-              Kofee Manila was founded with a passion for great coffee and a
-              desire to create a cozy space where people can come together and
-              enjoy the finest brews. From our humble beginnings to becoming a
-              beloved spot in the community, our journey has been fueled by a
-              commitment to quality and a love for coffee culture.
+              <?php echo $abouts[0]['description']; ?>
             </p>
           </div>
           <div class="col-md-6">
             <img
-              src="assets/story.png"
+              src="<?php echo $abouts[0]['image']; ?>"
               class="img-fluid"
-              alt="Our Story"
+              alt="<?php echo $abouts[0]['title']; ?>"
             />
           </div>
         </div>

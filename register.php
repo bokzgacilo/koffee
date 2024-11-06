@@ -1,3 +1,13 @@
+<?php
+  include("api/connection.php");
+
+  $getcontact = $conn -> query("SELECT * FROM content_management WHERE id=1");
+  $contact = $getcontact -> fetch_assoc();
+
+  $conn -> close();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -136,35 +146,7 @@
             <h5 class="modal-title" id="termsModalLabel">Kofee Manila - Terms and Conditions</h5>
           </div>
           <div class="modal-body">
-          <h2>Kofee Manila - Terms and Conditions</h2>
-
-          <p>Welcome to Kofee Manila! These terms and conditions outline the rules and regulations for the use of our services. By accessing and placing an order on Kofee Manila, you accept these terms and conditions in full. Do not continue to use Kofee Manila if you do not agree to all of the terms and conditions stated on this page.</p>
-
-          <h3>1. Ordering Process</h3>
-          <p>All orders placed through our website are subject to product availability. We reserve the right to limit the quantities of any products or services that we offer. We may, in our sole discretion, limit or cancel orders placed through our website.</p>
-
-          <h3>2. Pricing and Payment</h3>
-          <p>All prices displayed on our website are in PHP and inclusive of applicable taxes. We reserve the right to change prices at any time without notice. Payments must be made at the time of ordering, through the available payment methods, which include credit/debit cards or cash on delivery.</p>
-
-          <h3>3. Delivery Policy</h3>
-          <p>Delivery times may vary depending on location and order size. We will do our best to deliver your order within the estimated time frame provided at checkout, but we do not guarantee delivery times. Kofee Manila is not responsible for any delays caused by unforeseen circumstances.</p>
-
-          <h3>4. Cancellation and Refunds</h3>
-          <p>Orders can only be cancelled within 5 minutes after the order is placed. If the cancellation request is made after this time, we may not be able to stop the order, and no refund will be provided. In the event of a product being unavailable after an order has been placed, we will offer a replacement or a full refund.</p>
-
-          <h3>5. Allergies and Dietary Requirements</h3>
-          <p>It is your responsibility to notify us of any allergies or dietary requirements when placing your order. While we take care to prepare food according to customer specifications, we cannot guarantee that any of our products are completely free from allergens.</p>
-
-          <h3>6. Limitation of Liability</h3>
-          <p>Kofee Manila shall not be liable for any direct, indirect, incidental, special, or consequential damages arising out of your use of our services or products. We strive to provide accurate and up-to-date information on our website, but we do not guarantee that all information is free from errors.</p>
-
-          <h3>7. Changes to Terms and Conditions</h3>
-          <p>Kofee Manila reserves the right to modify these terms and conditions at any time. Changes will be effective immediately upon posting to our website. By continuing to use our services after any changes are posted, you agree to be bound by the updated terms and conditions.</p>
-
-          <h3>8. Contact Us</h3>
-          <p>If you have any questions about our terms and conditions, feel free to contact us at <a href="mailto:info@kofeemanila.com">info@kofeemanila.com</a>.</p>
-
-          <p><strong>Last Updated: October 2024</strong></p>
+            <?php echo $contact['terms_and_condition']; ?>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

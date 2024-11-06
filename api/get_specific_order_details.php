@@ -21,6 +21,9 @@
     case 'In-Delivery' :
       $status_message = "The delivery person is heading to your location.";
       break;
+    case 'Cancelled' :
+      $status_message = "Cancelled!";
+      break;
     case 'Completed' :
       $status_message = "Your order has been delivered! We hope you enjoy your meal.";
       break;
@@ -113,6 +116,10 @@
     <div class='modal-footer'>";
       if($select['status'] === "Completed"){
         echo "<button type='button' class='btn btn-success' id='leaveReviewButton'>Leave Review</button>";
+      }else {
+        if($select['status'] !== "Cancelled"){
+          echo "<button type='button' class='btn btn-danger' id='cancelButton'>Cancel</button>";
+        }
       }
       echo "<button type='button' class='btn btn-primary' data-bs-dismiss='modal'>Close</button>
     </div>
@@ -127,6 +134,23 @@
 
         $('#leaveReviewModal').modal('toggle')
         $('#viewOrderModal').modal('toggle')
+      })
+
+      $(document).on('click', '#cancelButton',function(){
+        $.ajax({
+          type: 'post',
+          url: 'api/post_cancel_order.php',
+          data: {
+            orderid: $orderid
+          },
+          success: response => {
+            if(response === 'ok'){
+              alert('Order Cancelled!')
+
+              location.reload();
+            }
+          }
+        })
       })
     </script>
   ";

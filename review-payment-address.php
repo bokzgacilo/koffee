@@ -121,6 +121,9 @@
                     }else {
                       include("api/connection.php");
 
+                      $getcontact = $conn -> query("SELECT * FROM content_management WHERE id=1");
+                      $contact = $getcontact -> fetch_assoc();
+
                       $delivery_fee += 50;
         
                       $sql = $conn -> prepare("SELECT cart FROM users WHERE id = ?");
@@ -167,9 +170,8 @@
             <div class="card-body">
               <h5 style="font-weight: bold;">STEP 1 : Scan the QR to Pay</h5>
               <div class="d-flex flex-row">
-                <div class="col-6 d-flex flex-column">
-                  <img style="width: 200px; height: 200px;" src="frame.png" />
-                  <p>This is a sample QR only.</p>
+                <div class="col-12 col-lg-6 d-flex flex-column">
+                  <img class="img-fluid" style="width: 500px; height: auto;" src="<?php echo $contact['gcash']; ?>" />
                 </div>
               </div>
             </div>

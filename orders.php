@@ -117,6 +117,9 @@
                 case 'In-Delivery' :
                   $status_message = "Your order is on its way!";
                   break;
+                case 'Cancelled' :
+                  $status_message = "Order Cancelled!";
+                  break;
                 case 'Completed' :
                   $status_message = "Your order has been delivered!";
                   break;

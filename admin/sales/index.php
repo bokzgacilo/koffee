@@ -74,6 +74,9 @@
                 case 'In-Delivery' :
                   $status_message = "<button onclick='completeOrder(".$row['id'].")' class='btn btn-sm btn-primary'>Complete Order</button>";
                   break;
+                case 'Cancelled' :
+                  $status_message = "";
+                  break;
                 case 'Completed' :
                   $status_message = "<button disabled class='btn btn-sm btn-success'>Completed</button>";
                   break;

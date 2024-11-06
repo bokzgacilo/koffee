@@ -1,3 +1,12 @@
+<?php
+  include("api/connection.php");
+
+  $getcontact = $conn -> query("SELECT * FROM content_management WHERE id=1");
+  $contact = $getcontact -> fetch_assoc();
+
+  $conn -> close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -97,10 +106,10 @@
     <section class="contact-info text-center">
       <div class="container">
         <h3>Get in Touch</h3>
-        <p><i class="fas fa-phone-alt"></i> +63 912 345 6789</p>
-        <p><i class="fas fa-envelope"></i> info@kofeemanila.com</p>
+        <p><i class="fas fa-phone-alt"></i> <?php echo $contact['phone']; ?></p>
+        <p><i class="fas fa-envelope"></i> <?php echo $contact['email']; ?></p>
         <p>
-          <i class="fas fa-map-marker-alt"></i> 005 Don Placido Campos Avenue, Zone 1, Dasmariñas, 4114 Cavite
+          <i class="fas fa-map-marker-alt"></i> <?php echo $contact['address']; ?>
         </p>
         <div class="social-icons">
           <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>

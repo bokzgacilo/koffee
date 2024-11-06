@@ -102,6 +102,8 @@
     var _base_url_ = '<?php echo base_url ?>';
   </script>
   <script src="<?php echo base_url ?>dist/js/script.js"></script>
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
   <!-- Firebase SDK -->
   <script type="module">
