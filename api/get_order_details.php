@@ -12,7 +12,7 @@
       $cart = json_decode($row['cart'], true);
 
       echo "
-        <table class='table table-bordered'>
+        <table class='table table-responsive w-100'>
         <thead>
           <tr>
             <th>Name</th>
@@ -38,50 +38,75 @@
 
 
       echo "
-        <div>
-          <p>Total Price </p>
-          <p>".$row['price']."</p>
+        <div class='row'>
+          <h6 class='col-4'>Total Price </h6>
+          <p class='col-8'>".$row['price']."</p>
         </div>
-        <div>
-          <p>Client Name </p>
-          <p>".$row['client_id']."</p>
+        <div class='row'>
+          <h6 class='col-4'>Client Name </h6>
+          <p class='col-8'>".$row['client_id']."</p>
         </div>
-        <div>
-          <p>Delivery Addres </p>
-          <p>".$row['address']."</p>
+        <div class='row'>
+          <h6 class='col-4'>Delivery Addres </h6>
+          <p class='col-8'>".$row['address']."</p>
         </div>
-        <div>
-          <p>Contact 1 </p>
-          <p>".$row['contact_1']."</p>
+        <div class='row'>
+          <h6 class='col-4'>Contact 1 </h6>
+          <p class='col-8'>".$row['contact_1']."</p>
         </div>
-        <div>
-          <p>Contact 2 </p>
-          <p>".$row['contact_2']."</p>
+        <div class='row'>
+          <h6 class='col-4'>Contact 2 </h6>
+          <p class='col-8'>".$row['contact_2']."</p>
         </div>
-        <div>
-          <p>Nearest Landmark </p>
-          <p>".$row['nearest_landmark']."</p>
+        <div class='row'>
+          <h6 class='col-4'>Nearest Landmark </h6>
+          <p class='col-8'>".$row['nearest_landmark']."</p>
         </div>
-        <div>
-          <p>Pin Location</p>
-          <p>".$row['map']."</p>
+        <div class='row'>
+          <h6 class='col-4'>Pin Location</h6>
+          <p class='col-8'>".$row['map']."</p>
         </div>
-        <div>
-          <p>Status: </p>
-          <p>".$row['status']."</p>
+        <div class='row'>
+          <p class='col-4'>Status</p>
+          <p class='col-8'>".$row['status']."</p>
         </div>
-        <div>
-          <p>GCash Reference Number: </p>
-          <p>".$row['reference_number']."</p>
+        <div class='row'>
+          <p class='col-4'>GCash Reference Number</p>
+          <p class='col-8'>".$row['reference_number']."</p>
         </div>
-        <div class='receipt'>
-          <p>Gcash Receipt</p>
-          <img src='".$row['gcash']."'>
+        <div class='row'>
+          <h6 class='col-4'>Date Ordered</h6>
+          <p lass='col-8'>".$row['order_date']."</p>
         </div>
-        <div>
-          <p>Date Ordered</p>
-          <p>".$row['order_date']."</p>
+         <div class='image-container border mb-3 p-3'>
+            <img id='image' src='".$row['gcash']."' class='img-fluid'>
         </div>
+        <div class='controls'>
+            <button id='zoomIn' class='btn btn-primary btn-sm mr-2'>Zoom In</button>
+            <button id='zoomOut' class='btn btn-primary btn-sm'>Zoom Out</button>
+        </div>
+        <div class='pan-controls'>
+            <button id='panUp' class='btn btn-primary mr-2'>&#8593;</button><br>
+            <button id='panLeft' class='btn btn-primary mr-2'>&#8592;</button>
+            <button id='panRight' class='btn btn-primary mr-2'>&#8594;</button><br>
+            <button id='panDown' class='btn btn-primary'>&#8595;</button>
+        </div>
+
+        <style>
+          .image-container {
+              width: 500px;
+              height: 500px;
+              overflow: hidden;
+              position: relative;
+          }
+
+          .image-container img {
+              transition: transform 0.1s ease;
+              position: absolute;
+              top: 0;
+              left: 0;
+          }
+        </style>
       ";
     }
   }
