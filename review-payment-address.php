@@ -72,6 +72,16 @@
       .map-container {
         height: 800px; /* Increased height */
       }
+
+      .image-container {
+          width: auto;
+          height: auto;
+          overflow: hidden;
+      }
+
+      .image-container img {
+          transition: transform 0.5s ease;
+      }
     </style>
   </head>
   <body>
@@ -171,7 +181,14 @@
               <h5 style="font-weight: bold;">STEP 1 : Scan the QR to Pay</h5>
               <div class="d-flex flex-row">
                 <div class="col-12 col-lg-6 d-flex flex-column">
-                  <img class="img-fluid" style="width: 500px; height: auto;" src="<?php echo $contact['gcash']; ?>" />
+                  <div class="image-container mb-4">
+                      <img id="image"  src="<?php echo $contact['gcash']; ?>" alt="Sample Image" class="img-fluid">
+                  </div>
+                  <div class="controls">
+                      <button type="button" id="zoomIn" class="btn btn-primary me-2">Zoom In</button>
+                      <button type="button" id="zoomOut" class="btn btn-secondary">Zoom Out</button>
+                  </div>
+                  <!-- <img class="img-fluid" style="width: 500px; height: auto;" src="<?php echo $contact['gcash']; ?>" /> -->
                 </div>
               </div>
             </div>
@@ -345,7 +362,23 @@
       })
 
       $(document).ready(function(){
+        let scale = 1;
+        const scaleStep = 0.5;
         var fileBase64;
+
+
+        $('#zoomIn').click(function () {
+            scale += scaleStep;
+            $('#image').css('transform', `scale(${scale})`);
+        });
+
+        $('#zoomOut').click(function () {
+            if (scale > scaleStep) {
+                scale -= scaleStep;
+                $('#image').css('transform', `scale(${scale})`);
+            }
+        });
+
 
         $("#receipt_image").on("change", function(){
           let file = this.files[0];
