@@ -223,3 +223,61 @@
 		
 	})
 </script>
+
+<script>
+
+  let scale = 1;
+  const scaleStep = 0.5;
+  let xOffset = 0;
+  let yOffset = 0;
+  const panStep = 50; // Pixels to pan on each button click
+
+  function updateTransform() {
+    $('#image').css('transform', `translate(${xOffset}px, ${yOffset}px) scale(${scale})`);
+  }
+
+  $(document).on("click", "#zoomIn", function(){
+    $('#zoomIn').click(function () {
+        scale += scaleStep;
+        updateTransform();
+    });
+  })
+
+  $(document).on("click", "#zoomOut", function(){
+    $('#zoomOut').click(function () {
+        if (scale > scaleStep) {
+            scale -= scaleStep;
+            updateTransform();
+        }
+    });
+  })
+
+  $(document).on("click", "#panUp", function(){
+    $('#panUp').click(function () {
+        yOffset += panStep;
+        updateTransform();
+    });
+  })
+
+  $(document).on("click", "#panDown", function(){
+    $('#panDown').click(function () {
+      yOffset -= panStep;
+      updateTransform();
+    });
+  })
+
+  $(document).on("click", "#panLeft", function(){
+    $('#panLeft').click(function () {
+      xOffset += panStep;
+      updateTransform();
+    });
+  })
+
+  $(document).on("click", "#panRight", function(){
+    $('#panRight').click(function () {
+        xOffset -= panStep;
+        updateTransform();
+    });
+  })
+
+</script>
