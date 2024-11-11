@@ -42,7 +42,7 @@
   <h1>Feedbacks</h1>
   <div class="d-flex flex-row">
     <div class="col-12">
-    <table class="table table-bordered">
+    <table class="table table-bordered table-responsive">
       <thead>
         <tr>
           <th>Id</th>

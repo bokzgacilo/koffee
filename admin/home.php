@@ -18,13 +18,13 @@
 </style>
 
 <div class="row">
-  <div class="col-3">
+  <div class="col-lg-4 col-md-6 mb-4">
     <div class="custom-card">
       <div class="custom-card-header">
         <h4>Registered Users</h4>
         <h4>
           <?php
-          $users = $conn -> query("SELECT * FROM users where type = 2") -> num_rows;
+          $users = $conn->query("SELECT * FROM users WHERE type = 2")->num_rows;
           echo format_num($users);
           ?>
         </h4>
@@ -34,13 +34,13 @@
       </div>
     </div>
   </div>
-  <div class="col-3">
+  <div class="col-lg-4 col-md-6 mb-4">
     <div class="custom-card">
       <div class="custom-card-header">
         <h4>Products</h4>
         <h4>
           <?php
-          $products = $conn -> query("SELECT * FROM product_list ") -> num_rows;
+          $products = $conn->query("SELECT * FROM product_list")->num_rows;
           echo format_num($products);
           ?>
         </h4>
@@ -50,14 +50,14 @@
       </div>
     </div>
   </div>
-  <div class="col-3">
+  <div class="col-lg-4 col-md-6 mb-4">
     <div class="custom-card">
       <div class="custom-card-header">
         <h4>Categories</h4>
         <h4>
           <?php
-          $products = $conn -> query("SELECT * FROM category_list ") -> num_rows;
-          echo format_num($products);
+          $categories = $conn->query("SELECT * FROM category_list")->num_rows;
+          echo format_num($categories);
           ?>
         </h4>
       </div>
@@ -66,15 +66,15 @@
       </div>
     </div>
   </div>
-  <div class="col-3">
+  <div class="col-lg-4 col-md-6 mb-4">
     <div class="custom-card">
       <div class="custom-card-header">
         <h4>Addons</h4>
         <h4>
           <?php
-            $addons = $conn -> query("SELECT * FROM addons") -> num_rows;
-            echo format_num($addons);
-            ?>
+          $addons = $conn->query("SELECT * FROM addons")->num_rows;
+          echo format_num($addons);
+          ?>
         </h4>
       </div>
       <div class="custom-card-body">
@@ -82,16 +82,13 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="row mt-4">
-  <div class="col-3">
+  <div class="col-lg-4 col-md-6 mb-4">
     <div class="custom-card">
       <div class="custom-card-header">
         <h4>Submitted Feedbacks</h4>
         <h4>
           <?php
-          $feedbacks = $conn -> query("SELECT * FROM customer_feedback") -> num_rows;
+          $feedbacks = $conn->query("SELECT * FROM customer_feedback")->num_rows;
           echo format_num($feedbacks);
           ?>
         </h4>
@@ -101,13 +98,13 @@
       </div>
     </div>
   </div>
-  <div class="col-3">
+  <div class="col-lg-4 col-md-6 mb-4">
     <div class="custom-card">
       <div class="custom-card-header">
         <h4>Orders</h4>
         <h4>
           <?php
-          $orders = $conn -> query("SELECT * FROM orders ") -> num_rows;
+          $orders = $conn->query("SELECT * FROM orders")->num_rows;
           echo format_num($orders);
           ?>
         </h4>
@@ -117,21 +114,19 @@
       </div>
     </div>
   </div>
-  <div class="col-3">
+  <div class="col-lg-4 col-md-6 mb-4">
     <div class="custom-card">
       <div class="custom-card-header">
         <h4>Total Sales</h4>
         <h4>
           <?php
-            if ($_settings->userdata('type') == 3):
-              $total = $conn->query("SELECT sum(price) as total FROM orders where client_id = '{$_settings->userdata('id')}' ");
-            else:
-              $total = $conn->query("SELECT sum(price) as total FROM orders");
-            endif;
-            $total = $total->num_rows > 0 ? $total->fetch_array()['total'] : 0;
-            $total = $total > 0 ? $total : 0;
-
-            echo format_num($total);
+          if ($_settings->userdata('type') == 3):
+            $total = $conn->query("SELECT SUM(price) AS total FROM orders WHERE client_id = '{$_settings->userdata('id')}'");
+          else:
+            $total = $conn->query("SELECT SUM(price) AS total FROM orders");
+          endif;
+          $total = $total->num_rows > 0 ? $total->fetch_array()['total'] : 0;
+          echo format_num($total);
           ?>
         </h4>
       </div>

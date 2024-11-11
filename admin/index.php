@@ -1,6 +1,7 @@
 
 <?php
   session_start();
+  
   if(!$_SESSION['adminauth']){
     header("location: login.php");
   }
@@ -106,7 +107,7 @@
         </div>
       </div>
       <div class="modal fade" id="uni_modal" role='dialog'>
-        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title"></h5>
@@ -122,7 +123,7 @@
         </div>
       </div>
       <div class="modal fade" id="uni_modal_right" role='dialog'>
-        <div class="modal-dialog modal-full-height  modal-md" role="document">
+        <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title"></h5>

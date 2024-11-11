@@ -89,6 +89,14 @@
       top: 0
     }
   </style> -->
+  <style>
+    @media (max-width: 700px) {
+      .sidebar-mini-md .content-wrapper, .sidebar-mini-md .content-wrapper::before, .sidebar-mini-md .main-footer, .sidebar-mini-md .main-footer::before, .sidebar-mini-md .main-header, .sidebar-mini-md .main-header::before {
+        margin-left: 0;
+      }
+    }
+    
+  </style>
 
   <!-- jQuery -->
   <script src="<?php echo base_url ?>plugins/jquery/jquery.min.js"></script>

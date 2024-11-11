@@ -40,8 +40,7 @@
 
 <div class="container-fluid">
   <h1>List of Orders</h1>
-  <div class="d-flex flex-row">
-    <div class="col-7">
+  <div class="table-responsive">
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -57,8 +56,6 @@
           include("../api/connection.php");
 
           $result = $conn -> query("SELECT * FROM orders");
-
-          $buttonRenderer = "";
 
           if($result -> num_rows > 0){
             while($row = $result -> fetch_assoc()){
@@ -96,7 +93,7 @@
                   <td>".$row['order_date']."</td>
                   <td>".$row['status']."</td>
                   <td>
-                    <button onclick='viewOrder(".$row['id'].")' class='btn btn-sm btn-secondary'>View Order</button>
+                    <button onclick='viewOrder(".$row['id'].")' class='btn btn-sm btn-secondary' data-bs-toggle='modal' data-bs-target='#orderDetailModal'>View Order</button>
                     $status_message
                   </td>
                 </tr>
@@ -106,12 +103,27 @@
         ?>
       </tbody>
     </table>
-    </div>
-    <div class="col-5" id="detail">
+  </div>
+</div>
 
+<!-- Order Detail Modal -->
+<div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="orderDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailModalLabel">Order Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="detail">
+        <!-- Order details will be loaded here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Close</button>
+      </div>
     </div>
   </div>
-  
 </div>
 
 <script type="module">
@@ -204,7 +216,6 @@
       }
     });
   }
- 
 
   window.viewOrder = function(id){
     $.ajax({
@@ -214,11 +225,11 @@
         id:id
       },
       success: response => {
+        $("#orderDetailModal").modal("toggle")
         $("#detail").html(response)
       }
     })
   }
-
 	$(document).ready(function(){
 		
 	})

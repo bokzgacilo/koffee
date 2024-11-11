@@ -7,7 +7,7 @@
     gap: 1rem;
   }
 
-  .col-4 > img {
+  .col-12 > img {
     width: 100%;
     height: 300px;
     object-fit: cover;
@@ -34,13 +34,13 @@
 
         foreach ($banners as $banner) {
           echo "
-          <div class='col-4'>
+          <div class='col-12 col-md-6 col-lg-4'>
             <h4>Banner ".$banner['id']."</h4>
-            <img src='../".$banner['image']."' id='banner".$banner['id']."' class='mb-4' />
+            <img src='../".$banner['image']."' id='banner".$banner['id']."' class='mb-4 img-fluid' />
             <h5>Change Picture</h5>
             <input accept='image/*' type='file' name='bannerImage".$banner['id']."' id='bannerImage".$banner['id']."' class='form-control mb-4' />
             <h5>Banner Title</h5>
-            <input value='".$banner['title']."' type='text' name=bannerTitle".$banner['id']." id='bannerTitle".$banner['id']."' class='form-control mb-4' required />
+            <input value='".$banner['title']."' type='text' name='bannerTitle".$banner['id']."' id='bannerTitle".$banner['id']."' class='form-control mb-4' required />
             <h5>Banner Description</h5>
             <input value='".$banner['description']."' type='text' name='bannerDescription".$banner['id']."' id='bannerDescription".$banner['id']."' class='form-control mb-4' required />
           </div>
@@ -48,34 +48,33 @@
         }
       ?>
     </div>
+    
     <div class="row">
       <?php
         $descriptions = json_decode($content['description'], true);
 
         foreach ($descriptions as $desc) {
           echo "
-          <div class='col-4'>
+          <div class='col-12 col-md-6 col-lg-4'>
             <h4>Description</h4>
-            <img src='../".$desc['image']."' id='desc".$desc['id']."' class='mb-4' />
+            <img src='../".$desc['image']."' id='desc".$desc['id']."' class='mb-4 img-fluid' />
             <h5>Change Picture</h5>
             <input accept='image/*' type='file' name='descImage".$desc['id']."' id='descImage".$desc['id']."' class='form-control mb-4' />
             <h5>Title</h5>
-            <input value='".$desc['title']."' type='text' name=descTitle".$desc['id']." id='descTitle".$banner['id']."' class='form-control mb-4' required />
+            <input value='".$desc['title']."' type='text' name='descTitle".$desc['id']."' id='descTitle".$desc['id']."' class='form-control mb-4' required />
             <h5>Description</h5>
-            <input value='".$desc['description']."' type='text' name='descDescription".$desc['id']."' id='descDescription".$banner['id']."' class='form-control mb-4' required />
+            <input value='".$desc['description']."' type='text' name='descDescription".$desc['id']."' id='descDescription".$desc['id']."' class='form-control mb-4' required />
           </div>
           ";
         }
-      ?>
 
-      <?php
         $abouts = json_decode($content['about'], true);
 
         foreach ($abouts as $about) {
           echo "
-          <div class='col-4'>
+          <div class='col-12 col-md-6 col-lg-4'>
             <h4>About</h4>
-            <img src='../".$about['image']."' id='about".$about['id']."' class='mb-4' />
+            <img src='../".$about['image']."' id='about".$about['id']."' class='mb-4 img-fluid' />
             <h5>Change Picture</h5>
             <input accept='image/*' type='file' name='aboutImage' id='aboutImage".$about['id']."' class='form-control mb-4' />
             <h5>Title</h5>
@@ -85,33 +84,38 @@
           </div>
           ";
         }
-      ?>
-      <?php
-        echo "
-        <div class='col-4'>
-          <h4>Gcash</h4>
-          <img src='../".$content['gcash']."' id='gcash' class='mb-4' />
-          <h5>Change Picture</h5>
-          <input accept='image/*' type='file' name='gcashImage' id='gcashImage' class='form-control mb-4' />
-        </div>
-        ";
+
+        $gcashs = json_decode($content['gcash'], true);
+
+        foreach ($gcashs as $gcash) {
+          echo "
+          <div class='col-12 col-md-6 col-lg-4'>
+            <h4>Gcash</h4>
+            <img src='../".$gcash['image']."' id='gcash' class='mb-4 img-fluid' />
+            <h5>Gcash QR</h5>
+            <input accept='image/*' type='file' name='gcashImage1' id='gcashImage1' class='form-control mb-4' />
+            <h5>Gcash Name</h5>
+            <input value='".$gcash['name']."' type='text' name='gcashName1' id='gcashName1' class='form-control mb-4' required />
+            <h5>Gcash Number</h5>
+            <input value='".$gcash['number']."' type='text' name='gcashNumber1' id='gcashNumber1' class='form-control mb-4' required />
+          </div>
+          ";
+        }
       ?>
     </div>
+
     <div class="row">
-      <?php
-        echo "
-        <div class='col-4'>
-          <h4>Contact</h4>
-          <h5>Phone</h5>
-          <input value='".$content['phone']."' type='text' name='phone' class='form-control mb-4' required />
-          <h5>Email</h5>
-          <input value='".$content['email']."' type='text' name='email' class='form-control mb-4' required />
-          <h5>Address</h5>
-          <input value='".$content['address']."' type='text' name='address' class='form-control mb-4' required />
-        </div>
-        ";
-      ?>
+      <div class="col-12 col-md-6 col-lg-4">
+        <h4>Contact</h4>
+        <h5>Phone</h5>
+        <input value='<?php echo $content["phone"]; ?>' type='text' name='phone' class='form-control mb-4' required />
+        <h5>Email</h5>
+        <input value='<?php echo $content["email"]; ?>' type='text' name='email' class='form-control mb-4' required />
+        <h5>Address</h5>
+        <input value='<?php echo $content["address"]; ?>' type='text' name='address' class='form-control mb-4' required />
+      </div>
     </div>
+
     <div class="row">
       <div class="col-12">
         <h4>Terms and Condition</h4>
@@ -119,8 +123,9 @@
         <textarea name="quill" id="quill" style="display: none;"></textarea>
       </div>
     </div>
-    <div>
-    <button class="mt-4 btn btn-primary btn-lg" type="submit">Save Changes</button>
+
+    <div class="d-flex justify-content-center">
+      <button class="mt-4 btn btn-primary btn-lg" type="submit">Save Changes</button>
     </div>
   </form>
 </div>
@@ -214,7 +219,7 @@
       }
     })
 
-    $("#gcashImage").on('change', function(event){
+    $("#gcashImage1").on('change', function(event){
       var file = event.target.files[0];
       var reader = new FileReader();
       
