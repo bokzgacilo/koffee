@@ -94,7 +94,7 @@
 
         <style>
           .image-container {
-              width: 500px;
+              width: 100%;
               height: 500px;
               overflow: hidden;
               position: relative;

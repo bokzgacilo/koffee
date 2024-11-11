@@ -171,7 +171,11 @@
               <h5 style="font-weight: bold;">STEP 1 : Scan the QR to Pay</h5>
               <div class="d-flex flex-row">
                 <div class="col-12 col-lg-6 d-flex flex-column">
-                  <img class="img-fluid" style="width: 500px; height: auto;" src="<?php echo $contact['gcash']; ?>" />
+                  <?php
+                    $gcash = json_decode($contact['gcash'], true);
+                  ?>
+                  <img class="img-fluid" style="width: 500px; height: auto;" src="<?php echo $gcash[0]['image']; ?>" />
+                  <h4 class="mt-4"><?php echo $gcash[0]['name']; ?> - <?php echo $gcash[0]['number']; ?></h4>
                 </div>
               </div>
             </div>

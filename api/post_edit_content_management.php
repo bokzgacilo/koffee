@@ -13,6 +13,7 @@
   $banners = json_decode($content['banner'], true);
   $descriptions = json_decode($content['description'], true);
   $abouts = json_decode($content['about'], true);
+  $gcashs = json_decode($content['gcash'], true);
 
   $bannerInputs = ['bannerImage1', 'bannerImage2', 'bannerImage3'];
   
@@ -68,6 +69,22 @@
     $abouts[$index]['description'] = $_POST['aboutDescription'];
   }
 
+  foreach($gcashs as $index => $gcash){
+    if (isset($_FILES['gcashImage1']) && $_FILES['gcashImage1']['error'] == 0) {
+      $target_dir = "../uploads/";
+      $fileExtension = pathinfo($_FILES['gcashImage1']['name'], PATHINFO_EXTENSION);
+      $customFileName = 'gcash' . '.' . $fileExtension;
+      $targetFilePath = $target_dir . $customFileName;
+
+      if (move_uploaded_file($_FILES['gcashImage1']["tmp_name"], $targetFilePath)) {
+        $gcashs[$index]['image'] = 'uploads/' . $customFileName;
+      }
+    }
+
+    $gcashs[$index]['name'] = $_POST['gcashName1'];
+    $gcashs[$index]['number'] = $_POST['gcashNumber1'];
+  }
+
   if (isset($_FILES['gcashImage']) && $_FILES['gcashImage']['error'] == 0) {
     $target_dir = "../uploads/";
     $fileExtension = pathinfo($_FILES['gcashImage']['name'], PATHINFO_EXTENSION);
@@ -83,14 +100,16 @@
   $updatedBannerJson = json_encode($banners, JSON_UNESCAPED_SLASHES);
   $updatedDescriptionJson = json_encode($descriptions, JSON_UNESCAPED_SLASHES);
   $updatedAboutJson = json_encode($abouts, JSON_UNESCAPED_SLASHES);
+  $updatedGcashJson = json_encode($gcashs, JSON_UNESCAPED_SLASHES);
 
   $updateBanner = $conn -> query("UPDATE content_management SET banner='$updatedBannerJson' WHERE id=1");
+  $updateGcash = $conn -> query("UPDATE content_management SET gcash='$updatedGcashJson' WHERE id=1");
   $updateDescription = $conn -> query("UPDATE content_management SET description='$updatedDescriptionJson' WHERE id=1");
   $updateAbout = $conn -> query("UPDATE content_management SET about='$updatedAboutJson' WHERE id=1");
 
   $updateContact = $conn -> query("UPDATE content_management SET terms_and_condition='$quill', phone='$phone', email='$email', address='$address' WHERE id=1");
 
-  if($updateBanner && $updateDescription && $updateAbout && $updateContact){
+  if($updateGcash && $updateBanner && $updateDescription && $updateAbout && $updateContact){
     echo "ok";
   }
 
