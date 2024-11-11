@@ -26,11 +26,14 @@ Class Users extends DBConnection {
 				$data .= " {$k} = '{$v}' ";
 			}
 		}
-		if(empty($adminid)){
+
+		if(empty($adminid) || !isset($adminid)){
 			$qry = $this->conn->query("INSERT INTO users set {$data}");
+
 			if($qry){
 				$id=$this->conn->insert_id;
 				$this->settings->set_flashdata('success','User Details successfully saved.');
+
 				foreach($_POST as $k => $v){
 					if($k != 'id'){
 						if(!empty($data)) $data .=" , ";
@@ -38,6 +41,7 @@ Class Users extends DBConnection {
 						$this->settings->set_userdata($k,$v);
 					}
 				}
+
 				if(!empty($_FILES['img']['tmp_name'])){
 					if(!is_dir(base_app."uploads/avatars"))
 						mkdir(base_app."uploads/avatars");
