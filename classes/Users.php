@@ -58,21 +58,16 @@ Class Users extends DBConnection {
 						mkdir(base_app."uploads/avatars");
 					$ext = pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
 					$fname = "uploads/avatars/$adminid.png";
+          
 					$accept = array('image/jpeg','image/png');
+
 					if(!in_array($_FILES['img']['type'],$accept)){
 						$err = "Image file type is invalid";
 					}
-					if($_FILES['img']['type'] == 'image/jpeg')
-						$uploadfile = imagecreatefromjpeg($_FILES['img']['tmp_name']);
-					elseif($_FILES['img']['type'] == 'image/png')
-						$uploadfile = imagecreatefrompng($_FILES['img']['tmp_name']);
-					if(!$uploadfile){
-						$err = "Image is invalid";
-					}
-					$temp = imagescale($uploadfile,200,200);
+
 					if(is_file(base_app.$fname))
 					unlink(base_app.$fname);
-					$upload =imagepng($temp,base_app.$fname);
+					$upload =imagepng($_FILES['img']['tmp_name'],base_app.$fname);
 					if($upload){
 						$this->conn->query("UPDATE `users` set `avatar` = CONCAT('{$fname}', '?v=',unix_timestamp(CURRENT_TIMESTAMP)) where id = $adminid");
 						if($this->settings->userdata('id') == $adminid)
