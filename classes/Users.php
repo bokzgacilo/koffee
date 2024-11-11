@@ -53,28 +53,23 @@ Class Users extends DBConnection {
 							$this->settings->set_userdata($k,$v);
 					}
 				}
+
+        $image_url = "";
+        
 				if(!empty($_FILES['img']['tmp_name'])){
-					if(!is_dir(base_app."uploads/avatars"))
-						mkdir(base_app."uploads/avatars");
-					$ext = pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
-					$fname = "uploads/avatars/$adminid.png";
-          
-					$accept = array('image/jpeg','image/png');
+          $fileTmpPath = $_FILES['img']['tmp_name'];
+          $originalFileName = $_FILES['img']['name'];
+          $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
+          $newFileName = $adminid . '.' . $fileExtension;
 
-					if(!in_array($_FILES['img']['type'],$accept)){
-						$err = "Image file type is invalid";
-					}
+					$target_file = "../uploads/avatars/$newFileName";
 
-					if(is_file(base_app.$fname))
-					unlink(base_app.$fname);
-					$upload =imagepng($_FILES['img']['tmp_name'],base_app.$fname);
-					if($upload){
-						$this->conn->query("UPDATE `users` set `avatar` = CONCAT('{$fname}', '?v=',unix_timestamp(CURRENT_TIMESTAMP)) where id = $adminid");
-						if($this->settings->userdata('id') == $adminid)
-						$this->settings->set_userdata('avatar',$fname."?v=".time());
-					}
-
-					imagedestroy($temp);
+          if (move_uploaded_file($fileTmpPath, $target_file)) {
+            $image_url = "/uploads/avatars/" . $newFileName;
+            $this->conn->query("UPDATE `users` set `avatar` = '$image_url' where id = $adminid");
+          } else {
+            echo "Error moving the uploaded file.";
+          }
 				}
 
 				return 1;
