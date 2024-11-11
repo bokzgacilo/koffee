@@ -70,6 +70,8 @@ Class Users extends DBConnection {
           } else {
             echo "Error moving the uploaded file.";
           }
+
+          $_SESSION['adminavatar'] = $image_url;
 				}
 
 				return 1;
