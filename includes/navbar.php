@@ -53,15 +53,13 @@
     }
 
     .sign-in {
-      border-top-left-radius: 8px;
-      border-bottom-left-radius: 8px;
+      border-radius: 8px;
       background-color: #000;
       color: #fff !important;
     }
 
     .join-now {
-      border-top-right-radius: 8px;
-      border-bottom-right-radius: 8px;
+      border-radius: 8px;
       background-color: #D68C1E;
       color: #fff !important;
     }
@@ -357,7 +355,7 @@
           <?php endif; ?>
 
           <?php if (!isset($_SESSION['userid'])): ?>
-            <li class="nav-item">
+            <li class="nav-item mr-2">
               <a class="nav-link sign-in" href="login.php">Sign In</a>
             </li>
             <li class="nav-item">
