@@ -13,8 +13,13 @@
   $result = $sql -> get_result();
 
   if($result -> num_rows > 0){
+    $user = $result -> fetch_assoc();
+
     $_SESSION['adminauth'] = true;
-    
+    $_SESSION['adminid'] = $user['id'];
+    $_SESSION['adminavatar'] = $user['avatar'];
+    $_SESSION['adminname'] = $user['firstname'];
+
     echo "ok";
   }else {
     echo "No match";

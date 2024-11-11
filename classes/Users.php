@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('../config.php');
 Class Users extends DBConnection {
 	private $settings;
@@ -11,10 +12,12 @@ Class Users extends DBConnection {
 		parent::__destruct();
 	}
 	public function save_users(){
+    $adminid = $_SESSION['adminid'];
+
 		if(empty($_POST['password']))
 			unset($_POST['password']);
 		else
-		$_POST['password'] = md5($_POST['password']);
+		$_POST['password'] = $_POST['password'];
 		extract($_POST);
 		$data = '';
 		foreach($_POST as $k => $v){
@@ -23,7 +26,7 @@ Class Users extends DBConnection {
 				$data .= " {$k} = '{$v}' ";
 			}
 		}
-		if(empty($id)){
+		if(empty($adminid)){
 			$qry = $this->conn->query("INSERT INTO users set {$data}");
 			if($qry){
 				$id=$this->conn->insert_id;
@@ -69,13 +72,13 @@ Class Users extends DBConnection {
 			}
 
 		}else{
-			$qry = $this->conn->query("UPDATE users set $data where id = {$id}");
+			$qry = $this->conn->query("UPDATE users set $data where id = $adminid");
 			if($qry){
 				$this->settings->set_flashdata('success','User Details successfully updated.');
 				foreach($_POST as $k => $v){
 					if($k != 'id'){
 						if(!empty($data)) $data .=" , ";
-						if($this->settings->userdata('id') == $id)
+						if($this->settings->userdata('id') == $adminid)
 							$this->settings->set_userdata($k,$v);
 					}
 				}
@@ -83,7 +86,7 @@ Class Users extends DBConnection {
 					if(!is_dir(base_app."uploads/avatars"))
 						mkdir(base_app."uploads/avatars");
 					$ext = pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
-					$fname = "uploads/avatars/$id.png";
+					$fname = "uploads/avatars/$adminid.png";
 					$accept = array('image/jpeg','image/png');
 					if(!in_array($_FILES['img']['type'],$accept)){
 						$err = "Image file type is invalid";
@@ -101,7 +104,7 @@ Class Users extends DBConnection {
 					$upload =imagepng($temp,base_app.$fname);
 					if($upload){
 						$this->conn->query("UPDATE `users` set `avatar` = CONCAT('{$fname}', '?v=',unix_timestamp(CURRENT_TIMESTAMP)) where id = '{$id}'");
-						if($this->settings->userdata('id') == $id)
+						if($this->settings->userdata('id') == $adminid)
 						$this->settings->set_userdata('avatar',$fname."?v=".time());
 					}
 
@@ -110,7 +113,7 @@ Class Users extends DBConnection {
 
 				return 1;
 			}else{
-				return "UPDATE users set $data where id = {$id}";
+				return "UPDATE users set $data where id = $adminid";
 			}
 			
 		}
