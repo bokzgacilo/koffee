@@ -74,7 +74,7 @@ Class Users extends DBConnection {
 					unlink(base_app.$fname);
 					$upload =imagepng($temp,base_app.$fname);
 					if($upload){
-						$this->conn->query("UPDATE `users` set `avatar` = CONCAT('{$fname}', '?v=',unix_timestamp(CURRENT_TIMESTAMP)) where id = '{$id}'");
+						$this->conn->query("UPDATE `users` set `avatar` = CONCAT('{$fname}', '?v=',unix_timestamp(CURRENT_TIMESTAMP)) where id = $adminid");
 						if($this->settings->userdata('id') == $adminid)
 						$this->settings->set_userdata('avatar',$fname."?v=".time());
 					}
