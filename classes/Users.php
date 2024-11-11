@@ -8,18 +8,32 @@ Class Users extends DBConnection {
 		$this->settings = $_settings;
 		parent::__construct();
 	}
+
 	public function __destruct(){
 		parent::__destruct();
 	}
+
 	public function save_users(){
     $adminid = $_SESSION['adminid'];
+    $userExists = false;
 
-		if(empty($_POST['password']))
+    if ($adminid) {
+      $result = $this->conn->query("SELECT 1 FROM users WHERE id = $adminid LIMIT 1");
+      if ($result && $result->num_rows > 0) {
+          $userExists = true;
+      }
+    }
+
+		if(empty($_POST['password'])){
 			unset($_POST['password']);
-		else
-		$_POST['password'] = $_POST['password'];
-		extract($_POST);
+    }else {
+      $_POST['password'] = $_POST['password'];
+    }
+
+    extract($_POST);
+
 		$data = '';
+
 		foreach($_POST as $k => $v){
 			if(!in_array($k,array('id'))){
 				if(!empty($data)) $data .=" , ";
@@ -27,8 +41,53 @@ Class Users extends DBConnection {
 			}
 		}
 
-		if(empty($adminid) || !isset($adminid)){
-			$qry = $this->conn->query("INSERT INTO users set {$data}");
+    if ($userExists) {
+      $qry = $this->conn->query("UPDATE users set $data where id = $adminid");
+      
+			if($qry){
+				$this->settings->set_flashdata('success','User Details successfully updated.');
+				foreach($_POST as $k => $v){
+					if($k != 'id'){
+						if(!empty($data)) $data .=" , ";
+						if($this->settings->userdata('id') == $adminid)
+							$this->settings->set_userdata($k,$v);
+					}
+				}
+				if(!empty($_FILES['img']['tmp_name'])){
+					if(!is_dir(base_app."uploads/avatars"))
+						mkdir(base_app."uploads/avatars");
+					$ext = pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
+					$fname = "uploads/avatars/$adminid.png";
+					$accept = array('image/jpeg','image/png');
+					if(!in_array($_FILES['img']['type'],$accept)){
+						$err = "Image file type is invalid";
+					}
+					if($_FILES['img']['type'] == 'image/jpeg')
+						$uploadfile = imagecreatefromjpeg($_FILES['img']['tmp_name']);
+					elseif($_FILES['img']['type'] == 'image/png')
+						$uploadfile = imagecreatefrompng($_FILES['img']['tmp_name']);
+					if(!$uploadfile){
+						$err = "Image is invalid";
+					}
+					$temp = imagescale($uploadfile,200,200);
+					if(is_file(base_app.$fname))
+					unlink(base_app.$fname);
+					$upload =imagepng($temp,base_app.$fname);
+					if($upload){
+						$this->conn->query("UPDATE `users` set `avatar` = CONCAT('{$fname}', '?v=',unix_timestamp(CURRENT_TIMESTAMP)) where id = '{$id}'");
+						if($this->settings->userdata('id') == $adminid)
+						$this->settings->set_userdata('avatar',$fname."?v=".time());
+					}
+
+					imagedestroy($temp);
+				}
+
+				return 1;
+      }else {
+        return "UPDATE users set $data where id = $adminid";
+      }
+    } else {
+      $qry = $this->conn->query("INSERT INTO users set {$data}");
 
 			if($qry){
 				$id=$this->conn->insert_id;
@@ -70,56 +129,9 @@ Class Users extends DBConnection {
 
 					imagedestroy($temp);
 				}
-				return 1;
-			}else{
-				return 2;
-			}
-
-		}else{
-			$qry = $this->conn->query("UPDATE users set $data where id = $adminid");
-			if($qry){
-				$this->settings->set_flashdata('success','User Details successfully updated.');
-				foreach($_POST as $k => $v){
-					if($k != 'id'){
-						if(!empty($data)) $data .=" , ";
-						if($this->settings->userdata('id') == $adminid)
-							$this->settings->set_userdata($k,$v);
-					}
-				}
-				if(!empty($_FILES['img']['tmp_name'])){
-					if(!is_dir(base_app."uploads/avatars"))
-						mkdir(base_app."uploads/avatars");
-					$ext = pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
-					$fname = "uploads/avatars/$adminid.png";
-					$accept = array('image/jpeg','image/png');
-					if(!in_array($_FILES['img']['type'],$accept)){
-						$err = "Image file type is invalid";
-					}
-					if($_FILES['img']['type'] == 'image/jpeg')
-						$uploadfile = imagecreatefromjpeg($_FILES['img']['tmp_name']);
-					elseif($_FILES['img']['type'] == 'image/png')
-						$uploadfile = imagecreatefrompng($_FILES['img']['tmp_name']);
-					if(!$uploadfile){
-						$err = "Image is invalid";
-					}
-					$temp = imagescale($uploadfile,200,200);
-					if(is_file(base_app.$fname))
-					unlink(base_app.$fname);
-					$upload =imagepng($temp,base_app.$fname);
-					if($upload){
-						$this->conn->query("UPDATE `users` set `avatar` = CONCAT('{$fname}', '?v=',unix_timestamp(CURRENT_TIMESTAMP)) where id = '{$id}'");
-						if($this->settings->userdata('id') == $adminid)
-						$this->settings->set_userdata('avatar',$fname."?v=".time());
-					}
-
-					imagedestroy($temp);
-				}
 
 				return 1;
-			}else{
-				return "UPDATE users set $data where id = $adminid";
-			}
-			
+    }
 		}
 	}
 	public function delete_users(){
