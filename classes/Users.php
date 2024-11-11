@@ -84,7 +84,9 @@ Class Users extends DBConnection {
 
 				return 1;
       }else {
-        return "UPDATE users set $data where id = $adminid";
+        if($this -> conn -> query("UPDATE users set $data where id = $adminid")){
+          return 1;
+        }
       }
     } else {
       $qry = $this->conn->query("INSERT INTO users set {$data}");
