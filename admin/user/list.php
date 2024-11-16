@@ -52,7 +52,7 @@
 							<td class="text-center"><?php echo $i++; ?></td>
 							<td><?php echo date("Y-m-d H:i", strtotime($row['date_updated'])) ?></td>
 							<td class="text-center">
-								<img src="<?= validate_image($row['avatar']) ?>" alt=""
+								<img src="<?php echo "../" . $row['avatar']; ?>" alt=""
 									class="img-thumbnail rounded-circle user-avatar">
 							</td>
 							<td><?php echo $row['name'] ?></td>

@@ -12,7 +12,6 @@
 <html lang="en" class="" style="height: auto;">
 <?php require_once('inc/header.php') ?>
 
-
 <body
   class="sidebar-mini layout-fixed control-sidebar-slide-open layout-navbar-fixed sidebar-mini-md sidebar-mini-xs text-sm"
   data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed="" style="height: auto;">
@@ -28,13 +27,13 @@
       display: none;
       place-items: center;
       border-radius: 4px;
-      transform: translateX(100%); /* Start position (off the screen on the right) */
+      transform: translateX(100%);
     }
 
     @keyframes slideInRight {
       0% {
-        transform: translateX(100%); /* Start off-screen to the right */
-        opacity: 0; /* Optional: Start with hidden opacity */
+        transform: translateX(100%);
+        opacity: 0; 
       }
       100% {
         transform: translateX(0); /* End in normal position */
@@ -45,7 +44,7 @@
     @keyframes slideToRight {
       0% {
         transform: translateX(0); /* Start off-screen to the right */
-        opacity: 0; /* Optional: Start with hidden opacity */
+        opacity: 0;
       }
       100% {
         transform: translateX(10%0);

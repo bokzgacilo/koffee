@@ -70,10 +70,9 @@ Class Users extends DBConnection {
           } else {
             echo "Error moving the uploaded file.";
           }
-
-          $_SESSION['adminavatar'] = $image_url;
 				}
-
+        
+        $_SESSION['adminavatar'] = $image_url;
 				return 1;
       }else {
         if($this -> conn -> query("UPDATE users set $data where id = $adminid")){
