@@ -268,7 +268,7 @@
                 <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">Nearest LandMark</label>
-                    <input type="text" class="form-control" id="nearest_landmark" placeholder="TGP Pembo Makati" required>
+                    <input type="text" class="form-control" id="nearest_landmark" placeholder="Dasma Bayan" required>
                   </div>
                 </div>
                 <div class="col-12 col-lg-4 d-flex align-items-end">
@@ -288,7 +288,7 @@
                     allowfullscreen=""
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAitbCyHS9bbWyT3BoPoFlPKa-fwwEpG7c&q=STI Dasmarinas">
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15462.886174801963!2d120.9352866!3d14.3276005!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d54bd9893d23%3A0xc66dd3f6e762b5ba!2sKofee%20Manila%20-%20Dasma%20Bayan!5e0!3m2!1sen!2sph!4v1731424160842!5m2!1sen!2sph">
                   </iframe>
                 </div>
                 

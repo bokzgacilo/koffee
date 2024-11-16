@@ -53,15 +53,17 @@
     }
 
     .sign-in {
-      border-radius: 8px;
+      border-radius: 20px;
       background-color: #000;
       color: #fff !important;
-    }
+
+}
 
     .join-now {
-      border-radius: 8px;
+      border-radius: 20px;
       background-color: #D68C1E;
       color: #fff !important;
+  
     }
 
     .navcontainer {
@@ -185,6 +187,7 @@
     .nav-item {
       display: flex;
       align-items: center;
+      padding: 5px 5px;
     }
 
     #mobile-header {
