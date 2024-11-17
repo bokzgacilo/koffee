@@ -42,7 +42,17 @@
   )";
 
   if($conn -> query($sql)){
-    $newOrderId = $conn->insert_id;
+    $newOrderId = $conn -> insert_id;
+
+    foreach($_POST['cart'] as $item){
+      $oldnumber = $conn -> query("SELECT sold FROM product_list WHERE name='".$item['productName']."'");
+      $oldnumber = $oldnumber -> fetch_assoc();
+
+      $newquantity = $item['quantity'] + $oldnumber['sold'];
+
+      $conn -> query("UPDATE product_list SET sold=$newquantity WHERE name='".$item['productName']."'");
+    }
+
     echo $newOrderId;
 
     $id = $_SESSION['userid'];

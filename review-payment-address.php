@@ -80,7 +80,11 @@
 
     <style>
       .backtomenunav {
+        background: rgb(213 140 30);
+        position: sticky;
+        top: 82px;
         padding: 0.5rem 12%;
+        z-index: 9000;
       }
 
       @media (max-width: 768px) {
@@ -97,7 +101,7 @@
     <section >
       <div class="container">
         <div class="p-1 p-lg-4">
-          <h4 class="mt-4">Review Payment And Address</h4>
+          <h4 class="mt-4" style="font-weight: bold;">Review Payment And Address</h4>
           <div class="card mt-4">
             <div class="card-body">
             <h5 class="mb-4">Here's your order</h5>
@@ -162,10 +166,20 @@
           <div class="text-align-right">
             <p style="font-size: 16px; font-weight: bold;">Total Price: PHP <?php echo number_format($delivery_fee + $total_price, 2); ?> (Delivery fee included.)</p>
           </div>
+          <hr />
+          <h5 style="font-weight: bold;" class="mt-4">Estimated Time Order</h5>
+          <div class="d-flex flex-row mt-4">
+            <div class="col-12 col-lg-6 d-flex flex-column">
+              <div style="font-size: 28px; gap: 1rem" class="d-flex flex-row align-items-center">
+                <i class='fas fa-clock'></i>
+                <h4 class="mb-0">10 - 15 Minutes</h4>
+              </div>
+             
+            </div>
+          </div>
           </div>
           </div>
           <form id="review-payment-form">
-
           <div class="card mt-4">
             <div class="card-body">
               <h5 style="font-weight: bold;">STEP 1 : Scan the QR to Pay</h5>
@@ -246,11 +260,89 @@
                 <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">Barangay</label>
-                    <input type="text" value='<?php if($address['barangay'] === "None"){
+                    <select id="a_barangay" class="form-control">
+                      <option value="Burol">Burol</option>
+                      <option value="Burol I">Burol I</option>
+                      <option value="Burol II">Burol II</option>
+                      <option value="Burol III">Burol III</option>
+                      <option value="Datu Esmael">Datu Esmael</option>
+                      <option value="Emmanuel Bergado I">Emmanuel Bergado I</option>
+                      <option value="Emmanuel Bergado II">Emmanuel Bergado II</option>
+                      <option value="Fatima I">Fatima I</option>
+                      <option value="Fatima II">Fatima II</option>
+                      <option value="Fatima III">Fatima III</option>
+                      <option value="H-2">H-2</option>
+                      <option value="Langkaan I">Langkaan I</option>
+                      <option value="Langkaan II">Langkaan II</option>
+                      <option value="Luzviminda I">Luzviminda I</option>
+                      <option value="Luzviminda II">Luzviminda II</option>
+                      <option value="Paliparan I">Paliparan I</option>
+                      <option value="Paliparan II">Paliparan II</option>
+                      <option value="Paliparan III">Paliparan III</option>
+                      <option value="Sabang">Sabang</option>
+                      <option value="Saint Peter I">Saint Peter I</option>
+                      <option value="Saint Peter II">Saint Peter II</option>
+                      <option value="Salawag">Salawag</option>
+                      <option value="Salitran I">Salitran I</option>
+                      <option value="Salitran II">Salitran II</option>
+                      <option value="Salitran III">Salitran III</option>
+                      <option value="Salitran IV">Salitran IV</option>
+                      <option value="Sampaloc I">Sampaloc I</option>
+                      <option value="Sampaloc II">Sampaloc II</option>
+                      <option value="Sampaloc III">Sampaloc III</option>
+                      <option value="Sampaloc IV">Sampaloc IV</option>
+                      <option value="Sampaloc V">Sampaloc V</option>
+                      <option value="San Agustin I">San Agustin I</option>
+                      <option value="San Agustin II">San Agustin II</option>
+                      <option value="San Agustin III">San Agustin III</option>
+                      <option value="San Andres I">San Andres I</option>
+                      <option value="San Andres II">San Andres II</option>
+                      <option value="San Antonio de Padua I">San Antonio de Padua I</option>
+                      <option value="San Antonio de Padua II">San Antonio de Padua II</option>
+                      <option value="San Dionisio">San Dionisio</option>
+                      <option value="San Esteban">San Esteban</option>
+                      <option value="San Francisco I">San Francisco I</option>
+                      <option value="San Francisco II">San Francisco II</option>
+                      <option value="San Isidro Labrador I">San Isidro Labrador I</option>
+                      <option value="San Isidro Labrador II">San Isidro Labrador II</option>
+                      <option value="San Jose">San Jose</option>
+                      <option value="San Juan">San Juan</option>
+                      <option value="San Lorenzo Ruiz I">San Lorenzo Ruiz I</option>
+                      <option value="San Lorenzo Ruiz II">San Lorenzo Ruiz II</option>
+                      <option value="San Luis I">San Luis I</option>
+                      <option value="San Luis II">San Luis II</option>
+                      <option value="San Manuel I">San Manuel I</option>
+                      <option value="San Manuel II">San Manuel II</option>
+                      <option value="San Mateo">San Mateo</option>
+                      <option value="San Miguel I">San Miguel I</option>
+                      <option value="San Miguel II">San Miguel II</option>
+                      <option value="San Nicolas I">San Nicolas I</option>
+                      <option value="San Nicolas II">San Nicolas II</option>
+                      <option value="San Roque">San Roque</option>
+                      <option value="San Simon">San Simon</option>
+                      <option value="Santa Cristina I">Santa Cristina I</option>
+                      <option value="Santa Cristina II">Santa Cristina II</option>
+                      <option value="Santa Cruz I">Santa Cruz I</option>
+                      <option value="Santa Cruz II">Santa Cruz II</option>
+                      <option value="Santa Fe">Santa Fe</option>
+                      <option value="Santa Lucia">Santa Lucia</option>
+                      <option value="Santa Maria">Santa Maria</option>
+                      <option value="Santo Cristo">Santo Cristo</option>
+                      <option value="Santo Niño I">Santo Niño I</option>
+                      <option value="Santo Niño II">Santo Niño II</option>
+                      <option value="Sultan Esmael">Sultan Esmael</option>
+                      <option value="Victoria Reyes">Victoria Reyes</option>
+                      <option value="Zone I">Zone I</option>
+                      <option value="Zone I-B">Zone I-B</option>
+                      <option value="Zone II">Zone II</option>
+                      <option value="Zone III">Zone III</option>
+                      <option value="Zone IV">Zone IV</option>
+                    </select>
+                    <!-- <input type="text" value='<?php if($address['barangay'] === "None"){
                       echo "";
                     }else {
                       echo $address['barangay'];
-                    } ?>' class="form-control" placeholder="Pembo" id="a_barangay" required>
+                    } ?>' class="form-control" placeholder="Pembo" id="a_barangay" required> -->
                   </div>
                 </div>
               </div>
@@ -258,11 +350,7 @@
                 <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">City</label>
-                    <input type="text" value='<?php if($address['city'] === "None"){
-                      echo "";
-                    }else {
-                      echo $address['city'];
-                    } ?>' placeholder="Makati City" class="form-control" id="a_city" required>
+                    <input type="text" readonly value='Dasmarinas' placeholder="Makati City" class="form-control" id="a_city" required>
                   </div>
                 </div>
                 <div class="col-12 col-lg-4">
@@ -344,7 +432,11 @@
 
       $("#searchPin").on('click', function(){
         let nearest_landmark = $("#nearest_landmark").val();
-        var googleMapsUrl = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAitbCyHS9bbWyT3BoPoFlPKa-fwwEpG7c&q=" + encodeURIComponent(nearest_landmark);
+        let nearest_barangay = $("#a_barangay").val();
+
+        let landmark = `${nearest_landmark}, ${nearest_barangay}, Dasmarinas Cavite`
+
+        var googleMapsUrl = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAitbCyHS9bbWyT3BoPoFlPKa-fwwEpG7c&q=" + encodeURIComponent(landmark);
         $('#googleMap').attr('src', googleMapsUrl);
       })
 

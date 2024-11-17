@@ -193,11 +193,38 @@
     #mobile-header {
       padding: 0.5rem 12%;
     }
+    
+    .dropdown-menu {
+      z-index: 5;
+    }
 
     @media (max-width: 768px) {
       #mobile-header {
         padding: 1rem;
+        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
       }
+
+      .navbar-nav {
+        width: 100%;
+        left: 0;
+        position: absolute;
+        top: 82px;
+        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+      }
+    }
+
+    #mobile-header {
+      position: sticky !important;
+      top: 0;
+      height: 82px;
+      z-index: 9999;
+      
+    }
+
+    
+
+    #mobileMenu {
+      background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
     }
   </style>
 
@@ -372,8 +399,8 @@
   </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="lc.js"></script>
-  
+  <!-- <script src="lc.js"></script> -->
+
   <style>
     .modal {
       display: none;
@@ -410,7 +437,15 @@
       text-decoration: none;
       cursor: pointer;
     }
+
+ 
   </style>
+
+  <!--Start of Tawk.to Script-->
+  <script src="//code.tidio.co/c33hotrah4ggjy37cwevo5lqmglnn4fi.js" async></script>
+
+  <!--End of Tawk.to Script-->
+  
 
   <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -431,13 +466,11 @@
       const db = getFirestore(app);
       const updates = collection(db, "user_updates");
 
-      let userid = <?php echo $_SESSION['userid']; ?>;
+      let userid = <?php if(!isset($_SESSION['userid'])){echo 0;}else {echo $_SESSION['userid'];}  ?>;
 
       // Add a new document to the logs collection
       onSnapshot(updates, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
-          console.log(change.doc.data())
-
           let realtimedata = change.doc.data();
 
           if(realtimedata.userid == userid){

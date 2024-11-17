@@ -10,6 +10,8 @@
   .btn-rounded{
         border-radius: 50px;
   }
+
+  
 </style>
 <!-- Navbar -->
       <nav class="main-header navbar navbar-expand navbar-dark shadow text-sm bg-gradient-navy">

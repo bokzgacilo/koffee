@@ -17,6 +17,7 @@ window.alert_toast = function ($msg = 'TEST', $bg = 'success', $pos = '') {
     showConfirmButton: false,
     timer: 5000
   })
+  
   Toast.fire({
     icon: $bg,
     title: $msg

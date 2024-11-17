@@ -48,8 +48,9 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
           display: flex;
           overflow-x: auto;
           white-space: nowrap;
-          padding: 1rem;
-          gap: 1rem;
+          position: sticky;
+          top: 82px;
+          z-index: 5000;
         }
 
         @media (max-width: 768px) {
@@ -59,15 +60,15 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .category-menu span {
-            cursor: pointer;
-            margin: 0 1rem;
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            white-space: nowrap;
+          cursor: pointer;
+          padding: 1rem;
+          white-space: nowrap;
+          transition: 0.15s;
         }
 
         .category-menu span:hover {
-            text-decoration: underline;
+          text-decoration: none;
+          background-color: #9f6815;
         }
 
         .selected-category-container {

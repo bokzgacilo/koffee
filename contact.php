@@ -101,7 +101,37 @@
         </div>
       </div>
     </section>
+    <style>
+      .messageus {
+        width: 500px;
+      }
 
+      @media (max-width: 768px) {
+        .messageus {
+          width: 100%;
+        }
+      }
+
+      #messageusform {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+    </style>
+    <section class="container d-flex flex-column align-items-center mt-4 mb-4">
+        <h3>Message Us</h3>
+        <div class='messageus mt-4'>
+          <form id="messageusform">
+            <label>Name</label>
+            <input name="messagename" class="form-control" type="text" required/>
+            <label>Email</label>
+            <input name="messageemail" class="form-control" type="text" required/>
+            <label>Message</label>
+            <textarea name="messagebody" class="form-control" required></textarea>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+        </div>
+    </section>
     <!-- Contact Information Section -->
     <section class="contact-info text-center">
       <div class="container">
@@ -136,5 +166,32 @@
 
     <!-- Footer Section -->
     <?php include "includes/footer.php"; ?>
+    <script>
+      $(document).ready(function(){
+        $("#messageusform").on("submit", function(e){
+          e.preventDefault();
+          
+          var formdata = {
+            name : $("input[name='messagename']").val(),
+            email : $("input[name='messageemail']").val(),
+            body : $("textarea[name='messagebody']").val(),
+          }
+
+          $.ajax({
+            type: 'post',
+            url: 'api/send_message_us.php',
+            data: formdata,
+            success: response => {
+              if(response === "ok"){
+                alert("Message Submitted")
+                location.reload()
+              }
+            }
+          })
+        })
+      })
+
+      
+    </script>
   </body>
 </html>

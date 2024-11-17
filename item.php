@@ -50,7 +50,11 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php include "includes/navbar.php"; ?>
     <style>
       .backtomenunav {
+        background: rgb(213 140 30);
+        position: sticky;
+        top: 82px;
         padding: 0.5rem 12%;
+        z-index: 9000;
       }
 
       @media (max-width: 768px) {
@@ -230,9 +234,35 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php
               include("api/connection.php");
               $catId = $product['category_id'];
-              $recommendations = $conn -> query("SELECT * FROM product_list WHERE category_id=$catId LIMIT 4");
+              $recommendations = $conn->query("
+                SELECT * 
+                FROM product_list 
+                WHERE category_id = $catId AND sold > 1 
+                ORDER BY sold DESC 
+                LIMIT 4
+              ");
 
               if($recommendations -> num_rows > 0){
+                while($row = $recommendations -> fetch_assoc()){
+                  if($product['name'] != $row['name']){
+                    echo "
+                      <div class='d-flex flex-column align-items-center col-lg-12 col-6'>
+                        <img src='./".$row['image_url']."' class='img-fluid' style='height: 100px; object-fit: cover;' />
+                        <a href='item.php?id=".$row['id']."' class='mt-2' style='font-weight: bold; font-size: 16px; text-align-center'>".$row['name']."</a>
+                        <p class='mt-auto'>".number_format($row['price'], 2)." PHP</p>
+                      </div>
+                    ";
+                  }
+                }
+              }else {
+                $recommendations = $conn->query("
+                  SELECT * 
+                  FROM product_list 
+                  WHERE category_id = $catId
+                  ORDER BY sold DESC 
+                  LIMIT 3
+                ");
+
                 while($row = $recommendations -> fetch_assoc()){
                   if($product['name'] != $row['name']){
                     echo "

@@ -237,7 +237,6 @@
 
       var formData = new FormData(this);
 
-      console.log(formData);
       $.ajax({
         type: "post",
         url : "../api/post_edit_content_management.php",
