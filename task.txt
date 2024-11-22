@@ -1,0 +1,11 @@
+DONE • Password - add restrictions (minimum of 8)
+DONE • Cart icon dapat may sign kung ilan na laman ng cart (add indicator)
+DONE • Add edit action in my cart (sizes, add ons, instructions)
+DONE • Orders in database can be sorted, pagination, Subpage for the sales (pending orders, completed, delete)
+DONE • The order can be cancelled in admin
+DONE • There should be modal for the refund Backup database on the settings. 
+DONE • In the orders, the order can be seen whether the order is being prepared, pending or cancelled (alert box)
+DONE • Add sweet alert after adding to cart (redirects to orders)
+DONE • revision categories into drop down menu in mobile 
+PARTIAL • Add filter to daily sales report and pagination
+DONE • Add FAQ page

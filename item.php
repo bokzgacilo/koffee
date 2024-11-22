@@ -419,7 +419,20 @@ $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
             contentType: "application/json",
             dataType: "json",
             success: function(response) {
-              alert(response.message)
+              Swal.fire({
+                title: 'Item Added to Cart!',
+                text: response.message, // Use the message from the server response
+                icon: 'success', // SweetAlert's success icon
+                showCancelButton: true, // Enable a cancel button for the second option
+                confirmButtonText: 'Go to Cart', // Main button label
+                cancelButtonText: 'Continue Shopping', // Cancel button label
+            }).then((result) => {
+                if (result.isConfirmed) {
+                  location.href = 'cart.php'; // Redirect to cart page
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                  location.reload(); // Reload the page
+                }
+            });
             },
           })
         })

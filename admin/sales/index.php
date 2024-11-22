@@ -39,69 +39,16 @@
 </style>
 
 <div class="container-fluid">
-  <h1>List of Orders</h1>
+  <h2 class="fw-bold mb-4">ORDERS</h2>
   <div class="table-responsive">
-    <table class="table table-bordered">
+    <table id="ordersTable" class="table">
       <thead>
-        <tr>
-          <th>ID</th>
-          <th>Client ID</th>
-          <th>Order Date</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
+        <th>Id</th>
+        <th>Client</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Action</th>
       </thead>
-      <tbody>
-        <?php
-          include("../api/connection.php");
-
-          $result = $conn -> query("SELECT * FROM orders");
-
-          if($result -> num_rows > 0){
-            while($row = $result -> fetch_assoc()){
-              $status_message = "";
-
-              switch($row['status']){
-                case 'Pending' :
-                  $status_message = "<button onclick='prepareOrder(".$row['id'].")' class='btn btn-sm btn-primary'>Prepare Order</button>";
-                  break;
-                case 'Preparing' :
-                  $status_message = "<button onclick='deliverOrder(".$row['id'].")' class='btn btn-sm btn-primary'>Deliver Order</button>";
-                  break;
-                case 'In-Delivery' :
-                  $status_message = "<button onclick='completeOrder(".$row['id'].")' class='btn btn-sm btn-primary'>Complete Order</button>";
-                  break;
-                case 'Cancelled' :
-                  $status_message = "";
-                  break;
-                case 'Completed' :
-                  $status_message = "<button disabled class='btn btn-sm btn-success'>Completed</button>";
-                  break;
-                  default:
-                $status_message = "Unknown status.";
-                break;
-              }
-
-              $clientid = $row['client_id'];
-              $getclientname = $conn -> query("SELECT * FROM users WHERE id=$clientid");
-              $client = $getclientname -> fetch_assoc();
-              
-              echo "
-                <tr>
-                  <td>".$row['id']."</td>
-                  <td>".$client['lastname'].", ".$client['firstname']."</td>
-                  <td>".$row['order_date']."</td>
-                  <td>".$row['status']."</td>
-                  <td>
-                    <button onclick='viewOrder(".$row['id'].")' class='btn btn-sm btn-secondary' data-bs-toggle='modal' data-bs-target='#orderDetailModal'>View Order</button>
-                    $status_message
-                  </td>
-                </tr>
-              ";
-            }
-          }
-        ?>
-      </tbody>
     </table>
   </div>
 </div>
@@ -125,9 +72,95 @@
     </div>
   </div>
 </div>
+<script>
+  $(document).ready(function(){
+    $('#ordersTable').DataTable({
+      ajax: 'sales/get_all_orders.php',
+      columns: [
+        { data: 'id', title: 'Order Id' },
+        { data: 'client_name', title: 'Client' },
+        { data: 'order_date', title: 'Date' },
+        { data: 'status', title: 'Status' },
+        { 
+            data: 'id',
+            title: 'Action',
+            render: function(data, type, row) {
+              let view_btn = `<button class="btn btn-sm btn-secondary view-order-btn" onclick='viewOrder(${data})'">View</button>`;
+              if(row.status === "Completed"){
+                return `
+                  ${view_btn}
+                  <button disabled class='btn btn-sm btn-success'>Completed</button>
+                `;
+              }
+
+              if(row.status === "Cancelled"){
+                return `
+                  ${view_btn}
+                  <button disabled class='btn btn-sm btn-danger'>Cancelled</button>
+                `;
+              }
+
+              if(row.status === "In-Delivery"){
+                return `
+                  ${view_btn}
+                  <button class='btn btn-sm btn-success' onclick='completeOrder(${data})'>Complete Order</button>
+                  <button class='btn btn-sm btn-danger' onclick='cancelOrder(${data})'>Cancel</button>
+                `;
+              }
+
+              if(row.status === "Pending"){
+                return `
+                  ${view_btn}
+                  <button class='btn btn-sm btn-primary' onclick='prepareOrder(${data})'>Prepare Order</button>
+                  <button class='btn btn-sm btn-danger' onclick='cancelOrder(${data})' >Cancel</button>
+                `;
+              }
+
+              if(row.status === "Preparing"){
+                return `
+                  ${view_btn}
+                  <button class='btn btn-sm btn-primary' onclick='deliverOrder(${data})'>Deliver Order</button>
+                  <button class='btn btn-sm btn-danger' onclick='cancelOrder(${data})' >Cancel</button>
+                `;
+              }
+            }
+        }
+      ]
+    });
+  })
+</script>
 
 <script type="module">
   import {updateDocument} from "./firebase.js"
+
+  window.cancelOrder = function(id){
+    Swal.fire({
+      title: "Do you want cancel this order?",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          type: 'post',
+          url: "../api/cancel_order.php",
+          data : {
+            id: id
+          },
+          success : response => {
+            console.log(id)
+            updateDocument(id, "Your order was cancelled by the Admin.")
+
+            setTimeout(() => {
+              alert('Order Updated');
+
+              location.reload();
+            }, 3000)
+          }
+        })
+      }
+    });
+  }
 
   window.prepareOrder = function(id){
     Swal.fire({

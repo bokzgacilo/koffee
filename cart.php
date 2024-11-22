@@ -96,6 +96,9 @@
                       $total_price += $item['totalPrice'];
                       $product_name = $item['productName'];
 
+                      $getitemid = $conn -> query("SELECT id FROM product_list WHERE name='$product_name'");
+                      $getitemid = $getitemid -> fetch_assoc();
+
                       echo "
                         <tr>
                           <th>".$item['productName']."</th>
@@ -105,7 +108,9 @@
                           <th>".$product_row['price']."</th>
                           <th>".$item['totalPrice']."</th>
                           <th>".$item['instructions']."</th>
-                          <th><button data-target='".$product_name."' data-size='".$item['size']."' class='removeButton btn btn-sm btn-danger'>Remove</button>
+                          <th>
+                            <a href='item.php?id=".$getitemid['id']."' class='btn btn-sm btn-warning'>Edit</a>
+                            <button data-target='".$product_name."' data-size='".$item['size']."' class='removeButton btn btn-sm btn-danger'>Remove</button>
                           </th>
                         </tr>
                       ";

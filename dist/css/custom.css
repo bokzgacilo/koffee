@@ -73,10 +73,6 @@
     max-width: calc(100%);
 }
 
-table.dataTable th,
-table.dataTable td {
-    padding: 5px !important;
-}
 
 .card.d-flex {
     flex-direction: row !important;

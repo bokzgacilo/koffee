@@ -12,17 +12,8 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<div class="container-fluid">
-			<table class="table table-hover table-striped table-bordered table-responsive" id="list">
-				<colgroup>
-					<col width="5%">
-					<col width="15%">
-					<col width="20%">
-					<col width="20%">
-					<col width="15%">
-					<col width="15%">
-					<col width="15%">
-				</colgroup>
+      <div class="table-responsive">
+      <table class="table" id="list">
 				<thead>
 					<tr>
 						<th>#</th>
@@ -82,7 +73,8 @@
 					<?php endwhile; ?>
 				</tbody>
 			</table>
-		</div>
+      </div>
+			
 	</div>
 </div>
 <script>

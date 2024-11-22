@@ -12,15 +12,8 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<div class="container-fluid">
-			<table class="table table-hover table-striped table-bordered table-responsive" id="list">
-				<colgroup>
-					<col width="5%">
-					<col width="15%">
-					<col width="20%">
-					<col width="20%">
-					<col width="15%">
-				</colgroup>
+		<div class="table-responsive">
+			<table class="table" id="list">
 				<thead>
 					<tr>
 						<th>#</th>
@@ -92,9 +85,6 @@
 			uni_modal("<i class='fa fa-edit'></i> Update Addon Details", "addons/manage_addons.php?id=" + $(this).attr('data-id'))
 		})
 		$('.table').dataTable({
-			columnDefs: [
-				{ orderable: false, targets: [6] }
-			],
 			order: [0, 'asc']
 		});
 		$('.dataTable td,.dataTable th').addClass('py-1 px-2 align-middle')

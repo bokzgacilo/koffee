@@ -260,6 +260,17 @@
               <input type="password" class="form-control" id="password" name="password"
                 value="<?php echo isset($row['password']) ? $row['password'] : ''; ?>">
             </div>
+            <script>
+              $(document).ready(function () {
+                $('#password').on('input', function () {
+                    const value = $(this).val();
+                    
+                    if (value.length > 8) {
+                      $(this).val(value.substring(0, 8));
+                    }
+                });
+              });
+            </script>
             <h6 class="mt-4 mb-2" style="font-weight: bold;">Address Details</h6>
             <div class="mb-3">
               <label for="block_number" class="form-label">Block/House/Unit Number</label>
@@ -341,14 +352,25 @@
           <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="menu.php">Menu</a></li>
           <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.php">FAQ</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.php">Contact Us</a></li>
           <?php
           if(isset($_SESSION['userid']) && !empty($_SESSION['userid'])){
+            $cartcount = 0;
+
+            if($row['cart'] === ""){
+              $cartcount = 0;
+            }else {
+              $cartcount = json_decode($row['cart'], true);
+              $cartcount = count($cartcount);
+            }
+
             echo "
             <li class='mav-item'>
-             <a class='cart-icon' href='cart.php' style='color: #000; font-size: 16px; text-decoration: none; text-align:center;'>
-              <i class='fas fa-shopping-cart'></i>
-              My Cart
+             <a class='cart-icon d-flex flex-row gap-2 align-items-center p-2' href='cart.php' style='text-decoration: none;'>
+              <i class='fas fa-shopping-cart text-black'></i>
+              <p class='fw-bold text-black m-0'>My Cart</p>
+              <span class='badge text-bg-danger'>$cartcount</span>
             </a>
             </li>
            ";
@@ -475,7 +497,14 @@
 
           if(realtimedata.userid == userid){
             if(change.type === "modified"){
-              alert(realtimedata.message)
+              Swal.fire({
+                title: 'Order Updated',
+                text: realtimedata.message,
+                icon: 'info',
+                confirmButtonText: 'Noted' // Text for the confirm button
+              }).then(() => {
+                location.reload();
+              });
             }
           }
         });

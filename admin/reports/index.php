@@ -12,94 +12,103 @@ if($_settings->userdata('type') == 3){
 <?php endif;?>
 <div class="card card-outline rounded-0 card-navy">
 	<div class="card-header">
-		<h3 class="card-title">Daily Sales Report</h3>
+		<h2 class="card-title fw-bold">DAILY SALES REPORT</h2>
 	</div>
 	<div class="card-body">
 		<div class="container-fluid">
         <fieldset class="border px-2 mb-2 ,x-2">
             <legend class="w-auto px-2">Filter</legend>
-            <form id="filter-form" action="">
-                <div class="row align-items-end">
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="date">Date</label>
-                            <input type="date" name="date" value="<?= $date ?>" class="form-control form-control-sm rounded-0" required>
-                        </div>
-                    </div>
-                    <?php if($_settings->userdata('type') != 3): ?>
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="user_id">User</label>
-                            <select name="user_id" class="form-control form-control-sm" required>
-                                <option value="0" <?= $user_id == 0 ? 'selected' : '' ?>>All</option>
-                                <?php 
-                                $qry = $conn->query("SELECT *, concat(firstname, ' ', lastname) as `name` from users order by `name` asc");
-                                while($row = $qry->fetch_assoc()):
-                                ?>
-                                <option value="<?= $row['id'] ?>" <?= $user_id == $row['id'] ? 'selected' : '' ?>><?= $row['name'] ?></option>
-                                <?php endwhile; ?>
-                            </select>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <button class="btn btn-primary rounded-0 btn-sm"><i class="fa fa-filter"></i> Filter</button>
-                            <button class="btn btn-light border rounded-0 btn-sm" type="button" id="print"><i class="fa fa-print"></i> Print</button>
-                        </div>
+            <div class="row align-items-end">
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="inputdate" name="date" value="<?= $date ?>" class="form-control form-control-sm rounded-0" required>
                     </div>
                 </div>
-            </form>
+                <?php if($_settings->userdata('type') != 3): ?>
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="user_id">User</label>
+                        <select id="inputuser" name="user_id" class="form-control form-control-sm" required>
+                            <option value="0" <?= $user_id == 0 ? 'selected' : '' ?>>All</option>
+                            <?php 
+                            $qry = $conn->query("SELECT *, concat(firstname, ' ', lastname) as `name` from users order by `name` asc");
+                            while($row = $qry->fetch_assoc()):
+                            ?>
+                            <option value="<?= $row['id'] ?>" <?= $user_id == $row['id'] ? 'selected' : '' ?>><?= $row['name'] ?></option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
+                </div>
+                <?php endif; ?>
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <button class="btn btn-primary rounded-0 btn-sm" id="filterbutton"><i class="fa fa-filter"></i> Filter</button>
+                        <button class="btn btn-light border rounded-0 btn-sm" type="button" id="print"><i class="fa fa-print"></i> Print</button>
+                    </div>
+                </div>
+            </div>
         </fieldset>
-        <div class="container-fluid" id="printout">
-			<table class="table table-hover table-striped table-bordered" id="report-list">
-				<colgroup>
-					<col width="5%">
-					<col width="20%">
-					<col width="20%">
-					<col width="25%">
-					<col width="15%">
-					<col width="15%">
-				</colgroup>
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Order Date</th>
-						<th>GCash Ref Number</th>
-						<th>Client Name</th>
-						<th>Amount</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php 
-                        $total = 0;
-					    $i = 1;
-                        $where = "";
-                        if($user_id > 0){
-                            $where = " and client_id = '{$user_id}' ";
-                        }
-                        $users_qry = $conn->query("SELECT id, concat(firstname, ' ', lastname) as `name` FROM `users` where id in (SELECT client_id FROM `orders` where date(order_date) = '{$date}' {$where}) ");
-                        $user_arr = array_column($users_qry->fetch_all(MYSQLI_ASSOC),'name', 'id');
-						$qry = $conn->query("SELECT * FROM `orders` where date(order_date) = '{$date}' {$where} order by unix_timestamp(order_date) desc ");
-						while($row = $qry->fetch_assoc()):
-                            $total += $row['price'];
-					?>
-						<tr>
-							<td class="text-center"><?php echo $i++; ?></td>
-							<td><p class="m-0"><?= date("M d, Y H:i", strtotime($row['order_date'])) ?></p></td>
-							<td><p class="m-0"><?= $row['reference_number'] ?></p></td>
-							<td class=''><?= ucwords(isset($user_arr[$row['client_id']]) ? $user_arr[$row['client_id']] : "N/A") ?></td>
-							<td class='text-right'><?= format_num($row['price']) ?></td>
-						</tr>
-					<?php endwhile; ?>
-				</tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="5" class="text-center">Total</th>
-                        <th class="text-right"><?= format_num($total) ?></th>
-                    </tr>
-                </tfoot>
-			</table>
+        <div class="table-responsive mt-4" id="printout">
+          <table class="table" id="dt-reports">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Client Name</th>
+                <th>Gcash Ref #</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+          </table>
+
+          <script>
+            $("#filterbutton").on("click", function(){
+              let dt = $("#dt-reports").DataTable();
+              dt.destroy();
+
+              let orderdate = $("#inputdate").val();
+              let userid = $("#inputuser").val();
+
+              $("#dt-reports").DataTable({
+                ajax: {
+                  type: "get",
+                  url: "reports/get_all_reports.php",
+                  data: {
+                    orderdate : orderdate,
+                    userid: userid,
+                  }
+                },
+                columns: [
+                  { data: 'id', title: 'Order Id'},
+                  { data: 'date_ordered', title: 'Date'},
+                  { data: 'client_name', title: 'Client'},
+                  { data: 'reference_number', title: 'Gcash Ref #'},
+                  { data: 'price', title: 'Amount' },
+                ]
+              })
+            })
+
+            $(document).ready(function(){
+              $("#dt-reports").DataTable({
+                ajax: {
+                  type: "get",
+                  url: "reports/get_all_reports.php",
+                  data: {
+                    orderdate : "",
+                    userid: 0,
+                  }
+                },
+                columns: [
+                  { data: 'id', title: 'Order Id'},
+                  { data: 'date_ordered', title: 'Date'},
+                  { data: 'client_name', title: 'Client'},
+                  { data: 'reference_number', title: 'Gcash Ref #'},
+                  { data: 'price', title: 'Amount' },
+                ]
+              })
+            })
+          </script>
 		</div>
 		</div>
 	</div>
@@ -125,6 +134,7 @@ if($_settings->userdata('type') == 3){
 </noscript>
 <script>
 	$(document).ready(function(){
+
         $('[name="user_id"]').select2({
             placeholder: 'Please Select User Here',
             width: '100%',

@@ -100,7 +100,7 @@
                       placeholder="Enter your password" required />
                     <div class="input-group-append">
                       <button style="z-index: 1;" class="btn btn-outline-secondary" type="button"
-                        onclick="togglePasswordVisibility('password')">
+                        onclick="togglePasswordVisibility('rpassword')">
                         <i class="fas fa-eye"></i>
                       </button>
                     </div>
@@ -181,6 +181,14 @@
 
   <script>
     $(document).ready(function() {
+      $('#rpassword, #confirm_password').on('input', function () {
+          const value = $(this).val();
+      
+          if (value.length > 8) {
+            $(this).val(value.substring(0, 8));
+          }
+      });
+
       // When the checkbox is checked, show the modal
       $('#termsCheckbox').on('change', function() {
         if ($(this).is(':checked')) {

@@ -55,7 +55,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         @media (max-width: 768px) {
           .category-menu {
-            justify-content: flex-start;
+            display: none;
+          }
+
+          .category-menu + .for-mobile {
+            display: flex;
           }
         }
 
@@ -134,6 +138,10 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             scrollbar-width: thin;
             scrollbar-color: #888 #f1f1f1;
         }
+
+        .for-mobile {
+          display: none;
+        }
     </style>
     <script>
         function displayCategory(categoryId) {
@@ -155,6 +163,10 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
           })
         }
+
+        $(document).on("change", "#for-mobile-changer", function(){
+          displayCategory($("#for-mobile-changer").val())
+        })
     </script>
 </head>
 
@@ -164,12 +176,21 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Category Menu -->
     <div class="category-menu">
-        <span onclick="displayCategory('all')">ALL MENU</span>
+      <span onclick="displayCategory('all')">ALL MENU</span>
+      <?php foreach ($categories as $category): ?>
+          <span id="category-<?php echo $category['id']; ?>" onclick="displayCategory('<?php echo $category['id']; ?>')" data-title="<?php echo strtoupper($category['name']); ?>">
+            <?php echo strtoupper($category['name']); ?>
+          </span>
+      <?php endforeach; ?>
+    </div>
+
+    <div class="category-menu for-mobile p-2">
+      <select class="form-control" id="for-mobile-changer">
+        <option value="all">ALL MENU</option>
         <?php foreach ($categories as $category): ?>
-            <span id="category-<?php echo $category['id']; ?>" onclick="displayCategory('<?php echo $category['id']; ?>')" data-title="<?php echo strtoupper($category['name']); ?>">
-                <?php echo strtoupper($category['name']); ?>
-            </span>
+          <option value="<?php echo $category['id'];?>"><?php echo $category['name']; ?></option>
         <?php endforeach; ?>
+      </select>
     </div>
 
     <!-- Selected Category and Menu Items -->

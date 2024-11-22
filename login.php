@@ -109,6 +109,16 @@
     }
   </script>
   <script>
+    $(document).ready(function () {
+      $('#logpassword').on('input', function () {
+          const value = $(this).val();
+          
+          if (value.length > 8) {
+            $(this).val(value.substring(0, 8));
+          }
+      });
+    });
+
     $("#login-frm").on("submit", function(event){
       event.preventDefault();
 

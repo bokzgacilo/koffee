@@ -24,6 +24,9 @@
     case 'Cancelled' :
       $status_message = "Cancelled!";
       break;
+    case 'Refunded' :
+      $status_message = "Refund Received!";
+      break;
     case 'Completed' :
       $status_message = "Your order has been delivered! We hope you enjoy your meal.";
       break;

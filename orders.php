@@ -109,7 +109,7 @@
 
               switch($row['status']){
                 case 'Pending' :
-                  $status_message = "Your order is pending.";
+                  $status_message = "Waiting Koffee Manila to accept order";
                   break;
                 case 'Preparing' :
                   $status_message = "Your order is being prepared.";
@@ -118,7 +118,10 @@
                   $status_message = "Your order is on its way!";
                   break;
                 case 'Cancelled' :
-                  $status_message = "Order Cancelled!";
+                  $status_message = "Cancelled. <strong>Waiting for refund...</strong>";
+                  break;
+                case 'Refunded' :
+                  $status_message = "<strong>Refunded</strong>";
                   break;
                 case 'Completed' :
                   $status_message = "Your order has been delivered!";

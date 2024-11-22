@@ -68,7 +68,15 @@
                 <a href="<?php echo base_url ?>admin/?page=sales" class="nav-link nav-sales">
                   <i class="nav-icon fas fa-file-invoice"></i>
                   <p>
-                    Sales
+                    Orders
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a href="<?php echo base_url ?>admin/?page=refund" class="nav-link nav-refunds">
+                  <i class="nav-icon fas fa-file-invoice"></i>
+                  <p>
+                    Refund
                   </p>
                 </a>
               </li>
