@@ -13,9 +13,14 @@
 
   if($userid == 0 && $date == ""){
     $sql = "SELECT * FROM orders";
-  }else {
+  }else if($userid != 0) {
     // expected date 2024-11-10
     $sql = "SELECT * FROM orders WHERE client_id=$userid";
+  }else if($date != "") {
+    // expected date 2024-11-10
+    $sql = "SELECT * FROM orders WHERE today_date='$date'";
+  }else {
+    $sql = "SELECT * FROM orders WHERE today_date='$date' AND client_id=$userid";
   }
 
   $select_all = $conn->query($sql);
