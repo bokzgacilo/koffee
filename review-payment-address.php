@@ -8,6 +8,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Review Payment And Address - KOFEE MANILA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
     <script src="libs/jquery.js"></script>
     <script src="libs/popper.js"></script>
 
@@ -19,7 +21,7 @@
     />
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -75,6 +77,15 @@
       }
       .map-container {
         height: 800px; /* Increased height */
+      }
+
+      .star {
+        font-size: 2rem;
+        color: gray;
+        cursor: pointer;
+      }
+      .star.selected {
+        color: gold;
       }
     </style>
   </head>
@@ -403,6 +414,74 @@
         </div>
       </div>
     </section>
+
+    <div class="modal fade" style="z-index:9999;" id="surveymodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content" style="padding: 0;">
+          <div class="modal-body p-4">
+            <div class="mt-2">
+              <h2 class="text-center">Rate Koffee Manila</h2>
+              <p class="text-center">We appreciate your feedback to improve our services.</p>
+              <div id="starRating" class="text-center">
+                <i class="bi bi-star star" data-value="1"></i>
+                <i class="bi bi-star star" data-value="2"></i>
+                <i class="bi bi-star star" data-value="3"></i>
+                <i class="bi bi-star star" data-value="4"></i>
+                <i class="bi bi-star star" data-value="5"></i>
+              </div>
+              
+              <p class="mt-3 text-center">Your rating: <span id="ratingValue">0</span></p>
+            </div>
+
+            <form id="surveyform">
+              <div class="mb-3">
+                <label for="orderSatisfaction" class="form-label">How satisfied are you with our order process?</label>
+                <select id="orderSatisfaction" name="orderSatisfaction" class="form-select" required>
+                  <option value="">Choose an option</option>
+                  <option value="Very Satisfied">Very Satisfied</option>
+                  <option value="Satisfied">Satisfied</option>
+                  <option value="Neutral">Neutral</option>
+                  <option value="Dissatisfied">Dissatisfied</option>
+                  <option value="Very Dissatisfied">Very Dissatisfied</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="overallExperience" class="form-label">Please describe your overall experience with us.</label>
+                <textarea name="overallExperience" class="form-control" rows="4" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="improvementSuggestions" class="form-label">What can we improve on?</label>
+                <textarea name="improvementSuggestions" class="form-control" rows="4" required></textarea>
+              </div>
+              <input type="hidden" name="surveyrating" value="0"/>
+              <input type="hidden" name="userid" value="<?php echo $_SESSION['userid']; ?>" />
+              <button type="submit" class="btn btn-primary">Complete Survey</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function(){
+        // $("#surveymodal").modal("toggle")
+
+        $('.star').on('click', function() {
+          var rating = $(this).data('value'); // Get the star's value
+
+          $('#ratingValue').text(rating); // Update the rating display
+          $("input[name='surveyrating']").val(rating); // Update the rating display
+          
+          $('.star').each(function() {
+            if ($(this).data('value') <= rating) {
+              $(this).addClass('selected');
+            } else {
+              $(this).removeClass('selected');
+            }
+          });
+        });
+      })
+    </script>
     
     <script type="module" >
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -418,31 +497,24 @@
         appId: "1:296750304629:web:39d6e2d377dfff5984d73c"
       };
 
-      // Initialize Firebase
       const app = initializeApp(firebaseConfig);
-
-      // Add a new document to the logs collection
 
       async function firestoreSave(id) {
         const db = getFirestore(app);
-
         const user_updates_collection = "user_updates";
-
         const data = {
           message: "entry",
           orderid: id,
           userid: "<?php echo $_SESSION['userid']; ?>"
         };
-
         await setDoc(doc(db, user_updates_collection, id), data);
       }
+
 
       $("#searchPin").on('click', function(){
         let nearest_landmark = $("#nearest_landmark").val();
         let nearest_barangay = $("#a_barangay").val();
-
         let landmark = `${nearest_landmark}, ${nearest_barangay}, Dasmarinas Cavite`
-
         var googleMapsUrl = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAitbCyHS9bbWyT3BoPoFlPKa-fwwEpG7c&q=" + encodeURIComponent(landmark);
         $('#googleMap').attr('src', googleMapsUrl);
       })
@@ -452,24 +524,21 @@
 
         $("#receipt_image").on("change", function(){
           let file = this.files[0];
-
           if(file){
             var reader = new FileReader();
-
             reader.onload = function(event){
               var based64String = event.target.result;
               fileBase64 = based64String;
             }
-
             reader.readAsDataURL(file)
           }
         })
 
+
+
         $("#review-payment-form").on("submit", function(event){
           event.preventDefault();
-
           var formdata = new FormData(this);
-
           $.ajax({
             type: "post",
             url: "api/make_order.php",
@@ -478,24 +547,60 @@
             data: formdata,
             success: (response) => {
               firestoreSave(response)
-              
               setTimeout(() => {
-                Swal.fire({
-                  title: "Order Submitted",
-                  text: "Thank you for ordering with us.",
-                  icon: "success",
-                  showDenyButton: false,
-                  showCancelButton: true,
-                  confirmButtonText: "Go To Orders",
-                  denyButtonText: `Don't save`
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    location.href="orders.php"
-                  }
-                });
+                $("#surveymodal").modal("toggle")
               }, 5000);
             }
           })
+        })
+
+        $("#surveyform").on("submit", async function(e){
+          $("#surveymodal").modal("toggle")
+
+          e.preventDefault();
+          const orderSatisfaction = $('#orderSatisfaction').val();
+          const overallExperience = $('textarea[name="overallExperience"]').val();
+          const improvementSuggestions = $('textarea[name="improvementSuggestions"]').val();
+          const surveyrating = $('input[name="surveyrating"]').val();
+          const userid = $('input[name="userid"]').val();
+
+          const data = {
+            orderSatisfaction,
+            overallExperience,
+            improvementSuggestions,
+            surveyrating,
+            userid
+          };
+
+          try {
+            const db = getFirestore(app);
+
+            await setDoc(doc(db, "user_surveys", userid), data);
+        
+
+
+            alert('Survey submitted successfully!');
+            $('#surveyform')[0].reset(); // Reset the form
+
+            Swal.fire({
+              title: "Thank You!",
+              text: "Thank you for ordering with us.",
+              icon: "success",
+              showDenyButton: false,
+              showCancelButton: true,
+              confirmButtonText: "Go To Orders",
+              denyButtonText: `Don't save`
+          }).then((result) => {
+            if (result.isConfirmed) {
+              location.href="orders.php"
+            }
+          });
+        } catch (error) {
+          console.error('Error saving survey to Firestore:', error);
+          alert('Failed to submit survey. Please try again.');
+        }
+
+          
         })
       })
     </script>

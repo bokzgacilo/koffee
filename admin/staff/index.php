@@ -72,16 +72,13 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form id="add-staff-form">
           <div class="form-group">
             <label class="form-label">Name</label>
-            <input type="text" class="form-control" required />
+            <input type="text" class="form-control"  name="staffname" required/>
           </div>
+          <button type="submit" class="btn btn-primary btn-sm">Add Staff</button>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button id="completeorderbutton" type="button" class="btn btn-primary" aria-label="Complete">Add Staff</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Close</button>
       </div>
     </div>
   </div>
@@ -99,12 +96,78 @@
             data: 'id',
             title: 'Action',
             render: function(data, type, row) {
-              return `
-                <button class='btn btn-sm btn-danger'>Deactivate</button>
-              `
+              console.log(row)
+              if(row.is_active == true){
+                return `
+                  <button data-target='${row.id}' id='deactivate-button' class='btn btn-sm btn-danger'>Deactivate</button>
+                `
+              }
+              
+              if(row.is_active == false){ 
+                return `
+                  <button data-target='${row.id}' id='activate-button' class='btn btn-sm btn-success'>Activate</button>
+                `
+              }
             }
         }
       ]
     });
   })
+
+  $(document).on("submit", "#add-staff-form", function(e){
+    e.preventDefault();
+
+    let formdata = new FormData(this)
+
+    $.ajax({
+      type: 'post',
+      url: '../api/post_staff_add.php',
+      contentType: false,
+      processData: false, 
+      data: formdata,
+      success: response => {
+        if(response === "ok"){
+          alert("Staff Added!");
+          location.reload();
+        }
+      }
+    })
+  })
+
+  $(document).on("click", "#deactivate-button", function(e){
+    let target = $(this).attr('data-target');
+
+    $.ajax({
+      type: 'post',
+      url: '../api/post_staff_deactivate.php',
+      data: {
+        staffid : target
+      },
+      success: response => {
+        if(response === "ok"){
+          alert("Staff Deactivated!");
+          location.reload();
+        }
+      }
+    })
+  })
+
+  $(document).on("click", "#activate-button", function(e){
+    let target = $(this).attr('data-target');
+
+    $.ajax({
+      type: 'post',
+      url: '../api/post_staff_activate.php',
+      data: {
+        staffid : target
+      },
+      success: response => {
+        if(response === "ok"){
+          alert("Staff Activated");
+          location.reload();
+        }
+      }
+    })
+  })
 </script>
+

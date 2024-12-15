@@ -22,15 +22,6 @@
 	<div class="card-body">
 		<div class="container-fluid">
 			<table class="table table-hover table-striped table-bordered table-responsive" id="list">
-				<colgroup>
-					<col width="5%">
-					<col width="15%">
-					<col width="15%">
-					<col width="25%">
-					<col width="15%">
-					<col width="10%">
-					<col width="15%">
-				</colgroup>
 				<thead>
 					<tr>
 						<th>#</th>
@@ -39,6 +30,7 @@
 						<th>Name</th>
 						<th>Username</th>
 						<th>Type</th>
+						<th>Average Rating</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -65,6 +57,9 @@
 								<?php else: ?>
 									Cashier
 								<?php endif; ?>
+							</td>
+							<td class="text-center">
+                <?php echo $row['average'] ?>
 							</td>
 							<td align="center">
 								<button type="button"
