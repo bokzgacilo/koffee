@@ -65,6 +65,14 @@
                 </li>
               <?php endif; ?>
               <li class="nav-item dropdown">
+                <a href="<?php echo base_url ?>admin/?page=chats" class="nav-link nav-chats">
+                  <i class="nav-icon fas fa-file-invoice"></i>
+                  <p>
+                    Chats
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
                 <a href="<?php echo base_url ?>admin/?page=sales" class="nav-link nav-sales">
                   <i class="nav-icon fas fa-file-invoice"></i>
                   <p>
@@ -106,7 +114,15 @@
                 </a>
               </li>
               <li class="nav-item dropdown">
-                <a href="<?php echo base_url ?>admin/?page=user/list" class="nav-link nav-user/list">
+                <a href="<?php echo base_url ?>admin/?page=staff" class="nav-link nav-staff">
+                  <i class="nav-icon fas fa-users-cog"></i>
+                  <p>
+                    Staff List
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a href="<?php echo base_url ?>admin/?page=user/list" class="nav-link nav-user">
                   <i class="nav-icon fas fa-users-cog"></i>
                   <p>
                     User List

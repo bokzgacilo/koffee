@@ -51,8 +51,14 @@
       $update = $conn -> query("UPDATE users SET is_verify=true WHERE id=$userid AND verification_code='$code'");
 
       if($update){
-        $_SESSION['userid'] = $userid;
+        $user = $conn -> query("SELECT * FROM users WHERE id=$userid");
+        $user = $user -> fetch_assoc();
+
+        $_SESSION['userid'] = $user['id'];
         $_SESSION['avatar'] = "uploads/avatars/9.png";
+        $_SESSION['userfullname'] = $user['firstname'] . " " . $user['lastname'];
+        $_SESSION['useremail'] = $user['username'];
+        $_SESSION['avatar'] = $user['avatar'];
         
         echo "<h4 class='mb-4'>Email Verified!</h4>";
         echo "<a href='index.php' class='btn btn-primary'>Go To Kofee Manila</a>";

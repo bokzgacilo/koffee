@@ -1,3 +1,7 @@
+<?php
+  session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -180,6 +184,9 @@
           </div>
           </div>
           <form id="review-payment-form">
+            <input type="hidden" name="cart" value=<?php echo $row['cart']; ?> />
+            <input type="hidden" name="price" value="<?php echo $delivery_fee + $total_price; ?>" />
+            <input type="hidden" name="client_id" value="<?php echo $_SESSION['userid']; ?>" />
           <div class="card mt-4">
             <div class="card-body">
               <h5 style="font-weight: bold;">STEP 1 : Scan the QR to Pay</h5>
@@ -201,11 +208,11 @@
                 <div class="col-12 col-lg-6  mt-4">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupFile01">Upload</label>
-                    <input type="file" class="form-control" id="receipt_image" required>
+                    <input type="file" accept="image/*" class="form-control" name="gcash" required>
                   </div>
                   <div class="mt-3">
                     <label for="exampleInputEmail1" class="form-label">Reference Number</label>
-                    <input type="text" class="form-control" id="reference_number" required>
+                    <input type="text" class="form-control" name="reference_number" required>
                   </div>
                 </div>
               </div>
@@ -219,13 +226,13 @@
                 <div class="col-12 col-lg-4">
                   <div>
                     <label for="exampleInputEmail1" class="form-label">Contact Number 1</label>
-                    <input type="text" class="form-control" id="contact_number1" required>
+                    <input type="text" class="form-control" name="contact_number1" required>
                   </div>
                 </div>
                 <div class="col-12 col-lg-4">
                   <div>
                     <label for="exampleInputEmail1" class="form-label">Contact Number 2</label>
-                    <input type="text" class="form-control" id="contact_number2" required>
+                    <input type="text" class="form-control" name="contact_number2" required>
                   </div>
                 </div>
               </div>
@@ -244,7 +251,7 @@
                       echo "";
                     }else {
                       echo $address['block_number'];
-                    } ?>' placeholder="House 33" class="form-control" id="a_block_number" required>
+                    } ?>' placeholder="House 33" class="form-control" name="block_number" required>
                   </div>
                 </div>
                 <div class="col-12 col-lg-4">
@@ -254,13 +261,13 @@
                       echo "";
                     }else {
                       echo $address['street'];
-                    } ?>' class="form-control" placeholder="Yellow Bell" id="street_name" required>
+                    } ?>' class="form-control" placeholder="Yellow Bell" name="street_name" required>
                   </div>
                 </div>
                 <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">Barangay</label>
-                    <select id="a_barangay" class="form-control">
+                    <select name="barangay" class="form-control">
                       <option value="Burol">Burol</option>
                       <option value="Burol I">Burol I</option>
                       <option value="Burol II">Burol II</option>
@@ -350,13 +357,13 @@
                 <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">City</label>
-                    <input type="text" readonly value='Dasmarinas' placeholder="Makati City" class="form-control" id="a_city" required>
+                    <input type="text" readonly value='Dasmarinas' placeholder="Makati City" class="form-control" name="city" required>
                   </div>
                 </div>
                 <div class="col-12 col-lg-4">
                   <div>
                     <label class="form-label">Nearest LandMark</label>
-                    <input type="text" class="form-control" id="nearest_landmark" placeholder="Dasma Bayan" required>
+                    <input type="text" class="form-control" name="nearest_landmark" placeholder="Dasma Bayan" required>
                   </div>
                 </div>
                 <div class="col-12 col-lg-4 d-flex align-items-end">
@@ -460,32 +467,15 @@
 
         $("#review-payment-form").on("submit", function(event){
           event.preventDefault();
-          let cart = <?php echo $cart; ?>;
-          let reference_number = $("#reference_number").val();
-          let contact_number1 = $("#contact_number1").val();
-          let contact_number2 = $("#contact_number2").val();
-          let block_number = $("#a_block_number").val();
-          let street_name = $("#street_name").val();
-          let barangay = $("#a_barangay").val();
-          let city = $("#a_city").val();
-          let nearest_landmark = $("#nearest_landmark").val();
 
-          let address = `${block_number}, ${street_name}, ${barangay}, ${city}`;
+          var formdata = new FormData(this);
+
           $.ajax({
             type: "post",
             url: "api/make_order.php",
-            data: {
-              cart : cart,
-              reference_number : reference_number,
-              gcash : fileBase64,
-              contact_number1 : contact_number1,
-              contact_number2 : contact_number2,
-              address : address,
-              nearest_landmark : nearest_landmark,
-              map : nearest_landmark,
-              price : parseFloat(<?php echo $delivery_fee + $total_price; ?>).toFixed(2),
-              client_id : <?php echo $_SESSION['userid']; ?>
-            },
+            contentType: false,
+            processData: false, 
+            data: formdata,
             success: (response) => {
               firestoreSave(response)
               

@@ -1,3 +1,7 @@
+<?php
+  session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +9,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - KOFEE MANILA</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/items/favicon.ico">
   <script src="libs/jquery.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
   <!-- Bootstrap CSS -->
@@ -109,15 +114,6 @@
     }
   </script>
   <script>
-    $(document).ready(function () {
-      $('#logpassword').on('input', function () {
-          const value = $(this).val();
-          
-          if (value.length > 8) {
-            $(this).val(value.substring(0, 8));
-          }
-      });
-    });
 
     $("#login-frm").on("submit", function(event){
       event.preventDefault();

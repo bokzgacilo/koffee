@@ -1,17 +1,32 @@
 <?php
-require 'connection.php';
+  session_start();
+  include_once("connection.php");
 
-// Fetch categories
-$query = "SELECT id, name FROM category_list WHERE status = 1 AND delete_flag = 0";
-$stmt = $pdo->prepare($query);
-$stmt->execute();
-$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  // Fetch categories
+  $query = "SELECT id, name FROM category_list WHERE status = 1 AND delete_flag = 0";
+  $stmt = $pdo->prepare($query);
+  $stmt->execute();
+  $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch products
-$query = "SELECT * FROM product_list WHERE status = 1";
-$stmt = $pdo -> prepare($query);
-$stmt->execute();
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  // Fetch products
+  $query = "SELECT * FROM product_list WHERE status = 1";
+  $stmt = $pdo->prepare($query);
+  $stmt->execute();
+  $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  // Sort products by 'sold' count in descending order
+  usort($products, function ($a, $b) {
+    return $b['sold'] <=> $a['sold'];
+  });
+
+  // Get the top 3 sold counts
+  $topSoldProducts = array_slice($products, 0, 3);
+  $topSoldIds = array_column($topSoldProducts, 'id');
+
+  // Add the "Best Seller" tag
+  foreach ($products as &$product) {
+    $product['tag'] = in_array($product['id'], $topSoldIds) ? "Best Seller" : "";
+  }
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +53,31 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+        }
+
+        .custom-tag {
+          position: absolute;
+          top: 0;
+          right: 0;
+          font-size: 12px;
+          font-weight: 500;
+          display: flex;
+          flex-direction: row;
+          gap: 0.5rem;
+        }
+
+        .is-new, .is-best {
+          color: #fff;
+          padding: 0.25rem 1rem;
+          border-radius: 5px;
+        }
+
+        .is-new {
+          background-color: red;
+        }
+
+        .is-best {
+          background-color: #d68c1e;
         }
 
         .category-menu {
@@ -94,6 +134,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .menu-item {
+          position: relative;
           padding: 0.5rem;
           display: flex;
           flex-direction: column;
@@ -192,13 +233,35 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
       </select>
     </div>
-
+    
+    <style>
+     
+    </style>
     <!-- Selected Category and Menu Items -->
     <div class="container">
       <h1 class="mt-4 mb-4" id="menu-title">All Menu</h1>
       <div class="row menu-items" id="menu-items">
         <?php foreach ($products as $product): ?>
             <div class="col-lg-3 col-6 menu-item">
+              <div class="custom-tag">
+                <?php 
+                    $givenTimestamp = strtotime($product['date_created']);
+                    $currentTimestamp = time();
+
+                    $threeDaysAgoTimestamp = strtotime('-7 days');
+
+                    if($product['tag'] !== ""){
+                      echo "<span class='is-best'>".$product['tag']."</span>";
+
+                    }
+
+                    if ($givenTimestamp >= $threeDaysAgoTimestamp && $givenTimestamp <= $currentTimestamp) {
+                      echo "<span class='is-new'>New</span>";
+                    }
+
+                ?>
+              </div>
+            
               <img src="./<?php echo $product['image_url']; ?>" alt="<?php echo $product['name']; ?>" />
 
               <?php

@@ -9,6 +9,20 @@
 
   $cart_item = json_decode($select['cart'], true);
 
+  $prepared_by = "";
+  if($select['prepared_by'] !== ""){
+    $prepared_by = "
+      <div class='row mt-4'>
+        <div class='col-5'>
+          <h6 style='font-weight: bold;'>Prepared By</h6>
+        </div>
+        <div class='col-7'>
+          ".$select['prepared_by']."
+        </div>
+      </div>
+    ";
+  }
+
   $status_message = "";
 
   switch($select['status']){
@@ -111,9 +125,10 @@
           <h6 style='font-weight: bold;'>GCash Receipt</h6>
         </div>
         <div class='col-7'>
-          <img width='100%' height='auto' src='".$select['gcash']."' />
+          <img width='100%' height='auto' src='./".$select['gcash']."' />
         </div>
       </div>
+      $prepared_by
     </div>
 
     <div class='modal-footer'>";

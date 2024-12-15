@@ -1,5 +1,6 @@
 
 <?php
+session_start();
   include("api/connection.php");
 
   $getcontact = $conn -> query("SELECT * FROM content_management WHERE id=1");

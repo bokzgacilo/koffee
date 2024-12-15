@@ -1,30 +1,31 @@
 <?php
-require 'connection.php';
+  session_start();
+  require 'connection.php';
 
-// Fetch the item ID from the request (e.g., GET parameter)
-$item_id = isset($_GET['id']) ? intval($_GET['id']) : 1; // Default to 1 if not provided
+  // Fetch the item ID from the request (e.g., GET parameter)
+  $item_id = isset($_GET['id']) ? intval($_GET['id']) : 1; // Default to 1 if not provided
 
-// Fetch product details (assuming product names include size, e.g., "Americano Small" or "Americano Large")
-$product_query = "SELECT * FROM product_list WHERE id = :id";
-$product_stmt = $pdo->prepare($product_query);
-$product_stmt->bindParam(':id', $item_id, PDO::PARAM_INT);
-$product_stmt->execute();
-$product = $product_stmt->fetch(PDO::FETCH_ASSOC);
+  // Fetch product details (assuming product names include size, e.g., "Americano Small" or "Americano Large")
+  $product_query = "SELECT * FROM product_list WHERE id = :id";
+  $product_stmt = $pdo->prepare($product_query);
+  $product_stmt->bindParam(':id', $item_id, PDO::PARAM_INT);
+  $product_stmt->execute();
+  $product = $product_stmt->fetch(PDO::FETCH_ASSOC);
 
-// Fetch large variation if available
-$large_query = "SELECT * FROM product_list WHERE name LIKE CONCAT(:name, ' Large')";
-$large_stmt = $pdo->prepare($large_query);
-$small_name = str_replace(' Small', '', $product['name']); // Remove " Small" from the name
-$large_stmt->bindParam(':name', $small_name, PDO::PARAM_STR);
-$large_stmt->execute();
-$large_product = $large_stmt->fetch(PDO::FETCH_ASSOC); // Large variation if it exists
+  // Fetch large variation if available
+  $large_query = "SELECT * FROM product_list WHERE name LIKE CONCAT(:name, ' Large')";
+  $large_stmt = $pdo->prepare($large_query);
+  $small_name = str_replace(' Small', '', $product['name']); // Remove " Small" from the name
+  $large_stmt->bindParam(':name', $small_name, PDO::PARAM_STR);
+  $large_stmt->execute();
+  $large_product = $large_stmt->fetch(PDO::FETCH_ASSOC); // Large variation if it exists
 
-// Fetch all addons with their prices
-$productID = $product['category_id'];
-$addons_query = "SELECT * FROM addons WHERE category_id=$productID";
-$addons_stmt = $pdo->prepare($addons_query);
-$addons_stmt->execute();
-$addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
+  // Fetch all addons with their prices
+  $productID = $product['category_id'];
+  $addons_query = "SELECT * FROM addons WHERE category_id=$productID";
+  $addons_stmt = $pdo->prepare($addons_query);
+  $addons_stmt->execute();
+  $addons = $addons_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 

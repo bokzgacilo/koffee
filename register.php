@@ -15,6 +15,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create an Account - KOFEE MANILA</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/items/favicon.ico">
   <script src="libs/jquery.js"></script>
   <script src="libs/popper.js"></script>
 
@@ -97,7 +98,7 @@
                 <div class="form-group mb-2">
                   <div class="input-group">
                     <input type="password" class="form-control" id="rpassword"
-                      placeholder="Enter your password" required />
+                      placeholder="Enter your password" required minlength = "8"/>
                     <div class="input-group-append">
                       <button style="z-index: 1;" class="btn btn-outline-secondary" type="button"
                         onclick="togglePasswordVisibility('rpassword')">
@@ -109,7 +110,7 @@
                 <div class="form-group mb-2">
                   <div class="input-group">
                     <input type="password" class="form-control" id="confirm_password"
-                      placeholder="Confirm your password" required />
+                      placeholder="Confirm your password" required minlength = "8" />
                     <div class="input-group-append">
                       <button style="z-index: 1;" class="btn btn-outline-secondary" type="button"
                         onclick="togglePasswordVisibility('confirm_password')">
@@ -181,13 +182,25 @@
 
   <script>
     $(document).ready(function() {
-      $('#rpassword, #confirm_password').on('input', function () {
-          const value = $(this).val();
-      
-          if (value.length > 8) {
-            $(this).val(value.substring(0, 8));
-          }
-      });
+      $('#rpassword, #confirm_password').on('blur', function () {
+        const value = $(this).val();
+        const minLength = 8;
+        const maxLength = 20;
+    
+        // Enforce maximum character length
+        if (value.length > maxLength) {
+            $(this).val(value.substring(0, maxLength));
+        }
+    
+        // Check and display a warning for minimum character length
+        if (value.length > 0 && value.length < minLength) {
+            alert(`Password must be at least ${minLength} characters.`)
+            $('#rpassword').val("")
+            $('#confirm_password').val("")
+        } else {
+            $('#message').text(''); // Clear the message if input meets the requirement
+        }
+    });
 
       // When the checkbox is checked, show the modal
       $('#termsCheckbox').on('change', function() {

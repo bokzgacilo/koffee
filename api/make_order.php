@@ -5,13 +5,32 @@
   $contact1 = $_POST['contact_number1'];
   $contact2 = $_POST['contact_number2'];
   $client_id = $_POST['client_id'];
-  $gcash = $_POST['gcash'];
+
+  $address = $_POST['block_number'] . ", " . $_POST['street_name'] . ", " . $_POST['barangay'] . ", " . $_POST['city'];
+
   $reference_number = $_POST['reference_number'];
-  $cart = json_encode($_POST['cart']);
-  $address = $_POST['address'];
+
+  $user = $conn -> query("SELECT cart FROM users WHERE id=$client_id");
+  $user = $user -> fetch_assoc();
+
+  $cart = json_decode($user['cart'], true);
+  $cart_string = $user['cart'];
+
   $nearest_landmark = $_POST['nearest_landmark'];
-  $map = $_POST['map'];
+  $pin_location = $_POST['nearest_landmark'];
   $price = $_POST['price'];
+
+  $image_url = "";
+  
+  if(isset($_FILES['gcash'])){
+    $target_dir = "/uploads/gcash/";
+    $targetFile =  $target_dir . $client_id. "-" . $reference_number . basename($_FILES['gcash']['name']);
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    move_uploaded_file($_FILES["gcash"]["tmp_name"], "../" . $targetFile);
+
+    $image_url = $targetFile;
+  }
 
   $sql = "INSERT INTO orders(
     cart, 
@@ -27,24 +46,24 @@
     reference_number,
     gcash
   ) VALUES(
-    '$cart', 
+    '$cart_string', 
     $client_id, 
     '$address', 
     '$contact1', 
     '$contact2', 
-    '$map', 
+    '$pin_location', 
     '$nearest_landmark',
     $price,
     NOW(),
     'Pending',
     '$reference_number',
-    '$gcash'
+    '$image_url'
   )";
 
   if($conn -> query($sql)){
     $newOrderId = $conn -> insert_id;
 
-    foreach($_POST['cart'] as $item){
+    foreach($cart as $item){
       $oldnumber = $conn -> query("SELECT sold FROM product_list WHERE name='".$item['productName']."'");
       $oldnumber = $oldnumber -> fetch_assoc();
 
@@ -56,6 +75,7 @@
     echo $newOrderId;
 
     $id = $_SESSION['userid'];
+    $_SESSION['cart'] = "";
     $conn -> query("UPDATE users SET cart='' WHERE id=$id");
   }else {
     echo "Failed";

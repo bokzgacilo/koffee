@@ -1,5 +1,4 @@
 <?php
-  session_start();
 
   $row = [];
 
@@ -312,6 +311,30 @@
       </div>
     </div>
   </div>
+  <style>
+    .custom-modal-height {
+      height: 90vh; /* 90% of the viewport height */
+      max-height: 90vh;
+    }
+
+    .custom-modal-height .modal-content {
+      height: 100%; /* Ensures modal content fills the dialog */
+    }
+  </style>
+  <div class="modal fade" id="chatmodal" tabindex="5" aria-hidden="true" style="z-index: 99999;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="height: 90vh; max-height: 90vh;">
+      <div class="modal-content" style="padding: 0; height: 100%; width: 100%">
+        <div class="modal-header">
+          <h5 class="modal-title">Chat</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="padding: 0;">
+          <iframe src="chat.php" style="width: 100%; height: 98%;"></iframe>
+        </div>
+       
+      </div>
+    </div>
+  </div>
 
   <!-- Include jQuery (full version) -->
   <!-- Include Bootstrap JS -->
@@ -350,6 +373,7 @@
       <div class="collapse navbar-collapse justify-content-end" id="mobileMenu">
       <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#chatmodal">Chat</a></li>
           <li class="nav-item"><a class="nav-link" href="menu.php">Menu</a></li>
           <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
           <li class="nav-item"><a class="nav-link" href="faq.php">FAQ</a></li>
@@ -464,7 +488,7 @@
   </style>
 
   <!--Start of Tawk.to Script-->
-  <script src="//code.tidio.co/c33hotrah4ggjy37cwevo5lqmglnn4fi.js" async></script>
+  <!-- <script src="//code.tidio.co/c33hotrah4ggjy37cwevo5lqmglnn4fi.js" async></script> -->
 
   <!--End of Tawk.to Script-->
   
